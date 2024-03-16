@@ -1,0 +1,82 @@
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Hector
+{
+    class Marque
+    {
+        private static int Derniere_Ref = 0;
+        private int Ref_Marque;
+        private string Nom_Marque;
+
+        /// <summary>
+        /// Constructeur par défaut.
+        /// </summary>
+        public Marque()
+        {
+            Ref_Marque = 0;
+            Nom_Marque = "";
+        }
+
+        /// <summary>
+        /// Constructeur de confort.
+        /// </summary>
+        /// <param name="Nom_Marque"> Nom que l'on veut donner à la marque. </param>
+        public Marque(string Nom)
+        {
+            // On vérifie que le nom n'est pas vide.
+            if (Nom_Marque == "")
+            {
+                throw new FileNotFoundException("Vous ne pouvez pas donner de nom vide à une marque.", Nom_Marque);
+            }
+
+            // On associe les valeurs d'attribut.
+            Derniere_Ref++;
+            Ref_Marque = Derniere_Ref;
+            Nom_Marque = Nom;
+        }
+
+        /// <summary>
+        /// Getter de la référence de la marque.
+        /// </summary>
+        /// <returns> La référence de la marque. </returns>
+        public int Lire_Ref_Marque()
+        {
+            return Ref_Marque;
+        }
+
+        /// <summary>
+        /// Getter du nom de la marque.
+        /// </summary>
+        /// <exception cref="FileNotFoundException"> Le nom de la marque est vide. </exception>
+        /// <returns> Le nom de la marque. </returns>
+        public string Lire_Nom_Marque()
+        {
+            // On vérifie que le nom de la marque n'est pas vide.
+            if (Nom_Marque == "")
+            {
+                throw new Exception("Vous essayez de lire un nom de marque qui est vide.");
+            }
+
+            return Nom_Marque;
+        }
+
+        /// <summary>
+        /// Setter du nom de la marque.
+        /// </summary>
+        /// <param name="Nom"> Le nom que l'on veut donner à la marque. </param>
+        public void Modifier_Nom_Marque(string Nom)
+        {
+            // On vérifie que le nom n'est pas vide.
+            if (Nom == "")
+            {
+                throw new Exception("Vous essayez de donner un nom de marque qui est vide.");
+            }
+            Nom_Marque = Nom;
+        }
+    }
+}
