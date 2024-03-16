@@ -35,6 +35,8 @@ namespace Hector
         /// <param name="Ss_Famille"> Sous-famille de l'article. </param>
         /// <param name="Marq"> Marque de l'article. </param>
         /// <param name="Prix"> PrixHT de l'article. </param>
+        /// <exception cref="Exception"> Description vide. </exception>
+        /// <exception cref="Exception"> Prix négatif. </exception>
         public Article(string Descrip, SousFamille Ss_Famille, Marque Marq, double Prix)
         {
             // On vérifie que la description n'est pas vide.
@@ -58,6 +60,17 @@ namespace Hector
             PrixHT = Prix;
         }
 
+        /// <summary>
+        /// Constructeur de confort avec quantité.
+        /// </summary>
+        /// <param name="Descrip"> Description de l'article. </param>
+        /// <param name="Ss_Famille"> Sous-famille de l'article. </param>
+        /// <param name="Marq"> Marque de l'article. </param>
+        /// <param name="Prix"> Prix de l'article. </param>
+        /// <param name="Qte"> Quantité de l'article. </param>
+        /// <exception cref="Exception"> Description vide. </exception>
+        /// <exception cref="Exception"> Prix négatif. </exception>
+        /// <exception cref="Exception"> Quantité négatif. </exception>
         public Article(string Descrip, SousFamille Ss_Famille, Marque Marq, double Prix, int Qte)
         {
             // On vérifie que la description n'est pas vide.
@@ -101,6 +114,7 @@ namespace Hector
         /// Getter de la description de l'article.
         /// </summary>
         /// <returns> La description de l'article. </returns>
+        /// <exception cref="Exception"> Description vide. </exception>
         public string Lire_Description()
         {
             // On vérifie que la description n'est pas vide.
@@ -115,6 +129,7 @@ namespace Hector
         /// Setter de la description de l'article.
         /// </summary>
         /// <param name="Descrip"> Description que l'on veut donner à l'article. </param>
+        /// <exception cref="Exception"> Description vide. </exception>
         public void Modifier_Description(string Descrip)
         {
             // On vérifie que la description n'est pas vide.
@@ -174,6 +189,7 @@ namespace Hector
         /// Setter du prix HT de l'article.
         /// </summary>
         /// <param name="Prix"> Le prix que l'on veut donner à l'article. </param>
+        /// <exception cref="Exception"> Prix négatif. </exception>
         public void Modifier_PrixHT(double Prix)
         {
             // On vérifie que le prix est positif.
@@ -197,6 +213,7 @@ namespace Hector
         /// Setter de la quantité de l'article.
         /// </summary>
         /// <param name="Qte"> La quantité que l'on veut associer à l'article. </param>
+        /// <exception cref="Exception"> Quantité négatif. </exception>
         public void Modifier_Quantite(int Qte)
         {
             // On vérifie que la quantité est positive.

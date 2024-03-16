@@ -26,6 +26,7 @@ namespace Hector
         /// Constructeur de confort.
         /// </summary>
         /// <param name="Nom_Famille"> Nom que l'on veut donner à la famille. </param>
+        /// <exception cref="Exception"> Nom vide. </exception>
         public Famille(string Nom)
         {
             // On vérifie que le nom n'est pas vide.
@@ -52,7 +53,7 @@ namespace Hector
         /// <summary>
         /// Getter du nom de la famille.
         /// </summary>
-        /// <exception cref="FileNotFoundException"> Le nom de la famille est vide. </exception>
+        /// <exception cref="Exception"> Le nom de la famille est vide. </exception>
         /// <returns> Le nom de la famille. </returns>
         public string Lire_Nom_Famille()
         {
@@ -69,6 +70,7 @@ namespace Hector
         /// Setter du nom de la famille.
         /// </summary>
         /// <param name="Nom"> Le nom que l'on veut donner à la famille. </param>
+        /// <exception cref="Exception"> Nom vide. </exception>
         public void Modifier_Nom_Famille(string Nom)
         {
             // On vérifie que le nom n'est pas vide.

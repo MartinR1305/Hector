@@ -61,12 +61,28 @@ namespace Hector
 
         private void Importation_Mode_Ajout_Bouton_Click(object sender, EventArgs e)
         {
+            if(Chemin_Fichier_CSV_String == "")
+            {
+                MessageBox.Show("Vous devez sélectionner un fichier avant de faire une intégration.", "Erreur : Aucun fichier CSV sélectionné", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
+            else
+            {
+
+            }
         }
 
         private void Importation_Mode_Ecrasement_Boutton_Click(object sender, EventArgs e)
         {
+            if (Chemin_Fichier_CSV_String == "")
+            {
+                MessageBox.Show("Vous devez sélectionner un fichier avant de faire une intégration.", "Erreur : Aucun fichier CSV sélectionné", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
+            else
+            {
+
+            }
         }
     }
 }

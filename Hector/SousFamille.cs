@@ -28,6 +28,7 @@ namespace Hector
         /// </summary>
         /// <param name="Nom"> Nom que l'on veut donner à la sous-famille. </param>
         /// <param name="Fam"> Famille à laquelle la sous-famille appartient. </param>
+        /// <exception cref="Exception"> Nom vide. </exception>
         public SousFamille(string Nom, Famille Fam)
         {
             // On vérifie que le nom n'est pas vide.
@@ -55,7 +56,7 @@ namespace Hector
         /// <summary>
         /// Getter du nom de la sous-famille.
         /// </summary>
-        /// <exception cref="FileNotFoundException"> Le nom de la sous-famille est vide. </exception>
+        /// <exception cref="Exception"> Le nom de la sous-famille est vide. </exception>
         /// <returns> Le nom de la sous-famille. </returns>
         public string Lire_Nom_Sous_Famille()
         {
@@ -72,6 +73,7 @@ namespace Hector
         /// Setter du nom de la sous-famille.
         /// </summary>
         /// <param name="Nom"> Le nom que l'on veut donner à la sous-famille. </param>
+        /// <exception cref="Exception"> Nom vide. </exception>
         public void Modifier_Nom_Sous_Famille(string Nom)
         {
             // On vérifie que le nom n'est pas vide.

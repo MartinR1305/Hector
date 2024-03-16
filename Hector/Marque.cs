@@ -26,12 +26,13 @@ namespace Hector
         /// Constructeur de confort.
         /// </summary>
         /// <param name="Nom_Marque"> Nom que l'on veut donner à la marque. </param>
+        /// <exception cref="Exception"> Nom vide. </exception>
         public Marque(string Nom)
         {
             // On vérifie que le nom n'est pas vide.
             if (Nom_Marque == "")
             {
-                throw new FileNotFoundException("Vous ne pouvez pas donner de nom vide à une marque.", Nom_Marque);
+                throw new Exception("Vous ne pouvez pas donner de nom vide à une marque.");
             }
 
             // On associe les valeurs d'attribut.
@@ -52,7 +53,7 @@ namespace Hector
         /// <summary>
         /// Getter du nom de la marque.
         /// </summary>
-        /// <exception cref="FileNotFoundException"> Le nom de la marque est vide. </exception>
+        /// <exception cref="Exception"> Le nom de la marque est vide. </exception>
         /// <returns> Le nom de la marque. </returns>
         public string Lire_Nom_Marque()
         {
@@ -69,6 +70,7 @@ namespace Hector
         /// Setter du nom de la marque.
         /// </summary>
         /// <param name="Nom"> Le nom que l'on veut donner à la marque. </param>
+        /// <exception cref="Exception"> Nom vide. </exception>
         public void Modifier_Nom_Marque(string Nom)
         {
             // On vérifie que le nom n'est pas vide.

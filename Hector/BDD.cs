@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SQLite;
 
 namespace Hector
 {
@@ -53,6 +54,103 @@ namespace Hector
             }
 
             this.Chemin_Base_de_Donnees = Chemin_Trouver;
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les marques d'une liste à la BDD.
+        /// </summary>
+        /// <param name="Liste_Marque"> Liste des marques que l'on veut ajouter à la BDD. </param>
+        public void Ajouter_Marques(List<Marque> Liste_Marque)
+        {
+            string connectionString = $"Data Source={Lire_Chemin_Base_de_Donnees()};Version=3;";
+
+            // On va lire toutes les marques de la liste.
+            foreach (Marque Marque in Liste_Marque)
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Commande SQL permets d'ajoute une marque dans la BDD.
+                    string sqlQuery = "INSERT INTO Marques (Nom) VALUES (@Nom)";
+
+                    using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                    {
+                        // Ajouter les paramètres à la commande.
+                        command.Parameters.AddWithValue("@Nom", Marque.Lire_Nom_Marque());
+
+                        // Exécuter la commande.
+                        int rowsAffected = command.ExecuteNonQuery();
+                    }
+
+                    connection.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les familles d'une liste à la BDD.
+        /// </summary>
+        /// <param name="Liste_Famille"> Liste des familles que l'on veut ajouter à la BDD. </param>
+        public void Ajouter_Familles(List<Famille> Liste_Famille)
+        {
+            string connectionString = $"Data Source={Lire_Chemin_Base_de_Donnees()};Version=3;";
+
+            // On va lire toutes les familles de la liste.
+            foreach (Famille Famille in Liste_Famille)
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Commande SQL permets d'ajoute une marque dans la BDD.
+                    string sqlQuery = "INSERT INTO Familles (Nom) VALUES (@Nom)";
+
+                    using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                    {
+                        // Ajouter les paramètres à la commande.
+                        command.Parameters.AddWithValue("@Nom", Famille.Lire_Nom_Famille());
+
+                        // Exécuter la commande.
+                        int rowsAffected = command.ExecuteNonQuery();
+                    }
+
+                    connection.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les sous-familles d'une liste à la BDD.
+        /// </summary>
+        /// <param name="Liste_Sous_Famille"> Liste des sous-familles que l'on veut ajouter à la BDD. </param>
+        public void Ajouter_Sous_Familles(List<SousFamille> Liste_Sous_Famille)
+        {
+            string connectionString = $"Data Source={Lire_Chemin_Base_de_Donnees()};Version=3;";
+
+            // On va lire toutes les sous-familles de la liste.
+            foreach (SousFamille Sous_Famille in Liste_Sous_Famille)
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Commande SQL permets d'ajoute une marque dans la BDD.
+                    string sqlQuery = "INSERT INTO SousFamilles (RefFamille, Nom) VALUES (@RefFamille, @Nom)";
+
+                    using (SQLiteCommand command = new SQLiteCommand(sqlQuery, connection))
+                    {
+                        // Ajouter les paramètres à la commande.
+                        command.Parameters.AddWithValue("@RefFamille", Sous_Famille.Lire_Famille().Lire_Ref_Famille());
+                        command.Parameters.AddWithValue("@Nom", Sous_Famille.Lire_Nom_Sous_Famille());
+
+                        // Exécuter la commande.
+                        int rowsAffected = command.ExecuteNonQuery();
+                    }
+
+                    connection.Close();
+                }
+            }
         }
     }
 }
