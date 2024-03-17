@@ -29,7 +29,6 @@ namespace Hector
                 // S'il est null, cela signifie que l'on ne l'a pas encore obtenu.
                 Obtenir_Chemin_Base_de_Donnees();
             }
-
             return Chemin_Base_de_Donnees;
         }
 

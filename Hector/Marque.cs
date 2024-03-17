@@ -9,7 +9,6 @@ namespace Hector
 {
     class Marque
     {
-        private static int Derniere_Ref = 0;
         private int Ref_Marque;
         private string Nom_Marque;
 
@@ -26,8 +25,9 @@ namespace Hector
         /// Constructeur de confort.
         /// </summary>
         /// <param name="Nom_Marque"> Nom que l'on veut donner à la marque. </param>
+        /// <param name="Ref"> Référence de la marque. </param>
         /// <exception cref="Exception"> Nom vide. </exception>
-        public Marque(string Nom)
+        public Marque(int Ref, string Nom)
         {
             // On vérifie que le nom n'est pas vide.
             if (Nom_Marque == "")
@@ -36,8 +36,7 @@ namespace Hector
             }
 
             // On associe les valeurs d'attribut.
-            Derniere_Ref++;
-            Ref_Marque = Derniere_Ref;
+            Ref_Marque = Ref;
             Nom_Marque = Nom;
         }
 
