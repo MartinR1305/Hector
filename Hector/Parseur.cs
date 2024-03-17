@@ -12,21 +12,12 @@ namespace Hector
     {
         private string Chemin_Fichier_CSV;
 
-        private List<Marque> Liste_Marque_CSV;
-        private List<Famille> Liste_Famille_CSV;
-        private List<SousFamille> Liste_Sous_Famille_CSV;
-        private List<Article> Liste_Article_CSV;
-
         /// <summary>
         /// Constructeur par défaut.
         /// </summary>
         public Parseur()
         {
             Chemin_Fichier_CSV = "";
-            Liste_Marque_CSV = new List<Marque>();
-            Liste_Famille_CSV = new List<Famille>();
-            Liste_Sous_Famille_CSV = new List<SousFamille>();
-            Liste_Article_CSV = new List<Article>();
         }
 
         /// <summary>
@@ -36,31 +27,12 @@ namespace Hector
         public Parseur(string Chemin_Fichier)
         {
             Chemin_Fichier_CSV = Chemin_Fichier;
-            Liste_Marque_CSV = new List<Marque>();
-            Liste_Famille_CSV = new List<Famille>();
-            Liste_Sous_Famille_CSV = new List<SousFamille>();
-            Liste_Article_CSV = new List<Article>();
-        }
-
-        /// <summary>
-        /// Setter de la liste de marques.
-        /// </summary>
-        /// <exception cref="Exception"> Liste vide. </exception>
-        /// <returns> La Liste de marque</returns>
-        public List<Marque> Lire_Liste_Marque()
-        {
-            if (Liste_Marque_CSV.Count == 0)
-            {
-                throw new Exception("Vous ne pouvez pas lire de liste vide.");
-
-            }
-            return Liste_Marque_CSV;
         }
 
         /// <summary>
         /// Permets de remplir la liste de marque à partir d'un fichier CSV.
         /// </summary>
-        public void Remplir_Liste_Marque()
+        public void Remplir_Liste_Marque(List<Marque> Liste_Marque_CSV)
         {
             // On ouvre le fichier en mode lecture
             using (TextFieldParser TFParseur = new TextFieldParser(Chemin_Fichier_CSV, Encoding.UTF8))
@@ -78,10 +50,10 @@ namespace Hector
                     // Récupérer la troisième valeur.
                     string Nom_Marque = Ligne[2];
 
-                    if (!Is_Nom_Marque_Present(Nom_Marque))
+                    if (!Is_Nom_Marque_Present(Liste_Marque_CSV, Nom_Marque))
                     {
                         // On l'ajoute à la liste.
-                        Marque Marque_Temp = new Marque(Nom_Marque);
+                        Marque Marque_Temp = new Marque(0, Nom_Marque); // On mets 0 comme référence car la marque n'a pas encore été ajouté à la BDD.
                         Liste_Marque_CSV.Add(Marque_Temp);
                     }
                 }
@@ -89,23 +61,9 @@ namespace Hector
         }
 
         /// <summary>
-        /// Setter de la liste de familles.
-        /// </summary>
-        /// <returns> Liste de familles. </returns>
-        public List<Famille> Lire_Liste_Famille()
-        {
-            if (Liste_Famille_CSV.Count == 0)
-            {
-                throw new Exception("Vous ne pouvez pas lire de liste vide.");
-
-            }
-            return Liste_Famille_CSV;
-        }
-
-        /// <summary>
         /// Permets de remplir la liste de famille à partir d'un fichier CSV.
         /// </summary>
-        public void Remplir_Liste_Famille()
+        public void Remplir_Liste_Famille(List<Famille> Liste_Famille_CSV)
         {
             // On ouvre le fichier en mode lecture
             using (TextFieldParser TFParseur = new TextFieldParser(Chemin_Fichier_CSV, Encoding.UTF8))
@@ -123,10 +81,10 @@ namespace Hector
                     // Récupérer la quatrième valeur.
                     string Nom_Famille = Ligne[3];
 
-                    if (!Is_Nom_Famille_Present(Nom_Famille))
+                    if (!Is_Nom_Famille_Present(Liste_Famille_CSV, Nom_Famille))
                     {
                         // On l'ajoute à la liste.
-                        Famille Famille_Temp = new Famille(Nom_Famille);
+                        Famille Famille_Temp = new Famille(0, Nom_Famille); // On mets 0 comme référence car la famille n'a pas encore été ajouté à la BDD.
                         Liste_Famille_CSV.Add(Famille_Temp);
                     }
                 }
@@ -134,23 +92,9 @@ namespace Hector
         }
 
         /// <summary>
-        /// Setter de la liste de sous-familles.
-        /// </summary>
-        /// <returns> Liste de sous-familles. </returns>
-        public List<SousFamille> Lire_Liste_Sous_Famille()
-        {
-            if (Liste_Sous_Famille_CSV.Count == 0)
-            {
-                throw new Exception("Vous ne pouvez pas lire de liste vide.");
-
-            }
-            return Liste_Sous_Famille_CSV;
-        }
-
-        /// <summary>
         /// Permets de remplir la liste de sous-famille à partir d'un fichier CSV.
         /// </summary>
-        public void Remplir_Liste_Sous_Famille()
+        public void Remplir_Liste_Sous_Famille(List<SousFamille> Liste_Sous_Famille_CSV, List<Famille> Liste_Famille_CSV)
         {
             // On ouvre le fichier en mode lecture
             using (TextFieldParser TFParseur = new TextFieldParser(Chemin_Fichier_CSV, Encoding.UTF8))
@@ -169,13 +113,13 @@ namespace Hector
                     string Nom_Famille = Ligne[3];
                     string Nom_Sous_Famille = Ligne[4];
 
-                    if (!Is_Nom_Sous_Famille_Present(Nom_Sous_Famille))
+                    if (!Is_Nom_Sous_Famille_Present(Liste_Sous_Famille_CSV, Nom_Sous_Famille))
                     {
                         // On cherche la famille associé à cette sous-famille.
-                        Famille Famille_De_la_Sous_Famille = Obtenir_Famille(Nom_Famille);
+                        Famille Famille_De_la_Sous_Famille = Obtenir_Famille(Liste_Famille_CSV, Nom_Famille);
 
                         // On l'ajoute à la liste.
-                        SousFamille Sous_Famille_Temp = new SousFamille(Nom_Sous_Famille, Famille_De_la_Sous_Famille);
+                        SousFamille Sous_Famille_Temp = new SousFamille(0, Nom_Sous_Famille, Famille_De_la_Sous_Famille); // On mets 0 comme référence car la sous-famille n'a pas encore été ajouté à la BDD.
                         Liste_Sous_Famille_CSV.Add(Sous_Famille_Temp);
                     }
                 }
@@ -187,7 +131,7 @@ namespace Hector
         /// </summary>
         /// <param name="Nom"> Nom que l'on veut vérifier.</param>
         /// <returns> Bool, indiquant si le nom est déjà présent ou non. </returns>
-        public bool Is_Nom_Marque_Present(string Nom)
+        public bool Is_Nom_Marque_Present(List<Marque> Liste_Marque_CSV, string Nom)
         {
             // Cas où la liste est vide.
             if(Liste_Marque_CSV == null)
@@ -212,7 +156,7 @@ namespace Hector
         /// </summary>
         /// <param name="Nom"> Nom que l'on veut vérifier.</param>
         /// <returns> Bool, indiquant si le nom est déjà présent ou non. </returns>
-        public bool Is_Nom_Famille_Present(string Nom)
+        public bool Is_Nom_Famille_Present(List<Famille> Liste_Famille_CSV, string Nom)
         {
             // Cas où la liste est vide.
             if (Liste_Famille_CSV == null)
@@ -237,7 +181,7 @@ namespace Hector
         /// </summary>
         /// <param name="Nom"> Nom de la famille que l'on recherche. </param>
         /// <returns> Famille, la famille que l'on cherche. </returns>
-        public Famille Obtenir_Famille(string Nom)
+        public Famille Obtenir_Famille(List<Famille> Liste_Famille_CSV, string Nom)
         {
             // On regarde chaque famille de la liste.
             foreach (Famille Famille in Liste_Famille_CSV)
@@ -256,7 +200,7 @@ namespace Hector
         /// </summary>
         /// <param name="Nom"> Nom que l'on veut vérifier.</param>
         /// <returns> Bool, indiquant si le nom est déjà présent ou non. </returns>
-        public bool Is_Nom_Sous_Famille_Present(string Nom)
+        public bool Is_Nom_Sous_Famille_Present(List<SousFamille> Liste_Sous_Famille_CSV, string Nom)
         {
             // Cas où la liste est vide.
             if (Liste_Sous_Famille_CSV == null)

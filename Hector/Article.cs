@@ -9,7 +9,6 @@ namespace Hector
 {
     class Article
     {
-        private static int Derniere_Ref = 0;
         private int Ref_Article;
         private string Description;
         private SousFamille Sous_Famille;
@@ -31,13 +30,14 @@ namespace Hector
         /// <summary>
         /// Constructeur de confort sans la quantité.
         /// </summary>
+        /// <param name="Ref"> Référence de l'article. </param>
         /// <param name="Descrip"> Description de l'article. </param>
         /// <param name="Ss_Famille"> Sous-famille de l'article. </param>
         /// <param name="Marq"> Marque de l'article. </param>
         /// <param name="Prix"> PrixHT de l'article. </param>
         /// <exception cref="Exception"> Description vide. </exception>
         /// <exception cref="Exception"> Prix négatif. </exception>
-        public Article(string Descrip, SousFamille Ss_Famille, Marque Marq, double Prix)
+        public Article(int Ref, string Descrip, SousFamille Ss_Famille, Marque Marq, double Prix)
         {
             // On vérifie que la description n'est pas vide.
             if (Descrip == "")
@@ -52,8 +52,7 @@ namespace Hector
             }
 
             // On associe les valeurs d'attribut.
-            Derniere_Ref++;
-            Ref_Article = Derniere_Ref;
+            Ref_Article = Ref;
             Description = Descrip;
             Sous_Famille = Ss_Famille;
             Marque = Marq;
@@ -63,6 +62,7 @@ namespace Hector
         /// <summary>
         /// Constructeur de confort avec quantité.
         /// </summary>
+        /// <param name="Ref"> Référence de l'article. </param>
         /// <param name="Descrip"> Description de l'article. </param>
         /// <param name="Ss_Famille"> Sous-famille de l'article. </param>
         /// <param name="Marq"> Marque de l'article. </param>
@@ -71,7 +71,7 @@ namespace Hector
         /// <exception cref="Exception"> Description vide. </exception>
         /// <exception cref="Exception"> Prix négatif. </exception>
         /// <exception cref="Exception"> Quantité négatif. </exception>
-        public Article(string Descrip, SousFamille Ss_Famille, Marque Marq, double Prix, int Qte)
+        public Article(int Ref, string Descrip, SousFamille Ss_Famille, Marque Marq, double Prix, int Qte)
         {
             // On vérifie que la description n'est pas vide.
             if (Descrip == "")
@@ -92,8 +92,7 @@ namespace Hector
             }
 
             // On associe les valeurs d'attribut.
-            Derniere_Ref++;
-            Ref_Article = Derniere_Ref;
+            Ref_Article = Ref;
             Description = Descrip;
             Sous_Famille = Ss_Famille;
             Marque = Marq;
@@ -108,6 +107,15 @@ namespace Hector
         public int Lire_Ref_Article()
         {
             return Ref_Article;
+        }
+
+        /// <summary>
+        /// Setter de l'attribut de référence.
+        /// </summary>
+        /// <param name="Ref"> La référence que l'on veut attribuer. </param>
+        public void Modifier_Ref_Article(int Ref)
+        {
+            Ref_Article = Ref;
         }
 
         /// <summary>

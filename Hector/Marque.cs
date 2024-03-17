@@ -50,6 +50,15 @@ namespace Hector
         }
 
         /// <summary>
+        /// Setter de l'attribut de référence.
+        /// </summary>
+        /// <param name="Ref"> La référence que l'on veut attribuer. </param>
+        public void Modifier_Ref_Marque(int Ref)
+        {
+            Ref_Marque = Ref;
+        }
+
+        /// <summary>
         /// Getter du nom de la marque.
         /// </summary>
         /// <exception cref="Exception"> Le nom de la marque est vide. </exception>

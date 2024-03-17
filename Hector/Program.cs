@@ -15,18 +15,22 @@ namespace Hector
         [STAThread]
         static void Main()
         {
-            /*            Parseur parseur = new Parseur("C://Users//reche//Documents//FOD//4A//S8//.NET//Projet//Données à intégrer.csv");
-                        parseur.Remplir_Liste_Famille();
-                        parseur.Remplir_Liste_Sous_Famille();
+            BDD bdd = new BDD();
+            bdd.Obtenir_Chemin_Base_de_Donnees();
 
-                        BDD bdd = new BDD();
-                        bdd.Obtenir_Chemin_Base_de_Donnees();
-                        bdd.Ajouter_Familles(parseur.Lire_Liste_Famille());
-                        bdd.Ajouter_Sous_Familles(parseur.Lire_Liste_Sous_Famille());*/
+            // Parseur parseur = new Parseur("C://Users//reche//Documents//FOD//4A//S8//.NET//Projet//Données à intégrer.csv"); 
+            Parseur parseur = new Parseur("C://Users//Martin//Documents//Martin//Polytech//4A//S8//.NET//Données à intégrer.csv");
+            parseur.Remplir_Liste_Marque(bdd.Lire_Liste_Marque());
+            parseur.Remplir_Liste_Famille(bdd.Lire_Liste_Famille());
+            parseur.Remplir_Liste_Sous_Famille(bdd.Lire_Liste_Sous_Famille(), bdd.Lire_Liste_Famille());
 
-            Application.EnableVisualStyles();
+            bdd.Ajouter_Marques();
+            bdd.Ajouter_Familles();
+            bdd.Ajouter_Sous_Familles();
+
+/*            Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+            Application.Run(new FormMain());*/
         }
     }
 }

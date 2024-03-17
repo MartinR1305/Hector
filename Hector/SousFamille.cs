@@ -9,7 +9,6 @@ namespace Hector
 {
     class SousFamille
     {
-        private static int Derniere_Ref = 0;
         private int Ref_Sous_Famille;
         private string Nom_Sous_Famille;
         private Famille Famille;
@@ -26,10 +25,11 @@ namespace Hector
         /// <summary>
         /// Constructeur de confort.
         /// </summary>
+        /// <param name="Ref"> Référence de la sous-famille. </param>
         /// <param name="Nom"> Nom que l'on veut donner à la sous-famille. </param>
         /// <param name="Fam"> Famille à laquelle la sous-famille appartient. </param>
         /// <exception cref="Exception"> Nom vide. </exception>
-        public SousFamille(string Nom, Famille Fam)
+        public SousFamille(int Ref, string Nom, Famille Fam)
         {
             // On vérifie que le nom n'est pas vide.
             if (Nom_Sous_Famille == "")
@@ -38,8 +38,7 @@ namespace Hector
             }
 
             // On associe les valeurs d'attribut.
-            Derniere_Ref++;
-            Ref_Sous_Famille = Derniere_Ref;
+            Ref_Sous_Famille = Ref;
             Nom_Sous_Famille = Nom;
             Famille = Fam;
         }
@@ -51,6 +50,15 @@ namespace Hector
         public int Lire_Ref_Sous_Famille()
         {
             return Ref_Sous_Famille;
+        }
+
+        /// <summary>
+        /// Setter de l'attribut de référence.
+        /// </summary>
+        /// <param name="Ref"> La référence que l'on veut attribuer. </param>
+        public void Modifier_Ref_Sous_Famille(int Ref)
+        {
+            Ref_Sous_Famille = Ref;
         }
 
         /// <summary>

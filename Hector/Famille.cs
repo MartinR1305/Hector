@@ -9,7 +9,6 @@ namespace Hector
 {
     class Famille
     {
-        private static int Derniere_Ref = 0;
         private int Ref_Famille;
         private string Nom_Famille;
 
@@ -25,9 +24,10 @@ namespace Hector
         /// <summary>
         /// Constructeur de confort.
         /// </summary>
+        /// <param name="Ref"> Référence de la famille. </param>
         /// <param name="Nom_Famille"> Nom que l'on veut donner à la famille. </param>
         /// <exception cref="Exception"> Nom vide. </exception>
-        public Famille(string Nom)
+        public Famille(int Ref, string Nom)
         {
             // On vérifie que le nom n'est pas vide.
             if (Nom_Famille == "")
@@ -36,8 +36,7 @@ namespace Hector
             }
 
             // On associe les valeurs d'attribut.
-            Derniere_Ref++;
-            Ref_Famille = Derniere_Ref;
+            Ref_Famille = Ref;
             Nom_Famille = Nom;
         }
 
@@ -48,6 +47,15 @@ namespace Hector
         public int Lire_Ref_Famille()
         {
             return Ref_Famille;
+        }
+
+        /// <summary>
+        /// Setter de l'attribut de référence.
+        /// </summary>
+        /// <param name="Ref"> La référence que l'on veut attribuer. </param>
+        public void Modifier_Ref_Famille(int Ref)
+        {
+            Ref_Famille = Ref;
         }
 
         /// <summary>
