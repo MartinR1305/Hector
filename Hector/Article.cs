@@ -9,7 +9,7 @@ namespace Hector
 {
     class Article
     {
-        private int Ref_Article;
+        private string Ref_Article;
         private string Description;
         private SousFamille Sous_Famille;
         private Marque Marque;
@@ -21,7 +21,7 @@ namespace Hector
         /// </summary>
         public Article()
         {
-            Ref_Article = 0;
+            Ref_Article = "";
             Description = "";
             PrixHT = 0D;
             Quantite = 0;
@@ -37,7 +37,7 @@ namespace Hector
         /// <param name="Prix"> PrixHT de l'article. </param>
         /// <exception cref="Exception"> Description vide. </exception>
         /// <exception cref="Exception"> Prix négatif. </exception>
-        public Article(int Ref, string Descrip, SousFamille Ss_Famille, Marque Marq, double Prix)
+        public Article(string Ref, string Descrip, SousFamille Ss_Famille, Marque Marq, double Prix)
         {
             // On vérifie que la description n'est pas vide.
             if (Descrip == "")
@@ -71,7 +71,7 @@ namespace Hector
         /// <exception cref="Exception"> Description vide. </exception>
         /// <exception cref="Exception"> Prix négatif. </exception>
         /// <exception cref="Exception"> Quantité négatif. </exception>
-        public Article(int Ref, string Descrip, SousFamille Ss_Famille, Marque Marq, double Prix, int Qte)
+        public Article(string Ref, string Descrip, SousFamille Ss_Famille, Marque Marq, double Prix, int Qte)
         {
             // On vérifie que la description n'est pas vide.
             if (Descrip == "")
@@ -104,7 +104,7 @@ namespace Hector
         /// Getter de la référence de l'article.
         /// </summary>
         /// <returns> La référence de l'article. </returns>
-        public int Lire_Ref_Article()
+        public string Lire_Ref_Article()
         {
             return Ref_Article;
         }
@@ -113,7 +113,7 @@ namespace Hector
         /// Setter de l'attribut de référence.
         /// </summary>
         /// <param name="Ref"> La référence que l'on veut attribuer. </param>
-        public void Modifier_Ref_Article(int Ref)
+        public void Modifier_Ref_Article(string Ref)
         {
             Ref_Article = Ref;
         }
