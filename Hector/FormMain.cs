@@ -38,7 +38,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Importer_Bouton_Click(object sender, EventArgs e)
+        private void Importer_Bouton_Click(object sender, EventArgs e, BDD Base_De_Donnees)
         {
             FormImporter Fenetre_Importer = new FormImporter();
 
