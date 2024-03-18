@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hector
 {
-    class Article
+    public class Article
     {
         private string Ref_Article;
         private string Description;

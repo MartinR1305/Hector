@@ -8,7 +8,7 @@ using System.Data.SQLite;
 
 namespace Hector
 {
-    class BDD
+    public class BDD
     {
         private string Chemin_Base_de_Donnees;
         private string Connection_String;
@@ -478,6 +478,69 @@ namespace Hector
                     return false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter toutes les tables dans la BDD.
+        /// </summary>
+        public void Ajouter_Toutes_Les_Tables()
+        {
+            Ajouter_Toutes_Les_Marques_BDD();
+            Ajouter_Toutes_Les_Familles_BDD();
+            Ajouter_Toutes_Les_Sous_Familles_BDD();
+            Ajouter_Tout_Les_Articles_BDD();
+        }
+
+        /// <summary>
+        /// Permets de vider toutes les tables de la BDD. ( Article, Famille, SousFamille et Marque )
+        /// </summary>
+        public void Vider_Toutes_Les_Tables()
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string[] Nom_Tables = { "Articles", "SousFamilles", "Familles", "Marques" };
+
+                foreach (string Table in Nom_Tables)
+                {
+                    string SQL_Query_Vider_Tables = $"DELETE FROM {Table};";
+
+                    using (SQLiteCommand Commande_Vider_Tables = new SQLiteCommand(SQL_Query_Vider_Tables, Connection))
+                    {
+                        Commande_Vider_Tables.ExecuteNonQuery();
+                    }
+                }
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Permets de lire le nombre d'articles présent dans la BDD.
+        /// </summary>
+        /// <returns></returns>
+        public int Lire_Nombre_Article_BDD()
+        {
+            int Nombre_Articles = 0;
+
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+                string SQL_Query_Compter = "SELECT COUNT(*) AS NombreArticles FROM Articles";
+
+                using (SQLiteCommand Commande_Compter = new SQLiteCommand(SQL_Query_Compter, Connection))
+                {
+                    object Resultat_Requete = Commande_Compter.ExecuteScalar();
+
+                    // Vérifie si le résultat est nul et convertit en int
+                    if (Resultat_Requete != null && Resultat_Requete != DBNull.Value)
+                    {
+                        Nombre_Articles = Convert.ToInt32(Resultat_Requete);
+                    }
+                }
+                Connection.Close();
+            }
+            return Nombre_Articles;
         }
     }
 }

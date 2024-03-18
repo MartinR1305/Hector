@@ -337,5 +337,17 @@ namespace Hector
             }
             return false;
         }
+
+        /// <summary>
+        /// Permets de remplir toutes les tables dans le code.
+        /// </summary>
+        /// <param name="Base_de_Donnees"> Base de données dans le code que l'on veut remplir. </param>
+        public void Remplir_Toutes_Les_Tables(BDD Base_de_Donnees)
+        {
+            Remplir_Liste_Marque(Base_de_Donnees.Lire_Liste_Marque());
+            Remplir_Liste_Famille(Base_de_Donnees.Lire_Liste_Famille());
+            Remplir_Liste_Sous_Famille(Base_de_Donnees.Lire_Liste_Sous_Famille(), Base_de_Donnees.Lire_Liste_Famille());
+            Remplir_Liste_Article(Base_de_Donnees.Lire_Liste_Article(), Base_de_Donnees.Lire_Liste_Marque(), Base_de_Donnees.Lire_Liste_Sous_Famille());
+        }
     }
 }

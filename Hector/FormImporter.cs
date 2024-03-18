@@ -15,21 +15,27 @@ namespace Hector
     {
         private string Chemin_Fichier_CSV_String;
         private BDD Base_de_Donnees;
+        private BackgroundWorker Back_ground_Worker;
 
         /// <summary>
         /// Constructeur par défaut.
         /// </summary>
-        public FormImporter()
+        public FormImporter(BDD Base_de_Donnees_Main)
         {
             InitializeComponent();
 
-            Base_de_Donnees = new BDD();
-            Base_de_Donnees.Obtenir_Chemin_Base_de_Donnees();
+            Base_de_Donnees = Base_de_Donnees_Main;
 
             Chemin_Fichier_CSV_String = "";
             Nom_Fichier_CSV_Label.Text = "Aucun fichier sélectionné pour le moment.";
             ProgressBar.Visible = false;
             Integration_En_Cours_Label.Visible = false;
+
+            // Initialisation du BackgroundWorker
+            Back_ground_Worker = new BackgroundWorker();
+            Back_ground_Worker.WorkerReportsProgress = true;
+            Back_ground_Worker.DoWork += new DoWorkEventHandler(Back_ground_Worker_DoWork);
+            Back_ground_Worker.ProgressChanged += new ProgressChangedEventHandler(Back_ground_Worker_ProgressChanged);
 
             // On modifie la fenêtre pour qu'elle soit de taille fixe afin que l'utilisateur ne puisse pas modifier sa taille.
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -38,9 +44,15 @@ namespace Hector
             MaximizeBox = false;
         }
 
+        /// <summary>
+        /// Ouvre une fenetre afin de sélectionner un fichier CSV.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Selectionner_Fichier_Bouton_Click(object sender, EventArgs e)
         {
             {
+
                 OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
                 // Configure les propriétés de l'OpenFileDialog.
@@ -59,31 +71,14 @@ namespace Hector
             }
         }
 
+        /// <summary>
+        /// Permets de lancer une importation en mode ajout.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Importation_Mode_Ajout_Bouton_Click(object sender, EventArgs e)
         {
-            if(Chemin_Fichier_CSV_String == "")
-            {
-                MessageBox.Show("Vous devez sélectionner un fichier avant de faire une intégration.", "Erreur : Aucun fichier CSV sélectionné", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            else
-            {
-                Parseur parseur = new Parseur("C://Users//reche//Documents//FOD//4A//S8//.NET//Projet//Données à intégrer.csv");
-                //Parseur parseur = new Parseur("C://Users//Martin//Documents//Martin//Polytech//4A//S8//.NET//Données à intégrer.csv");
-                parseur.Remplir_Liste_Marque(bdd.Lire_Liste_Marque());
-                parseur.Remplir_Liste_Famille(bdd.Lire_Liste_Famille());
-                parseur.Remplir_Liste_Sous_Famille(bdd.Lire_Liste_Sous_Famille(), bdd.Lire_Liste_Famille());
-                parseur.Remplir_Liste_Article(bdd.Lire_Liste_Article(), bdd.Lire_Liste_Marque(), bdd.Lire_Liste_Sous_Famille());
-
-                bdd.Ajouter_Toutes_Les_Marques_BDD();
-                bdd.Ajouter_Toutes_Les_Familles_BDD();
-                bdd.Ajouter_Toutes_Les_Sous_Familles_BDD();
-                bdd.Ajouter_Tout_Les_Articles_BDD(); */
-            }
-        }
-
-        private void Importation_Mode_Ecrasement_Boutton_Click(object sender, EventArgs e)
-        {
+            // On vérifier que l'utilisateur a bien renseigner un chemin.
             if (Chemin_Fichier_CSV_String == "")
             {
                 MessageBox.Show("Vous devez sélectionner un fichier avant de faire une intégration.", "Erreur : Aucun fichier CSV sélectionné", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -91,8 +86,74 @@ namespace Hector
 
             else
             {
+                Parseur parseur = new Parseur(Chemin_Fichier_CSV_String);
+                parseur.Remplir_Toutes_Les_Tables(Base_de_Donnees);
 
+                int Nombre_Article_Avant_Ajout = Base_de_Donnees.Lire_Nombre_Article_BDD();
+
+                Base_de_Donnees.Ajouter_Toutes_Les_Tables();
+
+                ProgressBar.Visible = true;
+                Integration_En_Cours_Label.Visible = true;
+
+                int Nombre_Article_Apres_Ajout = Base_de_Donnees.Lire_Nombre_Article_BDD();
+                int Nombre_Article_Ajouter = Nombre_Article_Apres_Ajout - Nombre_Article_Avant_Ajout;
+
+                // On affiche un message de succès.
+                MessageBox.Show("L'intégration des données a été effectuée avec succès.\n\n" +
+                    "Vous avez ajouté " + Nombre_Article_Ajouter + " article(s) dans la base de données. \n" +
+                    "Il y a maintenant " + Nombre_Article_Apres_Ajout + "articles dans la base de données.", "Succès de l'intégration", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // On ferme la fenêtre.
+                this.Close();
             }
+        }
+
+        /// <summary>
+        /// Permets de lancer une intégration en mode écrasement.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Importation_Mode_Ecrasement_Boutton_Click(object sender, EventArgs e)
+        {
+            // On vérifier que l'utilisateur a bien renseigner un chemin.
+            if (Chemin_Fichier_CSV_String == "")
+            {
+                MessageBox.Show("Vous devez sélectionner un fichier avant de faire une intégration.", "Erreur : Aucun fichier CSV sélectionné", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            else
+            {
+                Parseur parseur = new Parseur(Chemin_Fichier_CSV_String);
+                parseur.Remplir_Toutes_Les_Tables(Base_de_Donnees);
+
+                int Nombre_Article_Avant_Suppression = Base_de_Donnees.Lire_Nombre_Article_BDD();
+
+                Base_de_Donnees.Vider_Toutes_Les_Tables();
+                Base_de_Donnees.Ajouter_Toutes_Les_Tables();
+
+                int Nombre_Article_Apres_Ajout = Base_de_Donnees.Lire_Nombre_Article_BDD();
+
+                // On affiche un message de succès.
+                MessageBox.Show("L'intégration des données a été effectuée avec succès. \n\n" +
+                    "Vous avez supprimé " + Nombre_Article_Avant_Suppression + " articles dans la base de données. \n" +
+                    "Vous avez ensuite ajouté " + Nombre_Article_Apres_Ajout + " articles dans la base de données.", "Succès de l'intégration", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // On ferme la fenêtre.
+                this.Close();
+            }
+        }
+
+        private void Back_ground_Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Méthode qui effectue le travail long (ajouter les tables dans votre cas)
+            Base_de_Donnees.Ajouter_Toutes_Les_Tables();
+        }
+
+        private void Back_ground_Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            // Mise à jour de la ProgressBar
+            ProgressBar.Value = e.ProgressPercentage;
         }
     }
 }

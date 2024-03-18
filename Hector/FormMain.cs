@@ -38,9 +38,9 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Importer_Bouton_Click(object sender, EventArgs e, BDD Base_De_Donnees)
+        private void Importer_Bouton_Click(object sender, EventArgs e)
         {
-            FormImporter Fenetre_Importer = new FormImporter();
+            FormImporter Fenetre_Importer = new FormImporter(Base_de_Donnees);
 
             // On centre la fenêtre d'importation par rapport au centre de la fenêtre de l'application.
             Fenetre_Importer.StartPosition = FormStartPosition.Manual;
