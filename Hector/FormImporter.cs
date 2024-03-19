@@ -15,7 +15,12 @@ namespace Hector
     {
         private string Chemin_Fichier_CSV_String;
         private BDD Base_de_Donnees;
-        private BackgroundWorker Back_ground_Worker;
+
+        private int Nombre_Article_Avant_Manip;
+        private int Nombre_Article_Apres_Ajout;
+        private int Nombre_Article_Ajouter;
+
+        private bool Besoin_De_Vider;
 
         /// <summary>
         /// Constructeur par défaut.
@@ -30,12 +35,7 @@ namespace Hector
             Nom_Fichier_CSV_Label.Text = "Aucun fichier sélectionné pour le moment.";
             ProgressBar.Visible = false;
             Integration_En_Cours_Label.Visible = false;
-
-            // Initialisation du BackgroundWorker
-            Back_ground_Worker = new BackgroundWorker();
-            Back_ground_Worker.WorkerReportsProgress = true;
-            Back_ground_Worker.DoWork += new DoWorkEventHandler(Back_ground_Worker_DoWork);
-            Back_ground_Worker.ProgressChanged += new ProgressChangedEventHandler(Back_ground_Worker_ProgressChanged);
+            Besoin_De_Vider = false;
 
             // On modifie la fenêtre pour qu'elle soit de taille fixe afin que l'utilisateur ne puisse pas modifier sa taille.
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -52,7 +52,6 @@ namespace Hector
         private void Selectionner_Fichier_Bouton_Click(object sender, EventArgs e)
         {
             {
-
                 OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
                 // Configure les propriétés de l'OpenFileDialog.
@@ -86,26 +85,13 @@ namespace Hector
 
             else
             {
-                Parseur parseur = new Parseur(Chemin_Fichier_CSV_String);
-                parseur.Remplir_Toutes_Les_Tables(Base_de_Donnees);
-
-                int Nombre_Article_Avant_Ajout = Base_de_Donnees.Lire_Nombre_Article_BDD();
-
-                Base_de_Donnees.Ajouter_Toutes_Les_Tables();
-
+                // On affiche la barre de chargement et le texte de chargement.
                 ProgressBar.Visible = true;
                 Integration_En_Cours_Label.Visible = true;
 
-                int Nombre_Article_Apres_Ajout = Base_de_Donnees.Lire_Nombre_Article_BDD();
-                int Nombre_Article_Ajouter = Nombre_Article_Apres_Ajout - Nombre_Article_Avant_Ajout;
-
-                // On affiche un message de succès.
-                MessageBox.Show("L'intégration des données a été effectuée avec succès.\n\n" +
-                    "Vous avez ajouté " + Nombre_Article_Ajouter + " article(s) dans la base de données. \n" +
-                    "Il y a maintenant " + Nombre_Article_Apres_Ajout + "articles dans la base de données.", "Succès de l'intégration", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // On ferme la fenêtre.
-                this.Close();
+                // On lance le travail en arrière plan.
+                Besoin_De_Vider = false;
+                Background_Worker.RunWorkerAsync(Base_de_Donnees);
             }
         }
 
@@ -116,44 +102,101 @@ namespace Hector
         /// <param name="e"></param>
         private void Importation_Mode_Ecrasement_Boutton_Click(object sender, EventArgs e)
         {
-            // On vérifier que l'utilisateur a bien renseigner un chemin.
-            if (Chemin_Fichier_CSV_String == "")
+
+
+            // On vérifie que le background_Worker n'est pas déjà en train d'exécuter un import.
+            if (!Background_Worker.IsBusy)
             {
-                MessageBox.Show("Vous devez sélectionner un fichier avant de faire une intégration.", "Erreur : Aucun fichier CSV sélectionné", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // On vérifier que l'utilisateur a bien renseigner un chemin.
+                if (Chemin_Fichier_CSV_String == "")
+                {
+                    MessageBox.Show("Vous devez sélectionner un fichier avant de faire une intégration.", "Erreur : Aucun fichier CSV sélectionné", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                else
+                {
+                    // On affiche la barre de chargement et le texte de chargement.
+                    ProgressBar.Visible = true;
+                    Integration_En_Cours_Label.Visible = true;
+
+                    // On lance le travail en arrière plan.
+                    Besoin_De_Vider = true;
+                    Background_Worker.RunWorkerAsync(Base_de_Donnees);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permets de changer la valeur de progression de la barre de chargement.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Background_Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBar.Value = e.ProgressPercentage;
+            Integration_En_Cours_Label.Text = string.Format("Intégration en cours ... {0}%", e.ProgressPercentage);
+            ProgressBar.Update();
+        }
+
+        /// <summary>
+        /// Ce qu'il va être exécuté en arrière plan.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Background_Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Parseur parseur = new Parseur(Chemin_Fichier_CSV_String);
+
+            // On remplit les informations du fichier en code.
+            Background_Worker.ReportProgress(0);
+            parseur.Remplir_Toutes_Les_Tables(Base_de_Donnees);
+            Background_Worker.ReportProgress(33);
+
+            Nombre_Article_Avant_Manip = Base_de_Donnees.Lire_Nombre_Article_BDD();
+
+            // On vide la BDD si besoin.
+            if (Besoin_De_Vider)
+            {
+                Base_de_Donnees.Vider_Toutes_Les_Tables();
+
             }
 
+            // On ajoute les informations dans la BDD.
+            Background_Worker.ReportProgress(66);
+            Base_de_Donnees.Ajouter_Toutes_Les_Tables();
+            Background_Worker.ReportProgress(99);
+
+            Nombre_Article_Apres_Ajout = Base_de_Donnees.Lire_Nombre_Article_BDD();
+            Nombre_Article_Ajouter = Nombre_Article_Apres_Ajout - Nombre_Article_Avant_Manip;
+
+            Background_Worker.ReportProgress(100);
+        }
+
+        /// <summary>
+        /// Ce qu'il va se passer une fois le travail en arrière plan terminé.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Background_Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            // Message de succès pour intégration en mode écrasement.
+            if (Besoin_De_Vider)
+            {
+                MessageBox.Show("L'intégration des données a été effectuée avec succès. \n\n" +
+                    "Vous avez supprimé " + Nombre_Article_Avant_Manip + " articles dans la base de données. \n" +
+                    "Vous avez ensuite ajouté " + Nombre_Article_Apres_Ajout + " articles dans la base de données.", "Succès de l'intégration", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            // Message de succès pour intégration en mode ajout.
             else
             {
-                Parseur parseur = new Parseur(Chemin_Fichier_CSV_String);
-                parseur.Remplir_Toutes_Les_Tables(Base_de_Donnees);
-
-                int Nombre_Article_Avant_Suppression = Base_de_Donnees.Lire_Nombre_Article_BDD();
-
-                Base_de_Donnees.Vider_Toutes_Les_Tables();
-                Base_de_Donnees.Ajouter_Toutes_Les_Tables();
-
-                int Nombre_Article_Apres_Ajout = Base_de_Donnees.Lire_Nombre_Article_BDD();
-
-                // On affiche un message de succès.
-                MessageBox.Show("L'intégration des données a été effectuée avec succès. \n\n" +
-                    "Vous avez supprimé " + Nombre_Article_Avant_Suppression + " articles dans la base de données. \n" +
-                    "Vous avez ensuite ajouté " + Nombre_Article_Apres_Ajout + " articles dans la base de données.", "Succès de l'intégration", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // On ferme la fenêtre.
-                this.Close();
+                MessageBox.Show("L'intégration des données a été effectuée avec succès.\n\n" +
+                    "Vous avez ajouté " + Nombre_Article_Ajouter + " article(s) dans la base de données. \n" +
+                    "Il y a maintenant " + Nombre_Article_Apres_Ajout + " article(s) dans la base de données.", "Succès de l'intégration", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        }
 
-        private void Back_ground_Worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            // Méthode qui effectue le travail long (ajouter les tables dans votre cas)
-            Base_de_Donnees.Ajouter_Toutes_Les_Tables();
-        }
-
-        private void Back_ground_Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            // Mise à jour de la ProgressBar
-            ProgressBar.Value = e.ProgressPercentage;
+            // On ferme la fenêtre.
+            this.Close();
         }
     }
 }
