@@ -198,7 +198,5 @@ namespace Hector
             // On ferme la fenêtre.
             this.Close();
         }
-
-
     }
 }

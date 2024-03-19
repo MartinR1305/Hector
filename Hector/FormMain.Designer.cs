@@ -70,20 +70,20 @@ namespace Hector
             // Actualiser_Bouton
             // 
             this.Actualiser_Bouton.Name = "Actualiser_Bouton";
-            this.Actualiser_Bouton.Size = new System.Drawing.Size(180, 22);
+            this.Actualiser_Bouton.Size = new System.Drawing.Size(126, 22);
             this.Actualiser_Bouton.Text = "Actualiser";
             // 
             // Importer_Bouton
             // 
             this.Importer_Bouton.Name = "Importer_Bouton";
-            this.Importer_Bouton.Size = new System.Drawing.Size(180, 22);
+            this.Importer_Bouton.Size = new System.Drawing.Size(126, 22);
             this.Importer_Bouton.Text = "Importer";
             this.Importer_Bouton.Click += new System.EventHandler(this.Importer_Bouton_Click);
             // 
             // Exporter_Bouton
             // 
             this.Exporter_Bouton.Name = "Exporter_Bouton";
-            this.Exporter_Bouton.Size = new System.Drawing.Size(180, 22);
+            this.Exporter_Bouton.Size = new System.Drawing.Size(126, 22);
             this.Exporter_Bouton.Text = "Exporter";
             // 
             // StatusStrip1
@@ -100,7 +100,7 @@ namespace Hector
             // 
             this.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SplitContainer1.Location = new System.Drawing.Point(0, 24);
-            this.SplitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SplitContainer1.Margin = new System.Windows.Forms.Padding(2);
             this.SplitContainer1.Name = "SplitContainer1";
             // 
             // SplitContainer1.Panel1
@@ -119,17 +119,18 @@ namespace Hector
             // 
             this.TreeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TreeView1.Location = new System.Drawing.Point(0, 0);
-            this.TreeView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TreeView1.Margin = new System.Windows.Forms.Padding(2);
             this.TreeView1.Name = "TreeView1";
             this.TreeView1.Size = new System.Drawing.Size(266, 404);
             this.TreeView1.TabIndex = 0;
+            this.TreeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterSelect);
             // 
             // ListView1
             // 
             this.ListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListView1.HideSelection = false;
             this.ListView1.Location = new System.Drawing.Point(0, 0);
-            this.ListView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ListView1.Margin = new System.Windows.Forms.Padding(2);
             this.ListView1.Name = "ListView1";
             this.ListView1.Size = new System.Drawing.Size(531, 404);
             this.ListView1.TabIndex = 0;
