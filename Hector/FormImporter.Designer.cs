@@ -81,24 +81,23 @@ namespace Hector
             // 
             // Nom_Fichier_CSV_Label
             // 
-            this.Nom_Fichier_CSV_Label.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.Nom_Fichier_CSV_Label.AutoSize = true;
-            this.Nom_Fichier_CSV_Label.Location = new System.Drawing.Point(110, 41);
+            this.Nom_Fichier_CSV_Label.Location = new System.Drawing.Point(9, 41);
             this.Nom_Fichier_CSV_Label.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Nom_Fichier_CSV_Label.Name = "Nom_Fichier_CSV_Label";
-            this.Nom_Fichier_CSV_Label.Size = new System.Drawing.Size(125, 13);
+            this.Nom_Fichier_CSV_Label.Size = new System.Drawing.Size(346, 24);
             this.Nom_Fichier_CSV_Label.TabIndex = 4;
             this.Nom_Fichier_CSV_Label.Text = "Nom_Fichier_CSV_Label";
+            this.Nom_Fichier_CSV_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Integration_En_Cours_Label
             // 
-            this.Integration_En_Cours_Label.AutoSize = true;
-            this.Integration_En_Cours_Label.Location = new System.Drawing.Point(101, 161);
+            this.Integration_En_Cours_Label.Location = new System.Drawing.Point(9, 161);
             this.Integration_En_Cours_Label.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Integration_En_Cours_Label.Name = "Integration_En_Cours_Label";
-            this.Integration_En_Cours_Label.Size = new System.Drawing.Size(141, 13);
+            this.Integration_En_Cours_Label.Size = new System.Drawing.Size(346, 27);
             this.Integration_En_Cours_Label.TabIndex = 5;
             this.Integration_En_Cours_Label.Text = "Integration_En_Cours_Label";
+            this.Integration_En_Cours_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Background_Worker
             // 
@@ -123,7 +122,6 @@ namespace Hector
             this.Name = "FormImporter";
             this.Text = "Importer un fichier CSV";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

@@ -36,7 +36,7 @@ namespace Hector
         public void Remplir_Liste_Marque(List<Marque> Liste_Marque)
         {
             // On ouvre le fichier en mode lecture
-            using (TextFieldParser TFParseur = new TextFieldParser(Chemin_Fichier_CSV, Encoding.UTF8))
+            using (TextFieldParser TFParseur = new TextFieldParser(Chemin_Fichier_CSV, Encoding.GetEncoding(1252)))
             {
                 TFParseur.SetDelimiters(new string[] { ";" });
 
@@ -68,7 +68,7 @@ namespace Hector
         public void Remplir_Liste_Famille(List<Famille> Liste_Famille)
         {
             // On ouvre le fichier en mode lecture
-            using (TextFieldParser TFParseur = new TextFieldParser(Chemin_Fichier_CSV, Encoding.UTF8))
+            using (TextFieldParser TFParseur = new TextFieldParser(Chemin_Fichier_CSV, Encoding.GetEncoding(1252)))
             {
                 TFParseur.SetDelimiters(new string[] { ";" });
 
@@ -101,7 +101,7 @@ namespace Hector
         public void Remplir_Liste_Sous_Famille(List<SousFamille> Liste_Sous_Famille, List<Famille> Liste_Famille)
         {
             // On ouvre le fichier en mode lecture
-            using (TextFieldParser TFParseur = new TextFieldParser(Chemin_Fichier_CSV, Encoding.UTF8))
+            using (TextFieldParser TFParseur = new TextFieldParser(Chemin_Fichier_CSV, Encoding.GetEncoding(1252)))
             {
                 TFParseur.SetDelimiters(new string[] { ";" });
 
@@ -138,7 +138,7 @@ namespace Hector
         public void Remplir_Liste_Article(List<Article> Liste_Article, List<Marque> Liste_Marque, List<SousFamille> Liste_Sous_Famille)
         {
             // On ouvre le fichier en mode lecture
-            using (TextFieldParser TFParseur = new TextFieldParser(Chemin_Fichier_CSV, Encoding.UTF8))
+            using (TextFieldParser TFParseur = new TextFieldParser(Chemin_Fichier_CSV, Encoding.GetEncoding(1252)))
             {
                 TFParseur.SetDelimiters(new string[] { ";" });
 
