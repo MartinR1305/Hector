@@ -93,7 +93,7 @@ namespace Hector
                 string Nom_Famille = Famille.Lire_Nom_Famille();
 
                 // On vérifie que le nom de famille n'est pas déjà présent dans le TreeView.
-                if(!Is_Nom_Famille_Present_TreeView(Nom_Famille))
+                if (!Is_Nom_Famille_Present_TreeView(Nom_Famille))
                 {
                     TreeNode Noeud_Nom_Famille = new TreeNode(Nom_Famille);
                     Familles.Nodes.Add(Noeud_Nom_Famille);
@@ -101,7 +101,7 @@ namespace Hector
                     // On ajoute ensuite tous les noeuds sous familles associé à cette famille.
                     foreach (SousFamille Sous_Famille in Base_de_Donnees.Lire_Liste_Sous_Famille())
                     {
-                        if(Sous_Famille.Lire_Famille().Lire_Nom_Famille() == Nom_Famille)
+                        if (Sous_Famille.Lire_Famille().Lire_Nom_Famille() == Nom_Famille)
                         {
                             TreeNode Noeud_Nom_Sous_Famille = new TreeNode(Sous_Famille.Lire_Nom_Sous_Famille());
                             Noeud_Nom_Famille.Nodes.Add(Noeud_Nom_Sous_Famille);
@@ -133,7 +133,7 @@ namespace Hector
         {
             foreach (TreeNode Noeud in Familles.Nodes)
             {
-                if(Noeud.Text == Nom)
+                if (Noeud.Text == Nom)
                 {
                     return true;
                 }
@@ -168,7 +168,7 @@ namespace Hector
             // On regarde s'il s'agit d'un nom de marque.
             foreach (Marque Marque in Base_de_Donnees.Lire_Liste_Marque())
             {
-                if(Marque.Lire_Nom_Marque() == Nom)
+                if (Marque.Lire_Nom_Marque() == Nom)
                 {
                     return "Marque";
                 }
@@ -195,9 +195,264 @@ namespace Hector
             return "";
         }
 
+        /// <summary>
+        /// Permets d'afficher dans la liste view les éléments en fonction du noeud cliqué.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            string Selected_Node_Text = e.Node.Text;
 
+            // L'utilisateur a cliqué sur le Nœud "Tous les articles".
+            if (Selected_Node_Text == "Tous les articles")
+            {
+                ListView1.Clear();
+
+                Ajouter_Colonnes_Articles_ListView();
+                Ajouter_Articles_ListView();
+                Ajuster_Largeur_Colonne_ListeView();
+            }
+
+            // L'utilisateur a cliqué sur le Nœud "Familles".
+            else if (Selected_Node_Text == "Familles")
+            {
+                ListView1.Clear();
+
+                Ajouter_Colonnes_Familles_ListView();
+                Ajouter_Familles_ListView();
+                Ajuster_Largeur_Colonne_ListeView();
+            }
+
+            // L'utilisateur a cliqué sur un Nœud "Famille".
+            else if (Is_Marque_or_Famille_or_Sous_Famille(Selected_Node_Text) == "Famille")
+            {
+                ListView1.Clear();
+
+                Ajouter_Colonnes_Sous_Familles_ListView();
+                Ajouter_Sous_Familles_ListView(Selected_Node_Text);
+                Ajuster_Largeur_Colonne_ListeView();
+            }
+
+            // L'utilisateur a cliqué sur un Nœud "Sous-Famille".
+            else if (Is_Marque_or_Famille_or_Sous_Famille(Selected_Node_Text) == "Sous_Famille")
+            {
+                ListView1.Clear();
+
+                Ajouter_Colonnes_Articles_ListView();
+                Ajouter_Articles_D_une_Sous_Famille(Selected_Node_Text);
+                Ajuster_Largeur_Colonne_ListeView();
+            }
+
+            // L'utilisateur a cliqué sur le Nœud "Marques".
+            else if (Selected_Node_Text == "Marques")
+            {
+                ListView1.Clear();
+
+                Ajouter_Colonnes_Marques_ListView();
+                Ajouter_Marques_ListView();
+                Ajuster_Largeur_Colonne_ListeView();
+            }
+
+            // L'utilisateur a cliqué sur un Nœud "Marque".
+            else if (Is_Marque_or_Famille_or_Sous_Famille(Selected_Node_Text) == "Marque")
+            {
+                ListView1.Clear();
+                Ajouter_Colonnes_Articles_ListView();
+                Ajouter_Articles_D_une_Marque(Selected_Node_Text);
+                Ajuster_Largeur_Colonne_ListeView();
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les colonnes correspondantes pour la lecture d'articles dans la liste view.
+        /// </summary>
+        public void Ajouter_Colonnes_Articles_ListView()
+        {
+            // Permets de ne pas afficher de colonnes s'il n'y a pas encore eu d'intégration.
+            if (Base_de_Donnees.Lire_Liste_Article().Count != 0)
+            {
+                ListView1.Columns.Add("Référence");
+                ListView1.Columns.Add("Description");
+                ListView1.Columns.Add("Familles");
+                ListView1.Columns.Add("Sous Familles");
+                ListView1.Columns.Add("Marques");
+                ListView1.Columns.Add("Quantité");
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les colonnes correspondantes pour la lecture de familles dans la liste view.
+        /// </summary>
+        public void Ajouter_Colonnes_Familles_ListView()
+        {
+            // Permets de ne pas afficher de colonnes s'il n'y a pas encore eu d'intégration.
+            if (Base_de_Donnees.Lire_Liste_Famille().Count != 0)
+            {
+                ListView1.Columns.Add("Référence");
+                ListView1.Columns.Add("Nom");
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les colonnes correspondantes pour la lecture de sous-familles dans la liste view.
+        /// </summary>
+        public void Ajouter_Colonnes_Sous_Familles_ListView()
+        {
+            // Permets de ne pas afficher de colonnes s'il n'y a pas encore eu d'intégration.
+            if (Base_de_Donnees.Lire_Liste_Sous_Famille().Count != 0)
+            {
+                ListView1.Columns.Add("Référence");
+                ListView1.Columns.Add("Nom");
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les colonnes correspondantes pour la lecture de marques dans la liste view.
+        /// </summary>
+        public void Ajouter_Colonnes_Marques_ListView()
+        {
+            // Permets de ne pas afficher de colonnes s'il n'y a pas encore eu d'intégration.
+            if (Base_de_Donnees.Lire_Liste_Marque().Count != 0)
+            {
+                ListView1.Columns.Add("Référence");
+                ListView1.Columns.Add("Nom");
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter tous les articles dans la liste view.
+        /// </summary>
+        public void Ajouter_Articles_ListView()
+        {
+            foreach (Article Article in Base_de_Donnees.Lire_Liste_Article())
+            {
+                ListViewItem Item_Article = new ListViewItem(Article.Lire_Ref_Article());
+                Item_Article.SubItems.Add(Article.Lire_Description());
+                Item_Article.SubItems.Add(Article.Lire_Sous_Famille().Lire_Famille().Lire_Nom_Famille());
+                Item_Article.SubItems.Add(Article.Lire_Sous_Famille().Lire_Nom_Sous_Famille());
+                Item_Article.SubItems.Add(Article.Lire_Marque().Lire_Nom_Marque());
+                Item_Article.SubItems.Add(Convert.ToString(Article.Lire_Quantite()));
+
+                ListView1.Items.Add(Item_Article);
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter toutes les familles dans la liste view.
+        /// </summary>
+        public void Ajouter_Familles_ListView()
+        {
+            foreach (Famille Famille in Base_de_Donnees.Lire_Liste_Famille())
+            {
+                ListViewItem Item_Famille = new ListViewItem(Convert.ToString(Famille.Lire_Ref_Famille()));
+                Item_Famille.SubItems.Add(Famille.Lire_Nom_Famille());
+
+                ListView1.Items.Add(Item_Famille);
+            }
+        }
+
+        /// <summary>
+        /// ermets d'ajouter toutes les sous-familles d'une famille dans la liste view.
+        /// </summary>
+        /// <param name="Nom_Famille"> Famille à laquelle on cherche toutes les sous-familles. </param>
+        public void Ajouter_Sous_Familles_ListView(string Nom_Famille)
+        {
+            foreach (SousFamille Sous_Famille in Base_de_Donnees.Lire_Liste_Sous_Famille())
+            {
+                if (Sous_Famille.Lire_Famille().Lire_Nom_Famille() == Nom_Famille)
+                {
+                    ListViewItem Item_Sous_Famille = new ListViewItem(Convert.ToString(Sous_Famille.Lire_Ref_Sous_Famille()));
+                    Item_Sous_Famille.SubItems.Add(Sous_Famille.Lire_Nom_Sous_Famille());
+
+                    ListView1.Items.Add(Item_Sous_Famille);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter uniquement les articles d'une certaine sous-famille dans la liste view.
+        /// </summary>
+        /// <param name="Nom_Sous_Famille"> Nom de la sous famille dont on cherche les articles. </param>
+        public void Ajouter_Articles_D_une_Sous_Famille(string Nom_Sous_Famille)
+        {
+            foreach (Article Article in Base_de_Donnees.Lire_Liste_Article())
+            {
+                if (Article.Lire_Sous_Famille().Lire_Nom_Sous_Famille() == Nom_Sous_Famille)
+                {
+                    ListViewItem Item_Article = new ListViewItem(Article.Lire_Ref_Article());
+                    Item_Article.SubItems.Add(Article.Lire_Description());
+                    Item_Article.SubItems.Add(Article.Lire_Sous_Famille().Lire_Famille().Lire_Nom_Famille());
+                    Item_Article.SubItems.Add(Article.Lire_Sous_Famille().Lire_Nom_Sous_Famille());
+                    Item_Article.SubItems.Add(Article.Lire_Marque().Lire_Nom_Marque());
+                    Item_Article.SubItems.Add(Convert.ToString(Article.Lire_Quantite()));
+
+                    ListView1.Items.Add(Item_Article);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter toutes les marques dans la liste view.
+        /// </summary>
+        public void Ajouter_Marques_ListView()
+        {
+            foreach (Marque Marque in Base_de_Donnees.Lire_Liste_Marque())
+            {
+                ListViewItem Item_Marque = new ListViewItem(Convert.ToString(Marque.Lire_Ref_Marque()));
+                Item_Marque.SubItems.Add(Marque.Lire_Nom_Marque());
+
+                ListView1.Items.Add(Item_Marque);
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter uniquement les articles d'une certaine marque dans la liste view.
+        /// </summary>
+        /// <param name="Nom_Marque"> Nom de la marque dont on cherche les articles. </param>
+        public void Ajouter_Articles_D_une_Marque(string Nom_Marque)
+        {
+            foreach (Article Article in Base_de_Donnees.Lire_Liste_Article())
+            {
+                if (Article.Lire_Marque().Lire_Nom_Marque() == Nom_Marque)
+                {
+                    ListViewItem Item_Article = new ListViewItem(Article.Lire_Ref_Article());
+                    Item_Article.SubItems.Add(Article.Lire_Description());
+                    Item_Article.SubItems.Add(Article.Lire_Sous_Famille().Lire_Famille().Lire_Nom_Famille());
+                    Item_Article.SubItems.Add(Article.Lire_Sous_Famille().Lire_Nom_Sous_Famille());
+                    Item_Article.SubItems.Add(Article.Lire_Marque().Lire_Nom_Marque());
+                    Item_Article.SubItems.Add(Convert.ToString(Article.Lire_Quantite()));
+
+                    ListView1.Items.Add(Item_Article);
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Permets d'ajuster la largeur des colonnes en fonction du contenu et du titre des colonnes.
+        /// </summary>
+        public void Ajuster_Largeur_Colonne_ListeView()
+        {
+            // On ajuste la largeur des colonnes en fonction du contenue des colonnes.
+            ListView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+
+            // On ajuste la largeur des colonnes en fonction du titre des colonnes ( utile pour référence et quantité )
+            ListView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
     }
 }
