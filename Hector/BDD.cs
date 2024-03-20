@@ -126,11 +126,11 @@ namespace Hector
 
                             // Exécuter la commande.
                             int Rows_Affected = Commande_Ajout_Marque.ExecuteNonQuery();
-
-                            // On modifie la référence dans le code pour qu'elles correspondent à celle de la BDD.
-                            Marque.Modifier_Ref_Marque(Obtenir_Ref_Marque_BDD(Nom_Marque, Connection));
                         }
                     }
+                    // On modifie la référence dans le code pour qu'elles correspondent à celle de la BDD.
+                    Marque.Modifier_Ref_Marque(Obtenir_Ref_Marque_BDD(Nom_Marque, Connection));
+
                     Connection.Close();
                 }
             }
@@ -228,11 +228,11 @@ namespace Hector
 
                             // Exécuter la commande.
                             int Rows_Affected = Commande_Ajout_Famille.ExecuteNonQuery();
-
-                            // On modifie la référence dans le code pour qu'elles correspondent à celle de la BDD.
-                            Famille.Modifier_Ref_Famille(Obtenir_Ref_Famille_BDD(Nom_Famille, Connection));
                         }
                     }
+                    // On modifie la référence dans le code pour qu'elles correspondent à celle de la BDD.
+                    Famille.Modifier_Ref_Famille(Obtenir_Ref_Famille_BDD(Nom_Famille, Connection));
+
                     Connection.Close();
                 }
             }
@@ -332,12 +332,12 @@ namespace Hector
                             Commande_Ajout_Sous_Famille.Parameters.AddWithValue("@Nom", Nom_Sous_Famille);
 
                             // Exécuter la commande.
-                            int Rows_Affected = Commande_Ajout_Sous_Famille.ExecuteNonQuery();
-
-                            // On modifie la référence dans le code pour qu'elles correspondent à celle de la BDD.
-                            Sous_Famille.Modifier_Ref_Sous_Famille(Obtenir_Ref_Sous_Famille_BDD(Nom_Sous_Famille, Connection));                             
+                            int Rows_Affected = Commande_Ajout_Sous_Famille.ExecuteNonQuery();                             
                         }
                     }
+                    // On modifie la référence dans le code pour qu'elles correspondent à celle de la BDD.
+                    Sous_Famille.Modifier_Ref_Sous_Famille(Obtenir_Ref_Sous_Famille_BDD(Nom_Sous_Famille, Connection));
+
                     Connection.Close();
                 }
             }

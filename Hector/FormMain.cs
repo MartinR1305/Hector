@@ -37,6 +37,9 @@ namespace Hector
             Base_de_Donnees.Obtenir_Chemin_Base_de_Donnees();
 
             Ajouter_Noeuds_Racine();
+
+            // On mets la fenêtre en pleine écran au démarrage afin de faciliter la visibilité de la list view.
+            this.WindowState = FormWindowState.Maximized;
         }
 
         /// <summary>
@@ -429,21 +432,6 @@ namespace Hector
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// Permets d'ajuster la largeur des colonnes en fonction du contenu et du titre des colonnes.
         /// </summary>
@@ -454,6 +442,99 @@ namespace Hector
 
             // On ajuste la largeur des colonnes en fonction du titre des colonnes ( utile pour référence et quantité )
             ListView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+
+        private void ListView1_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            string Column_Name = ListView1.Columns[e.Column].Text;
+
+            if (Column_Name == "Description")
+            {
+                ListView ListView_Temp = new ListView();
+
+                // Parcourir l'alphabet de A à Z
+                for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
+                {
+                    ListViewGroup Groupe = new ListViewGroup(Convert.ToString(Lettre).ToUpper(), HorizontalAlignment.Left);
+
+                    foreach (ListViewItem Item in ListView1.Items)
+                    {
+                        if(Obtenir_1er_Lettre_String(Item.SubItems[1].Text) == Lettre)
+                        {
+                            ListViewItem Item_Temp = new ListViewItem(Item.SubItems[0].Text, Groupe);
+                            ListView_Temp.Items.Add(Item_Temp);
+                            Item_Temp.SubItems.Add(Item.SubItems[1].Text);
+                            Item_Temp.SubItems.Add(Item.SubItems[2].Text);
+                            Item_Temp.SubItems.Add(Item.SubItems[3].Text);
+                            Item_Temp.SubItems.Add(Item.SubItems[4].Text);
+                            Item_Temp.SubItems.Add(Item.SubItems[5].Text);
+                        }
+                    }
+                }
+                ListView1.Clear();
+                Ajouter_Colonnes_Articles_ListView();
+
+                // Copier les groupes
+                foreach (ListViewGroup groupe in ListView_Temp.Groups)
+                {
+                    ListViewGroup nouveauGroupe = new ListViewGroup(groupe.Header, HorizontalAlignment.Left);
+                    ListView1.Groups.Add(nouveauGroupe);
+                }
+
+                // Copier les éléments
+                foreach (ListViewItem element in ListView_Temp.Items)
+                {
+                    // Créer un nouvel élément
+                    ListViewItem nouvelElement = new ListViewItem(element.Text);
+
+                    // Copier les sous-éléments
+                    foreach (ListViewItem.ListViewSubItem subElement in element.SubItems)
+                    {
+                        nouvelElement.SubItems.Add(subElement.Text);
+                    }
+
+                    // Copier le groupe de l'élément
+                    if (element.Group != null)
+                    {
+                        string nomGroupe = element.Group.Header;
+                        ListViewGroup groupeCible = ListView1.Groups[nomGroupe];
+                        nouvelElement.Group = groupeCible;
+                    }
+
+                    // Ajouter l'élément au ListView cible
+                    ListView1.Items.Add(nouvelElement);
+                }
+
+                Ajuster_Largeur_Colonne_ListeView();
+            }
+        }
+
+        /// <summary>
+        /// Permets d'obtenir la première alphabétique d'un string.
+        /// </summary>
+        /// <param name="Chaine"> Chaine de caractère où l'on veut chercher la première lettre alphabétique. </param>
+        /// <returns></returns>
+        public char Obtenir_1er_Lettre_String(string Chaine)
+        {
+            // Vérifier si la chaîne n'est pas vide
+            if (!string.IsNullOrEmpty(Chaine))
+            {
+                // Parcourir chaque caractère de la chaîne
+                foreach (char Caractere in Chaine)
+                {
+                    // Vérifier si le caractère est une lettre
+                    if (char.IsLetter(Caractere))
+                    {
+                        char Premiere_Lettre = char.ToUpper(Caractere);
+                        return Premiere_Lettre;
+                    }
+                }
+                throw new Exception("Pas de lettres dans la chaine de caractère.");
+            }
+            else
+            {
+                throw new Exception("La chaine de caractère est vide.");
+            }
         }
     }
 }
