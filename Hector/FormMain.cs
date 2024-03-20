@@ -216,6 +216,8 @@ namespace Hector
                 Ajouter_Colonnes_Articles_ListView();
                 Ajouter_Articles_ListView();
                 Ajuster_Largeur_Colonne_ListeView();
+
+                ListView1.Groups.Clear();
             }
 
             // L'utilisateur a cliqué sur le Nœud "Familles".
@@ -226,6 +228,8 @@ namespace Hector
                 Ajouter_Colonnes_Familles_ListView();
                 Ajouter_Familles_ListView();
                 Ajuster_Largeur_Colonne_ListeView();
+
+                ListView1.Groups.Clear();
             }
 
             // L'utilisateur a cliqué sur un Nœud "Famille".
@@ -236,6 +240,8 @@ namespace Hector
                 Ajouter_Colonnes_Sous_Familles_ListView();
                 Ajouter_Sous_Familles_ListView(Selected_Node_Text);
                 Ajuster_Largeur_Colonne_ListeView();
+
+                ListView1.Groups.Clear();
             }
 
             // L'utilisateur a cliqué sur un Nœud "Sous-Famille".
@@ -246,6 +252,8 @@ namespace Hector
                 Ajouter_Colonnes_Articles_ListView();
                 Ajouter_Articles_D_une_Sous_Famille(Selected_Node_Text);
                 Ajuster_Largeur_Colonne_ListeView();
+
+                ListView1.Groups.Clear();
             }
 
             // L'utilisateur a cliqué sur le Nœud "Marques".
@@ -256,6 +264,8 @@ namespace Hector
                 Ajouter_Colonnes_Marques_ListView();
                 Ajouter_Marques_ListView();
                 Ajuster_Largeur_Colonne_ListeView();
+
+                ListView1.Groups.Clear();
             }
 
             // L'utilisateur a cliqué sur un Nœud "Marque".
@@ -265,6 +275,8 @@ namespace Hector
                 Ajouter_Colonnes_Articles_ListView();
                 Ajouter_Articles_D_une_Marque(Selected_Node_Text);
                 Ajuster_Largeur_Colonne_ListeView();
+
+                ListView1.Groups.Clear();
             }
         }
 
@@ -448,64 +460,192 @@ namespace Hector
         {
             string Column_Name = ListView1.Columns[e.Column].Text;
 
+            // Lorsque l'on clique sur la colonne Description dans une liste d'article.
             if (Column_Name == "Description")
             {
-                ListView ListView_Temp = new ListView();
+                Groupes_Selon_Description_Article();
+            }
 
-                // Parcourir l'alphabet de A à Z
-                for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
+            // Lorsque l'on clique sur la colonne Description dans une liste d'article.
+            else if (Column_Name == "Familles")
+            {
+                Groupes_Selon_Familles_Article();
+            }
+
+            // Lorsque l'on clique sur la colonne Description dans une liste d'article.
+            else if (Column_Name == "Sous Familles")
+            {
+                Groupes_Selon_Sous_Familles_Article();
+            }
+
+            // Lorsque l'on clique sur la colonne Description dans une liste d'article.
+            else if (Column_Name == "Marques")
+            {
+                Groupes_Selon_Marques_Article();
+            }
+
+            else if (Column_Name == "Nom")
+            {
+                Groupes_Selon_Nom();
+            }
+        }
+
+        /// <summary>
+        /// Permets de trier la liste view en groupes selon la première lettre de la description de l'article.
+        /// </summary>
+        public void Groupes_Selon_Description_Article()
+        {
+            for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
+            {
+                // On crée le groupe correspondant à la lettre.
+                ListViewGroup Groupe = new ListViewGroup(Convert.ToString(Lettre).ToUpper(), HorizontalAlignment.Left);
+
+                // On l'ajoute à la listView.
+                ListView1.Groups.Add(Groupe);
+
+                foreach (ListViewItem Item in ListView1.Items)
                 {
-                    ListViewGroup Groupe = new ListViewGroup(Convert.ToString(Lettre).ToUpper(), HorizontalAlignment.Left);
-
-                    foreach (ListViewItem Item in ListView1.Items)
+                    // On ajoute l'item si sa première lettre est la lettre actuelle.
+                    if (Obtenir_1er_Lettre_String(Item.SubItems[1].Text) == Lettre)
                     {
-                        if(Obtenir_1er_Lettre_String(Item.SubItems[1].Text) == Lettre)
-                        {
-                            ListViewItem Item_Temp = new ListViewItem(Item.SubItems[0].Text, Groupe);
-                            ListView_Temp.Items.Add(Item_Temp);
-                            Item_Temp.SubItems.Add(Item.SubItems[1].Text);
-                            Item_Temp.SubItems.Add(Item.SubItems[2].Text);
-                            Item_Temp.SubItems.Add(Item.SubItems[3].Text);
-                            Item_Temp.SubItems.Add(Item.SubItems[4].Text);
-                            Item_Temp.SubItems.Add(Item.SubItems[5].Text);
-                        }
+                        ListViewItem Item_Temp = new ListViewItem(Item.SubItems[0].Text, Groupe);
+                        ListView1.Items.Add(Item_Temp);
+                        Item_Temp.SubItems.Add(Item.SubItems[1].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[2].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[3].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[4].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[5].Text);
+
+                        ListView1.Items.Remove(Item);
                     }
                 }
-                ListView1.Clear();
-                Ajouter_Colonnes_Articles_ListView();
+            }
+        }
 
-                // Copier les groupes
-                foreach (ListViewGroup groupe in ListView_Temp.Groups)
+        /// <summary>
+        /// Permets de trier la liste view en groupes selon la famille de l'article.
+        /// </summary>
+        public void Groupes_Selon_Familles_Article()
+        {
+            foreach (Famille Famille in Base_de_Donnees.Lire_Liste_Famille())
+            {
+                // On crée le groupe correspondant à la famille.
+                ListViewGroup Groupe = new ListViewGroup(Famille.Lire_Nom_Famille(), HorizontalAlignment.Left);
+
+                // On l'ajoute à la listView.
+                ListView1.Groups.Add(Groupe);
+
+                foreach (ListViewItem Item in ListView1.Items)
                 {
-                    ListViewGroup nouveauGroupe = new ListViewGroup(groupe.Header, HorizontalAlignment.Left);
-                    ListView1.Groups.Add(nouveauGroupe);
-                }
+                    // On ajoute l'item si famille de l'article est celle actuelle.
+                    if (Item.SubItems[2].Text == Famille.Lire_Nom_Famille())
+                    {
+                        ListViewItem Item_Temp = new ListViewItem(Item.SubItems[0].Text, Groupe);
+                        ListView1.Items.Add(Item_Temp);
+                        Item_Temp.SubItems.Add(Item.SubItems[1].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[2].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[3].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[4].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[5].Text);
 
-                // Copier les éléments
-                foreach (ListViewItem element in ListView_Temp.Items)
+                        ListView1.Items.Remove(Item);
+                    }
+                }
+            }
+            Trier_Groupes_Par_Ordre_Alphabetique();
+        }
+
+        /// <summary>
+        /// Permets de trier la liste view en groupes selon la sous-famille de l'article.
+        /// </summary>
+        public void Groupes_Selon_Sous_Familles_Article()
+        {
+            foreach (SousFamille Sous_Famille in Base_de_Donnees.Lire_Liste_Sous_Famille())
+            {
+                // On crée le groupe correspondant à la famille.
+                ListViewGroup Groupe = new ListViewGroup(Sous_Famille.Lire_Nom_Sous_Famille(), HorizontalAlignment.Left);
+
+                // On l'ajoute à la listView.
+                ListView1.Groups.Add(Groupe);
+
+                foreach (ListViewItem Item in ListView1.Items)
                 {
-                    // Créer un nouvel élément
-                    ListViewItem nouvelElement = new ListViewItem(element.Text);
-
-                    // Copier les sous-éléments
-                    foreach (ListViewItem.ListViewSubItem subElement in element.SubItems)
+                    // On ajoute l'item si famille de l'article est celle actuelle.
+                    if (Item.SubItems[3].Text == Sous_Famille.Lire_Nom_Sous_Famille())
                     {
-                        nouvelElement.SubItems.Add(subElement.Text);
-                    }
+                        ListViewItem Item_Temp = new ListViewItem(Item.SubItems[0].Text, Groupe);
+                        ListView1.Items.Add(Item_Temp);
+                        Item_Temp.SubItems.Add(Item.SubItems[1].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[2].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[3].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[4].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[5].Text);
 
-                    // Copier le groupe de l'élément
-                    if (element.Group != null)
-                    {
-                        string nomGroupe = element.Group.Header;
-                        ListViewGroup groupeCible = ListView1.Groups[nomGroupe];
-                        nouvelElement.Group = groupeCible;
+                        ListView1.Items.Remove(Item);
                     }
-
-                    // Ajouter l'élément au ListView cible
-                    ListView1.Items.Add(nouvelElement);
                 }
+            }
+            Trier_Groupes_Par_Ordre_Alphabetique();
+        }
 
-                Ajuster_Largeur_Colonne_ListeView();
+        /// <summary>
+        /// Permets de trier la liste view en groupes selon la marque de l'article.
+        /// </summary>
+        public void Groupes_Selon_Marques_Article()
+        {
+            foreach (Marque Marque in Base_de_Donnees.Lire_Liste_Marque())
+            {
+                // On crée le groupe correspondant à la lettre.
+                ListViewGroup Groupe = new ListViewGroup(Marque.Lire_Nom_Marque(), HorizontalAlignment.Left);
+
+                // On l'ajoute à la listView.
+                ListView1.Groups.Add(Groupe);
+
+                foreach (ListViewItem Item in ListView1.Items)
+                {
+                    // On ajoute l'item si sa première lettre est la lettre actuelle.
+                    if (Item.SubItems[4].Text == Marque.Lire_Nom_Marque())
+                    {
+                        ListViewItem Item_Temp = new ListViewItem(Item.SubItems[0].Text, Groupe);
+                        ListView1.Items.Add(Item_Temp);
+                        Item_Temp.SubItems.Add(Item.SubItems[1].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[2].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[3].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[4].Text);
+                        Item_Temp.SubItems.Add(Item.SubItems[5].Text);
+
+                        ListView1.Items.Remove(Item);
+                    }
+                }
+            }
+            Trier_Groupes_Par_Ordre_Alphabetique();
+        }
+
+        /// <summary>
+        /// Permets de trier la liste view en groupes selon la première lettre de la description de l'article.
+        /// </summary>
+        public void Groupes_Selon_Nom()
+        {
+            for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
+            {
+                // On crée le groupe correspondant à la lettre.
+                ListViewGroup Groupe = new ListViewGroup(Convert.ToString(Lettre).ToUpper(), HorizontalAlignment.Left);
+
+                // On l'ajoute à la listView.
+                ListView1.Groups.Add(Groupe);
+
+                foreach (ListViewItem Item in ListView1.Items)
+                {
+                    // On ajoute l'item si sa première lettre est la lettre actuelle.
+                    if (Obtenir_1er_Lettre_String(Item.SubItems[1].Text) == Lettre)
+                    {
+                        ListViewItem Item_Temp = new ListViewItem(Item.SubItems[0].Text, Groupe);
+                        ListView1.Items.Add(Item_Temp);
+                        Item_Temp.SubItems.Add(Item.SubItems[1].Text);
+
+                        ListView1.Items.Remove(Item);
+                    }
+                }
             }
         }
 
@@ -513,7 +653,7 @@ namespace Hector
         /// Permets d'obtenir la première alphabétique d'un string.
         /// </summary>
         /// <param name="Chaine"> Chaine de caractère où l'on veut chercher la première lettre alphabétique. </param>
-        /// <returns></returns>
+        /// <returns> char, la première lettre de la chaine de caractère. </returns>
         public char Obtenir_1er_Lettre_String(string Chaine)
         {
             // Vérifier si la chaîne n'est pas vide
@@ -522,8 +662,8 @@ namespace Hector
                 // Parcourir chaque caractère de la chaîne
                 foreach (char Caractere in Chaine)
                 {
-                    // Vérifier si le caractère est une lettre
-                    if (char.IsLetter(Caractere))
+                    // Vérifier si le caractère est une lettre et que ce n'est pas un fois (x).
+                    if (char.IsLetter(Caractere) && Convert.ToString(Caractere) != "x")
                     {
                         char Premiere_Lettre = char.ToUpper(Caractere);
                         return Premiere_Lettre;
@@ -534,6 +674,32 @@ namespace Hector
             else
             {
                 throw new Exception("La chaine de caractère est vide.");
+            }
+        }
+
+        /// <summary>
+        /// Permets de trier les groupes de la listeView par ordre alphabétique.
+        /// </summary>
+        private void Trier_Groupes_Par_Ordre_Alphabetique()
+        {
+            List<ListViewGroup> Liste_Groupes = new List<ListViewGroup>();
+
+            // Ajouter tous les groupes actuels à la liste.
+            foreach (ListViewGroup Groupe in ListView1.Groups)
+            {
+                Liste_Groupes.Add(Groupe);
+            }
+
+            // Trier la liste des groupes par leur nom.
+            Liste_Groupes.Sort((x, y) => string.Compare(x.Header, y.Header));
+
+            // Effacer tous les groupes du ListView.
+            ListView1.Groups.Clear();
+
+            // Ajouter les groupes triés au ListView.
+            foreach (ListViewGroup Groupe in Liste_Groupes)
+            {
+                ListView1.Groups.Add(Groupe);
             }
         }
     }
