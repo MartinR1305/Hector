@@ -33,6 +33,9 @@ namespace Hector
             // On définit que le treeView de la partie gauche ne pourra pas faire moins de 200 pixels lors de l'utilisateur de l'application.
             SplitContainer1.Panel1MinSize = 200;
 
+            // Gestionnaire d'événement pour la touche F5
+            this.KeyDown += VotreForm_KeyDown;
+
             // Obtient le chemin de la base de données SQLite
             Base_de_Donnees.Obtenir_Chemin_Base_de_Donnees();
 
@@ -701,6 +704,44 @@ namespace Hector
             {
                 ListView1.Groups.Add(Groupe);
             }
+        }
+
+        /// <summary>
+        /// On va actualiser les données lorsque l'on clique sur le bouton "Actualiser".
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Actualiser_Bouton_Click(object sender, EventArgs e)
+        {
+            Actualiser();
+        }
+
+        /// <summary>
+        /// Gestionnaire de pression de touches.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void VotreForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Vérifier si la touche appuyée est F5.
+            if (e.KeyCode == Keys.F5)
+            {
+                Actualiser();
+            }
+        }
+
+        /// <summary>
+        /// Permets d'actualiser l'application à partir de la BDD.
+        /// </summary>
+        public void Actualiser()
+        {
+            Base_de_Donnees.Remplir_Liste_Marque();
+            Base_de_Donnees.Remplir_Liste_Famille();
+            Base_de_Donnees.Remplir_Liste_Sous_Famille();
+            Base_de_Donnees.Remplir_Liste_Article();
+            Remplir_TreeView();
+
+            MessageBox.Show("Actualisation effectuée", "Succès de l'actualisation", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

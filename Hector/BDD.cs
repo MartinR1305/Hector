@@ -332,7 +332,7 @@ namespace Hector
                             Commande_Ajout_Sous_Famille.Parameters.AddWithValue("@Nom", Nom_Sous_Famille);
 
                             // Exécuter la commande.
-                            int Rows_Affected = Commande_Ajout_Sous_Famille.ExecuteNonQuery();                             
+                            int Rows_Affected = Commande_Ajout_Sous_Famille.ExecuteNonQuery();
                         }
                     }
                     // On modifie la référence dans le code pour qu'elles correspondent à celle de la BDD.
@@ -440,7 +440,7 @@ namespace Hector
                             Commande_Ajout_Article.Parameters.AddWithValue("@RefMarque", Ref_Marque);
                             Commande_Ajout_Article.Parameters.AddWithValue("@PrixHT", Article.Lire_PrixHT());
                             Commande_Ajout_Article.Parameters.AddWithValue("@Quantite", 0);
-                           
+
                             // Exécuter la commande.
                             int Rows_Affected = Commande_Ajout_Article.ExecuteNonQuery();
                         }
@@ -541,6 +541,193 @@ namespace Hector
                 Connection.Close();
             }
             return Nombre_Articles;
+        }
+
+        /// <summary>
+        /// Permets de remplir la liste de marque à partir de la BDD.
+        /// </summary>
+        public void Remplir_Liste_Marque()
+        {
+            Liste_Marque.Clear();
+
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string SQL_Query_Recherche_Marques = "SELECT RefMarque, Nom FROM Marques";
+
+                using (SQLiteCommand Commande_Query_Recherche_Marques = new SQLiteCommand(SQL_Query_Recherche_Marques, Connection))
+                {
+                    using (SQLiteDataReader Reader = Commande_Query_Recherche_Marques.ExecuteReader())
+                    {
+                        // On lit le résultat de la recherche.
+                        while (Reader.Read())
+                        {
+                            // On crée la marque et on l'ajoute à la liste.
+                            Marque Marque = new Marque(Convert.ToInt32(Reader["RefMarque"]), Convert.ToString(Reader["Nom"]));
+                            Liste_Marque.Add(Marque);
+                        }
+                    }
+                }
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Permets d'obtenir l'objet marque en fonction de sa référence.
+        /// </summary>
+        /// <param name="Ref"> Référence de la marque. </param>
+        /// <returns> Marque portant cette référence. </returns>
+        public Marque Obtenir_Marque(int Ref)
+        {
+            // On regarde chaque Marque de la liste.
+            foreach (Marque Marque in Liste_Marque)
+            {
+                // Si l'on trouve la marque voulue.
+                if (Marque.Lire_Ref_Marque() == Ref)
+                {
+                    return Marque;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Permets de remplir la liste de famille à partir de la BDD.
+        /// </summary>
+        public void Remplir_Liste_Famille()
+        {
+            Liste_Famille.Clear();
+
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string SQL_Query_Recherche_Familles = "SELECT RefFamille, Nom FROM Familles";
+
+                using (SQLiteCommand Commande_Query_Recherche_Familles = new SQLiteCommand(SQL_Query_Recherche_Familles, Connection))
+                {
+                    using (SQLiteDataReader Reader = Commande_Query_Recherche_Familles.ExecuteReader())
+                    {
+                        // On lit le résultat de la recherche.
+                        while (Reader.Read())
+                        {
+                            // On crée la famille et on l'ajoute à la liste.
+                            Famille Famille = new Famille(Convert.ToInt32(Reader["RefFamille"]), Convert.ToString(Reader["Nom"]));
+                            Liste_Famille.Add(Famille);
+                        }
+                    }
+                }
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Permets d'obtenir l'objet famille en fonction de sa référence.
+        /// </summary>
+        /// <param name="Ref"> Référence de la famille. </param>
+        /// <returns> Famille portant cette référence. </returns>
+        public Famille Obtenir_Famille(int Ref)
+        {
+            // On regarde chaque famille de la liste.
+            foreach (Famille Famille in Liste_Famille)
+            {
+                // Si l'on trouve la famille voulue.
+                if (Famille.Lire_Ref_Famille() == Ref)
+                {
+                    return Famille;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Permets de remplir la liste de sous-famille à partir de la BDD.
+        /// </summary>
+        public void Remplir_Liste_Sous_Famille()
+        {
+            Liste_Sous_Famille.Clear();
+
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string SQL_Query_Recherche_Sous_Familles = "SELECT RefSousFamille, RefFamille, Nom FROM SousFamilles";
+
+                using (SQLiteCommand Commande_Query_Recherche_Sous_Familles = new SQLiteCommand(SQL_Query_Recherche_Sous_Familles, Connection))
+                {
+                    using (SQLiteDataReader Reader = Commande_Query_Recherche_Sous_Familles.ExecuteReader())
+                    {
+                        // On lit le résultat de la recherche.
+                        while (Reader.Read())
+                        {
+                            // On cherche la famille associé à la sous-famille.
+                            Famille Famille = Obtenir_Famille(Convert.ToInt32(Reader["RefFamille"]));
+
+                            // On crée la sous-famille et on l'ajoute à la liste.
+                            SousFamille Sous_Famille = new SousFamille(Convert.ToInt32(Reader["RefSousFamille"]), Convert.ToString(Reader["Nom"]), Famille);
+                            Liste_Sous_Famille.Add(Sous_Famille);
+                        }
+                    }
+                }
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Permets d'obtenir l'objet sous-famille en fonction de sa référence.
+        /// </summary>
+        /// <param name="Ref"> Référence de la sous-famille. </param>
+        /// <returns> Sous-Famille portant cette référence. </returns>
+        public SousFamille Obtenir_Sous_Famille(int Ref)
+        {
+            // On regarde chaque sous-famille de la liste.
+            foreach (SousFamille Sous_Famille in Liste_Sous_Famille)
+            {
+                Console.WriteLine(Sous_Famille.Lire_Ref_Sous_Famille() + " | " + Ref);
+                // Si l'on trouve la sous-famille voulue.
+                if (Sous_Famille.Lire_Ref_Sous_Famille() == Ref)
+                {
+                    return Sous_Famille;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Permets de remplir la liste d'article à partir de la BDD.
+        /// </summary>
+        public void Remplir_Liste_Article()
+        {
+            Liste_Article.Clear();
+
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string SQL_Query_Recherche_Articles = "SELECT RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite FROM Articles";
+
+                using (SQLiteCommand Commande_Query_Recherche_Articles = new SQLiteCommand(SQL_Query_Recherche_Articles, Connection))
+                {
+                    using (SQLiteDataReader Reader = Commande_Query_Recherche_Articles.ExecuteReader())
+                    {
+                        // On lit le résultat de la recherche.
+                        while (Reader.Read())
+                        {
+                            // On cherche la sous-famille associé à l'article.
+                            SousFamille Sous_Famille = Obtenir_Sous_Famille(Convert.ToInt32(Reader["RefSousFamille"]));
+
+                            // On cherche la marque associé à l'article.
+                            Marque Marque = Obtenir_Marque(Convert.ToInt32(Reader["RefMarque"]));
+
+                            // On crée l'article et on l'ajoute à la liste.
+                            Article Article = new Article(Convert.ToString(Reader["RefArticle"]), Convert.ToString(Reader["Description"]), Sous_Famille, Marque, Convert.ToDouble(Reader["PrixHT"]), Convert.ToInt32(Reader["Quantite"]));
+                            Liste_Article.Add(Article);
+                        }
+                    }
+                }
+                Connection.Close();
+            }
         }
     }
 }

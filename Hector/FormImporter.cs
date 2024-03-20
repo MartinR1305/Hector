@@ -158,7 +158,6 @@ namespace Hector
             if (Besoin_De_Vider)
             {
                 Base_de_Donnees.Vider_Toutes_Les_Tables();
-
             }
 
             // On ajoute les informations dans la BDD.
