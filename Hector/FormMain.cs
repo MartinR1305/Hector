@@ -43,6 +43,9 @@ namespace Hector
 
             // On mets la fenêtre en pleine écran au démarrage afin de faciliter la visibilité de la list view.
             this.WindowState = FormWindowState.Maximized;
+
+            // On actualise l'application avec le contenu de la BDD.
+            Actualiser();
         }
 
         /// <summary>
@@ -740,8 +743,6 @@ namespace Hector
             Base_de_Donnees.Remplir_Liste_Sous_Famille();
             Base_de_Donnees.Remplir_Liste_Article();
             Remplir_TreeView();
-
-            MessageBox.Show("Actualisation effectuée", "Succès de l'actualisation", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
