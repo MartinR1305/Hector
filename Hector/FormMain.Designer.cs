@@ -29,6 +29,7 @@ namespace Hector
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.MenuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FichierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Actualiser_Bouton = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,11 +39,16 @@ namespace Hector
             this.SplitContainer1 = new System.Windows.Forms.SplitContainer();
             this.TreeView1 = new System.Windows.Forms.TreeView();
             this.ListView1 = new System.Windows.Forms.ListView();
+            this.Menu_Contextuel = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.Menu_Contextuel_Ajouter = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Contextuel_Modifier = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Contextuel_Supprimer = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).BeginInit();
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
+            this.Menu_Contextuel.SuspendLayout();
             this.SuspendLayout();
             // 
             // MenuStrip1
@@ -70,21 +76,21 @@ namespace Hector
             // Actualiser_Bouton
             // 
             this.Actualiser_Bouton.Name = "Actualiser_Bouton";
-            this.Actualiser_Bouton.Size = new System.Drawing.Size(180, 22);
+            this.Actualiser_Bouton.Size = new System.Drawing.Size(126, 22);
             this.Actualiser_Bouton.Text = "Actualiser";
             this.Actualiser_Bouton.Click += new System.EventHandler(this.Actualiser_Bouton_Click);
             // 
             // Importer_Bouton
             // 
             this.Importer_Bouton.Name = "Importer_Bouton";
-            this.Importer_Bouton.Size = new System.Drawing.Size(180, 22);
+            this.Importer_Bouton.Size = new System.Drawing.Size(126, 22);
             this.Importer_Bouton.Text = "Importer";
             this.Importer_Bouton.Click += new System.EventHandler(this.Importer_Bouton_Click);
             // 
             // Exporter_Bouton
             // 
             this.Exporter_Bouton.Name = "Exporter_Bouton";
-            this.Exporter_Bouton.Size = new System.Drawing.Size(180, 22);
+            this.Exporter_Bouton.Size = new System.Drawing.Size(126, 22);
             this.Exporter_Bouton.Text = "Exporter";
             // 
             // StatusStrip1
@@ -101,7 +107,7 @@ namespace Hector
             // 
             this.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SplitContainer1.Location = new System.Drawing.Point(0, 24);
-            this.SplitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SplitContainer1.Margin = new System.Windows.Forms.Padding(2);
             this.SplitContainer1.Name = "SplitContainer1";
             // 
             // SplitContainer1.Panel1
@@ -120,7 +126,7 @@ namespace Hector
             // 
             this.TreeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TreeView1.Location = new System.Drawing.Point(0, 0);
-            this.TreeView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TreeView1.Margin = new System.Windows.Forms.Padding(2);
             this.TreeView1.Name = "TreeView1";
             this.TreeView1.Size = new System.Drawing.Size(265, 404);
             this.TreeView1.TabIndex = 0;
@@ -131,7 +137,7 @@ namespace Hector
             this.ListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListView1.HideSelection = false;
             this.ListView1.Location = new System.Drawing.Point(0, 0);
-            this.ListView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ListView1.Margin = new System.Windows.Forms.Padding(2);
             this.ListView1.Name = "ListView1";
             this.ListView1.Size = new System.Drawing.Size(532, 404);
             this.ListView1.TabIndex = 0;
@@ -139,11 +145,39 @@ namespace Hector
             this.ListView1.View = System.Windows.Forms.View.Details;
             this.ListView1.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListView1_ColumnClick);
             // 
+            // Menu_Contextuel
+            // 
+            this.Menu_Contextuel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_Contextuel_Ajouter,
+            this.Menu_Contextuel_Modifier,
+            this.Menu_Contextuel_Supprimer});
+            this.Menu_Contextuel.Name = "Menu_Contextuel";
+            this.Menu_Contextuel.Size = new System.Drawing.Size(130, 70);
+            // 
+            // Menu_Contextuel_Ajouter
+            // 
+            this.Menu_Contextuel_Ajouter.Name = "Menu_Contextuel_Ajouter";
+            this.Menu_Contextuel_Ajouter.Size = new System.Drawing.Size(180, 22);
+            this.Menu_Contextuel_Ajouter.Text = "Ajouter";
+            // 
+            // Menu_Contextuel_Modifier
+            // 
+            this.Menu_Contextuel_Modifier.Name = "Menu_Contextuel_Modifier";
+            this.Menu_Contextuel_Modifier.Size = new System.Drawing.Size(180, 22);
+            this.Menu_Contextuel_Modifier.Text = "Modifier";
+            // 
+            // Menu_Contextuel_Supprimer
+            // 
+            this.Menu_Contextuel_Supprimer.Name = "Menu_Contextuel_Supprimer";
+            this.Menu_Contextuel_Supprimer.Size = new System.Drawing.Size(180, 22);
+            this.Menu_Contextuel_Supprimer.Text = "Supprimer";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ContextMenuStrip = this.Menu_Contextuel;
             this.Controls.Add(this.SplitContainer1);
             this.Controls.Add(this.StatusStrip1);
             this.Controls.Add(this.MenuStrip1);
@@ -157,6 +191,7 @@ namespace Hector
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
+            this.Menu_Contextuel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -173,6 +208,10 @@ namespace Hector
         private System.Windows.Forms.SplitContainer SplitContainer1;
         private System.Windows.Forms.TreeView TreeView1;
         private System.Windows.Forms.ListView ListView1;
+        private System.Windows.Forms.ContextMenuStrip Menu_Contextuel;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Contextuel_Ajouter;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Contextuel_Modifier;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Contextuel_Supprimer;
     }
 }
 

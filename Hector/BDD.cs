@@ -683,7 +683,6 @@ namespace Hector
             // On regarde chaque sous-famille de la liste.
             foreach (SousFamille Sous_Famille in Liste_Sous_Famille)
             {
-                Console.WriteLine(Sous_Famille.Lire_Ref_Sous_Famille() + " | " + Ref);
                 // Si l'on trouve la sous-famille voulue.
                 if (Sous_Famille.Lire_Ref_Sous_Famille() == Ref)
                 {

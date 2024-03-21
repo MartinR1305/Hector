@@ -33,8 +33,10 @@ namespace Hector
             // On définit que le treeView de la partie gauche ne pourra pas faire moins de 200 pixels lors de l'utilisateur de l'application.
             SplitContainer1.Panel1MinSize = 200;
 
-            // Gestionnaire d'événement pour la touche F5
-            this.KeyDown += VotreForm_KeyDown;
+            // Gestionnaire d'événement pour la pression de touches.
+            this.KeyDown += Pression_Touche_Clavier;
+
+            // Gestionnaire d'événement pour la pression de clics de la souris dans la listView.
 
             // Obtient le chemin de la base de données SQLite
             Base_de_Donnees.Obtenir_Chemin_Base_de_Donnees();
@@ -724,7 +726,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void VotreForm_KeyDown(object sender, KeyEventArgs e)
+        private void Pression_Touche_Clavier(object sender, KeyEventArgs e)
         {
             // Vérifier si la touche appuyée est F5.
             if (e.KeyCode == Keys.F5)
