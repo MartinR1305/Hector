@@ -159,6 +159,8 @@ namespace Hector
                 Base_de_Donnees.Vider_Toutes_Les_Tables();
             }
 
+            Console.WriteLine(Base_de_Donnees.Lire_Liste_Article().Count);
+
             // On ajoute les informations dans la BDD.
             Background_Worker.ReportProgress(66);
             Base_de_Donnees.Ajouter_Toutes_Les_Tables();
