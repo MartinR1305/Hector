@@ -408,6 +408,45 @@ namespace Hector
         }
 
         /// <summary>
+        /// Permets d'ajouter un article dans la BDD.
+        /// </summary>
+        /// <param name="Article"></param>
+        public void Ajouter_Un_Article_BDD(Article Article)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string Description_Article = Article.Lire_Description();
+
+                // On vérifie que la description n'est pas déjà présente dans la BDD.
+                if (!Is_Description_Article_Present_BDD(Description_Article, Connection))
+                {
+                    // Commande SQL permets d'ajoute une marque dans la BDD.
+                    string SQL_Query_Ajout_Article = "INSERT INTO Articles (RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite) VALUES (@RefArticle, @Description, @RefSousFamille, @RefMarque, @PrixHT, @Quantite)";
+
+                    using (SQLiteCommand Commande_Ajout_Article = new SQLiteCommand(SQL_Query_Ajout_Article, Connection))
+                    {
+                        int Ref_Sous_Famille = Obtenir_Ref_Sous_Famille_BDD(Article.Lire_Sous_Famille().Lire_Nom_Sous_Famille(), Connection);
+                        int Ref_Marque = Obtenir_Ref_Marque_BDD(Article.Lire_Marque().Lire_Nom_Marque(), Connection);
+
+                        // Ajouter les paramètres à la commande.
+                        Commande_Ajout_Article.Parameters.AddWithValue("@RefArticle", Article.Lire_Ref_Article());
+                        Commande_Ajout_Article.Parameters.AddWithValue("@Description", Description_Article);
+                        Commande_Ajout_Article.Parameters.AddWithValue("@RefSousFamille", Ref_Sous_Famille);
+                        Commande_Ajout_Article.Parameters.AddWithValue("@RefMarque", Ref_Marque);
+                        Commande_Ajout_Article.Parameters.AddWithValue("@PrixHT", Article.Lire_PrixHT());
+                        Commande_Ajout_Article.Parameters.AddWithValue("@Quantite", 0);
+
+                        // Exécuter la commande.
+                        int Rows_Affected = Commande_Ajout_Article.ExecuteNonQuery();
+                    }
+                }
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
         /// Permets d'ajouter tout les articles dans la BDD.
         /// </summary>
         public void Ajouter_Tout_Les_Articles_BDD()
@@ -415,37 +454,7 @@ namespace Hector
             // On va lire tout les articles de la liste.
             foreach (Article Article in Liste_Article)
             {
-                using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
-                {
-                    Connection.Open();
-
-                    string Description_Article = Article.Lire_Description();
-
-                    // On vérifie que la description n'est pas déjà présente dans la BDD.
-                    if (!Is_Description_Article_Present_BDD(Description_Article, Connection))
-                    {
-                        // Commande SQL permets d'ajoute une marque dans la BDD.
-                        string SQL_Query_Ajout_Article = "INSERT INTO Articles (RefArticle, Description, RefSousFamille, RefMarque, PrixHT, Quantite) VALUES (@RefArticle, @Description, @RefSousFamille, @RefMarque, @PrixHT, @Quantite)";
-
-                        using (SQLiteCommand Commande_Ajout_Article = new SQLiteCommand(SQL_Query_Ajout_Article, Connection))
-                        {
-                            int Ref_Sous_Famille = Obtenir_Ref_Sous_Famille_BDD(Article.Lire_Sous_Famille().Lire_Nom_Sous_Famille(), Connection);
-                            int Ref_Marque = Obtenir_Ref_Marque_BDD(Article.Lire_Marque().Lire_Nom_Marque(), Connection);
-
-                            // Ajouter les paramètres à la commande.
-                            Commande_Ajout_Article.Parameters.AddWithValue("@RefArticle", Article.Lire_Ref_Article());
-                            Commande_Ajout_Article.Parameters.AddWithValue("@Description", Description_Article);
-                            Commande_Ajout_Article.Parameters.AddWithValue("@RefSousFamille", Ref_Sous_Famille);
-                            Commande_Ajout_Article.Parameters.AddWithValue("@RefMarque", Ref_Marque);
-                            Commande_Ajout_Article.Parameters.AddWithValue("@PrixHT", Article.Lire_PrixHT());
-                            Commande_Ajout_Article.Parameters.AddWithValue("@Quantite", 0);
-
-                            // Exécuter la commande.
-                            int Rows_Affected = Commande_Ajout_Article.ExecuteNonQuery();
-                        }
-                    }
-                    Connection.Close();
-                }
+                Ajouter_Un_Article_BDD(Article);
             }
         }
 
