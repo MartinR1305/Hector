@@ -19,6 +19,8 @@ namespace Hector
         TreeNode Familles = new TreeNode("Familles");
         TreeNode Marques = new TreeNode("Marques");
 
+        bool Is_Actualisation_Lancement = true;
+
         /// <summary>
         /// Constructeur par défaut.
         /// </summary>
@@ -37,6 +39,7 @@ namespace Hector
             this.KeyDown += Pression_Touche_Clavier;
 
             // Gestionnaire d'événement pour la pression de clics de la souris dans la listView.
+            ListView1.MouseDown += ListView1_Clic_Souris;
 
             // Obtient le chemin de la base de données SQLite
             Base_de_Donnees.Obtenir_Chemin_Base_de_Donnees();
@@ -48,6 +51,7 @@ namespace Hector
 
             // On actualise l'application avec le contenu de la BDD.
             Actualiser();
+            Is_Actualisation_Lancement = false;
         }
 
         /// <summary>
@@ -745,6 +749,50 @@ namespace Hector
             Base_de_Donnees.Remplir_Liste_Sous_Famille();
             Base_de_Donnees.Remplir_Liste_Article();
             Remplir_TreeView();
+
+            // On affiche un message de succès à part lors de l'actualisation au lancement de l'application.
+            if (!Is_Actualisation_Lancement)
+            {
+                MessageBox.Show("Actualisation avec la base de données effectuée.", "Actualisation réussie", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        /// <summary>
+        /// Gestionnaire de clic sur la souris.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListView1_Clic_Souris(object sender, MouseEventArgs e)
+        {
+            // On regarde si c'est un clic droit.
+            if (e.Button == MouseButtons.Right)
+            {
+                // On vérifie que l'on dans la listeView.
+                if (ListView1.ClientRectangle.Contains(e.Location))
+                {
+                    // On cherche les coordonnées du clic.
+                    Point Coordonnees_Clic = ListView1.PointToClient(MousePosition);
+
+                    // Effectue un test pour savoir quel élément a été cliqué
+                    ListViewItem Item_Clicked = ListView1.GetItemAt(Coordonnees_Clic.X, Coordonnees_Clic.Y);
+
+                    // Si le clic se trouve sur un item.
+                    if(Item_Clicked != null)
+                    {
+                        Menu_Contextuel_Modifier.Enabled = true;
+                        Menu_Contextuel_Supprimer.Enabled = true;
+                    }
+
+                    // Si le clic ne se trouve pas sur un item.
+                    else
+                    {
+                        Menu_Contextuel_Modifier.Enabled = false;
+                        Menu_Contextuel_Supprimer.Enabled = false;
+                    }
+
+                    Menu_Contextuel.Show(ListView1, e.Location);
+                }
+            }
         }
     }
 }
