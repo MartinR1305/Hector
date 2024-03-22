@@ -777,7 +777,7 @@ namespace Hector
                     ListViewItem Item_Clicked = ListView1.GetItemAt(Coordonnees_Clic.X, Coordonnees_Clic.Y);
 
                     // Si le clic se trouve sur un item.
-                    if(Item_Clicked != null)
+                    if (Item_Clicked != null)
                     {
                         Menu_Contextuel_Modifier.Enabled = true;
                         Menu_Contextuel_Supprimer.Enabled = true;
@@ -791,6 +791,54 @@ namespace Hector
                     }
 
                     Menu_Contextuel.Show(ListView1, e.Location);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ouvrir la fenêtre d'ajout d'un élément et de mettre les champs associé à ce que l'on veut ajouter.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Menu_Contextuel_Ajouter_Click(object sender, EventArgs e)
+        {
+            string Nom_2eme_Colonne = ListView1.Columns[1].Text;
+            string Nom_1er_Item = ListView1.Items[0].SubItems[1].Text;
+
+            FormAjouterArticle Fenetre_Ajouter_Article = new FormAjouterArticle();
+
+            // On regarde si la listView est remplie d'articles.
+            if (Nom_2eme_Colonne == "Description")
+            {
+                // On centre la fenêtre d'importation par rapport au centre de la fenêtre de l'application.
+                Fenetre_Ajouter_Article.StartPosition = FormStartPosition.Manual;
+                Fenetre_Ajouter_Article.Location = new Point(
+                    Location.X + (Width - Fenetre_Ajouter_Article.Width) / 2,
+                    Location.Y + ((Height - Fenetre_Ajouter_Article.Height) / 2)
+                );
+
+                // Afficher la FormImporter en tant que fenêtre modale.
+                Fenetre_Ajouter_Article.ShowDialog();
+            }
+
+            else
+            {
+                // On regarde si la listView est remplie de familles.
+                if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Famille")
+                {
+
+                }
+
+                // On regarde si la listView est remplie de sous-familles.
+                else if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Sous_Famille")
+                {
+
+                }
+
+                // On regarde si la listView est remplie de sous-familles.
+                else if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Marque")
+                {
+
                 }
             }
         }

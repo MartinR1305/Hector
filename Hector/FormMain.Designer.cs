@@ -152,13 +152,14 @@ namespace Hector
             this.Menu_Contextuel_Modifier,
             this.Menu_Contextuel_Supprimer});
             this.Menu_Contextuel.Name = "Menu_Contextuel";
-            this.Menu_Contextuel.Size = new System.Drawing.Size(148, 76);
+            this.Menu_Contextuel.Size = new System.Drawing.Size(211, 104);
             // 
             // Menu_Contextuel_Ajouter
             // 
             this.Menu_Contextuel_Ajouter.Name = "Menu_Contextuel_Ajouter";
-            this.Menu_Contextuel_Ajouter.Size = new System.Drawing.Size(147, 24);
+            this.Menu_Contextuel_Ajouter.Size = new System.Drawing.Size(210, 24);
             this.Menu_Contextuel_Ajouter.Text = "Ajouter";
+            this.Menu_Contextuel_Ajouter.Click += new System.EventHandler(this.Menu_Contextuel_Ajouter_Click);
             // 
             // Menu_Contextuel_Modifier
             // 
