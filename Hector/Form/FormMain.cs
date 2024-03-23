@@ -732,10 +732,16 @@ namespace Hector
         /// <param name="e"></param>
         private void Pression_Touche_Clavier(object sender, KeyEventArgs e)
         {
-            // Vérifier si la touche appuyée est F5.
+            // On regarde si la touche appuyée est "F5".
             if (e.KeyCode == Keys.F5)
             {
                 Actualiser();
+            }
+
+            // On regarde si la touche appuyée est "Suppr".
+            else if (e.KeyCode == Keys.Delete)
+            {
+                Supprimer_Element();
             }
         }
 
@@ -843,6 +849,71 @@ namespace Hector
 
                 }
             }
+        }
+
+        /// <summary>
+        /// Permets de supprimer un élément ( article, famille, sous-famille ou marque ).
+        /// </summary>
+        public void Supprimer_Element()
+        {
+            string Nom_2eme_Colonne = ListView1.Columns[1].Text;
+            string Nom_1er_Item = ListView1.Items[0].SubItems[1].Text;
+
+            // On regarde si la listView est remplie d'articles.
+            if (Nom_2eme_Colonne == "Description")
+            {
+                DialogResult Choix = MessageBox.Show("Voulez-vous vraiment supprimer cette article ?", "Confirmation suppression article.", MessageBoxButtons.YesNo);
+
+                // Vérifier la réponse de l'utilisateur
+                if (Choix == DialogResult.Yes)
+                {
+                    // On supprime l'article dans la liste.
+                    foreach(Article Article in Base_de_Donnees.Lire_Liste_Article())
+                    {
+                        if(Article.Lire_Ref_Article() == ListView1.SelectedItems[0].Text)
+                        {
+                            Base_de_Donnees.Lire_Liste_Article().Remove(Article);
+                            break;
+                        }
+                    }
+
+                    // On supprime l'article de la BDD.
+                    Base_de_Donnees.Supprimer_Article_BDD(ListView1.SelectedItems[0].Text);
+
+                    MessageBox.Show("L'article a été supprimé.", "Supression article effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+            else
+            {
+                // On regarde si la listView est remplie de familles.
+                if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Famille")
+                {
+
+                }
+
+                // On regarde si la listView est remplie de sous-familles.
+                else if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Sous_Famille")
+                {
+
+                }
+
+                // On regarde si la listView est remplie de sous-familles.
+                else if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Marque")
+                {
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permets de demander la confirmation pour la suppression d'un élément.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Menu_Contextuel_Supprimer_Click(object sender, EventArgs e)
+        {
+            Supprimer_Element();
         }
     }
 }

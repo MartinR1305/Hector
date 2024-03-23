@@ -736,5 +736,26 @@ namespace Hector
                 Connection.Close();
             }
         }
+
+        /// <summary>
+        /// Permets de supprimer un article de la BDD à partir de sa référence.
+        /// </summary>
+        /// <param name="Ref"></param>
+        public void Supprimer_Article_BDD(string Ref)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string SQL_Query_Suppr_Article = "DELETE FROM Articles WHERE RefArticle = @Ref";
+
+                using (SQLiteCommand Commande_Query_Suppr_Article = new SQLiteCommand(SQL_Query_Suppr_Article, Connection))
+                {
+                    Commande_Query_Suppr_Article.Parameters.AddWithValue("@Ref", Ref);
+                    int rowsAffected = Commande_Query_Suppr_Article.ExecuteNonQuery();
+                }
+                Connection.Close();
+            }
+        }
     }
 }
