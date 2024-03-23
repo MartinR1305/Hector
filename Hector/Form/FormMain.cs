@@ -94,9 +94,6 @@ namespace Hector
                 Location.Y + ((Height - Fenetre_Exporter.Height) / 2)
             );
 
-            // Ajout du gestionnaire d'événements pour lorsque l'on ferme la fenetre d'exportation.
-            Fenetre_Exporter.FormClosed += Fenetre_Importer_FormClosed;
-
             // Afficher la FormExporter en tant que fenêtre modale.
             Fenetre_Exporter.ShowDialog();
         }

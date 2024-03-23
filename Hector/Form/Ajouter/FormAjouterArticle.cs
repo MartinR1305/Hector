@@ -107,6 +107,9 @@ namespace Hector
                                     Base_De_Donnees.Ajouter_Un_Article_BDD(Article);
 
                                     MessageBox.Show("L'article a été ajouté avec succès.", "Ajout de l'article réussi.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                    // On ferme la fenêtre.
+                                    this.Close();
                                 }
 
                                 // La référence est déjà présente.
