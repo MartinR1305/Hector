@@ -79,6 +79,29 @@ namespace Hector
         }
 
         /// <summary>
+        /// Méthode qui permet d'ouvir la fenetre d'exportation de la BDD en fichier CSV
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Exporter_Bouton_Click(object sender, EventArgs e)
+        {
+            FormExporter Fenetre_Exporter = new FormExporter(Base_de_Donnees);
+
+            // On centre la fenêtre d'exportation par rapport au centre de la fenêtre de l'application.
+            Fenetre_Exporter.StartPosition = FormStartPosition.Manual;
+            Fenetre_Exporter.Location = new Point(
+                Location.X + (Width - Fenetre_Exporter.Width) / 2,
+                Location.Y + ((Height - Fenetre_Exporter.Height) / 2)
+            );
+
+            // Ajout du gestionnaire d'événements pour lorsque l'on ferme la fenetre d'exportation.
+            Fenetre_Exporter.FormClosed += Fenetre_Importer_FormClosed;
+
+            // Afficher la FormExporter en tant que fenêtre modale.
+            Fenetre_Exporter.ShowDialog();
+        }
+
+        /// <summary>
         /// Ce que l'on va réaliser quand la fenêtre importer sera fermé par l'utilisateur.
         /// </summary>
         /// <param name="sender"></param>

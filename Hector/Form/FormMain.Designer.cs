@@ -92,6 +92,7 @@ namespace Hector
             this.Exporter_Bouton.Name = "Exporter_Bouton";
             this.Exporter_Bouton.Size = new System.Drawing.Size(180, 22);
             this.Exporter_Bouton.Text = "Exporter";
+            this.Exporter_Bouton.Click += new System.EventHandler(this.Exporter_Bouton_Click);
             // 
             // StatusStrip1
             // 
@@ -107,7 +108,7 @@ namespace Hector
             // 
             this.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SplitContainer1.Location = new System.Drawing.Point(0, 24);
-            this.SplitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SplitContainer1.Margin = new System.Windows.Forms.Padding(2);
             this.SplitContainer1.Name = "SplitContainer1";
             // 
             // SplitContainer1.Panel1
@@ -126,7 +127,7 @@ namespace Hector
             // 
             this.TreeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TreeView1.Location = new System.Drawing.Point(0, 0);
-            this.TreeView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TreeView1.Margin = new System.Windows.Forms.Padding(2);
             this.TreeView1.Name = "TreeView1";
             this.TreeView1.Size = new System.Drawing.Size(264, 404);
             this.TreeView1.TabIndex = 0;
@@ -137,7 +138,7 @@ namespace Hector
             this.ListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListView1.HideSelection = false;
             this.ListView1.Location = new System.Drawing.Point(0, 0);
-            this.ListView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ListView1.Margin = new System.Windows.Forms.Padding(2);
             this.ListView1.Name = "ListView1";
             this.ListView1.Size = new System.Drawing.Size(533, 404);
             this.ListView1.TabIndex = 0;
@@ -153,25 +154,25 @@ namespace Hector
             this.Menu_Contextuel_Modifier,
             this.Menu_Contextuel_Supprimer});
             this.Menu_Contextuel.Name = "Menu_Contextuel";
-            this.Menu_Contextuel.Size = new System.Drawing.Size(181, 92);
+            this.Menu_Contextuel.Size = new System.Drawing.Size(130, 70);
             // 
             // Menu_Contextuel_Ajouter
             // 
             this.Menu_Contextuel_Ajouter.Name = "Menu_Contextuel_Ajouter";
-            this.Menu_Contextuel_Ajouter.Size = new System.Drawing.Size(180, 22);
+            this.Menu_Contextuel_Ajouter.Size = new System.Drawing.Size(129, 22);
             this.Menu_Contextuel_Ajouter.Text = "Ajouter";
             this.Menu_Contextuel_Ajouter.Click += new System.EventHandler(this.Menu_Contextuel_Ajouter_Click);
             // 
             // Menu_Contextuel_Modifier
             // 
             this.Menu_Contextuel_Modifier.Name = "Menu_Contextuel_Modifier";
-            this.Menu_Contextuel_Modifier.Size = new System.Drawing.Size(180, 22);
+            this.Menu_Contextuel_Modifier.Size = new System.Drawing.Size(129, 22);
             this.Menu_Contextuel_Modifier.Text = "Modifier";
             // 
             // Menu_Contextuel_Supprimer
             // 
             this.Menu_Contextuel_Supprimer.Name = "Menu_Contextuel_Supprimer";
-            this.Menu_Contextuel_Supprimer.Size = new System.Drawing.Size(180, 22);
+            this.Menu_Contextuel_Supprimer.Size = new System.Drawing.Size(129, 22);
             this.Menu_Contextuel_Supprimer.Text = "Supprimer";
             this.Menu_Contextuel_Supprimer.Click += new System.EventHandler(this.Menu_Contextuel_Supprimer_Click);
             // 
