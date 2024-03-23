@@ -13,12 +13,19 @@ namespace Hector
     public partial class FormAjouterArticle : Form
     {
         private BDD Base_De_Donnees;
-        public FormAjouterArticle(BDD Base_De_Donnes_Main)
+        private string Valeur_Noeud;
+        private string Type_Noeud;
+
+        public FormAjouterArticle(BDD Base_De_Donnes_Main, string Valeur_Noeud_Main, string Type_Noeud_Main)
         {
             InitializeComponent();
 
             // On prends les données de la fenêtre principale.
             Base_De_Donnees = Base_De_Donnes_Main;
+
+            // On prends la valeur et le type du noeud sélectionné dans la fenêtre principale.
+            Valeur_Noeud = Valeur_Noeud_Main;
+            Type_Noeud = Type_Noeud_Main;
 
             // On modifie la fenêtre pour qu'elle soit de taille fixe afin que l'utilisateur ne puisse pas modifier sa taille.
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -29,6 +36,30 @@ namespace Hector
             // On remplit les comboBox.
             Ajouter_Marques_Dans_ComboBox();
             Ajouter_Familles_Dans_ComboBox();
+
+            // On vérifie que l'on est pas dans la liste de tous les articles.
+            if(Type_Noeud != "Tous les articles")
+            {
+                // On pré-remplie la combobBox de la marque.
+                if(Type_Noeud == "Marque")
+                {
+                    Marque_ComboBox.Text = Valeur_Noeud;
+                }
+
+                // On pré-remplie la comboBox de la sous-famille et de la famille.
+                else if(Type_Noeud == "Sous_Famille")
+                {
+                    Sous_Famille_ComboBox.Enabled = true;
+                    foreach (SousFamille Sous_Famille in Base_De_Donnees.Lire_Liste_Sous_Famille())
+                    {
+                        if(Sous_Famille.Lire_Nom_Sous_Famille() == Valeur_Noeud)
+                        {
+                            Famille_ComboBox.Text = Sous_Famille.Lire_Famille().Lire_Nom_Famille();
+                            Sous_Famille_ComboBox.Text = Valeur_Noeud;
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

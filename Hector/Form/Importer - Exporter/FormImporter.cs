@@ -146,23 +146,28 @@ namespace Hector
         {
             Parseur parseur = new Parseur(Chemin_Fichier_CSV_String);
 
-            // On remplit les informations du fichier en code.
-            Background_Worker.ReportProgress(0);
-            parseur.Remplir_Toutes_Les_Tables(Base_de_Donnees);
-            Background_Worker.ReportProgress(33);
-
             Nombre_Article_Avant_Manip = Base_de_Donnees.Lire_Nombre_Article_BDD();
 
-            // On vide la BDD si besoin.
+            // On vide les listes et la BDD si besoin.
+            Background_Worker.ReportProgress(0);
             if (Besoin_De_Vider)
             {
+                // On vide la BDD.
                 Base_de_Donnees.Vider_Toutes_Les_Tables();
-            }
 
-            Console.WriteLine(Base_de_Donnees.Lire_Liste_Article().Count);
+                // On vide les listes.
+                Base_de_Donnees.Lire_Liste_Article().Clear();
+                Base_de_Donnees.Lire_Liste_Marque().Clear();
+                Base_de_Donnees.Lire_Liste_Famille().Clear();
+                Base_de_Donnees.Lire_Liste_Sous_Famille().Clear();
+            }
+            Background_Worker.ReportProgress(33);
+
+            // On remplit les informations du fichier en code.
+            parseur.Remplir_Toutes_Les_Tables_BDD(Base_de_Donnees);
+            Background_Worker.ReportProgress(66);
 
             // On ajoute les informations dans la BDD.
-            Background_Worker.ReportProgress(66);
             Base_de_Donnees.Ajouter_Toutes_Les_Tables();
             Background_Worker.ReportProgress(99);
 

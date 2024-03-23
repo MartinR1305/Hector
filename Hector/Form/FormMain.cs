@@ -804,8 +804,10 @@ namespace Hector
         {
             string Nom_2eme_Colonne = ListView1.Columns[1].Text;
             string Nom_1er_Item = ListView1.Items[0].SubItems[1].Text;
+            string Valeur_Noeud = TreeView1.SelectedNode.Text;
+            string Type_Noeud = Is_Marque_or_Famille_or_Sous_Famille(TreeView1.SelectedNode.Text);
 
-            FormAjouterArticle Fenetre_Ajouter_Article = new FormAjouterArticle(Base_de_Donnees);
+            FormAjouterArticle Fenetre_Ajouter_Article = new FormAjouterArticle(Base_de_Donnees, Valeur_Noeud, Type_Noeud);
 
             // On regarde si la listView est remplie d'articles.
             if (Nom_2eme_Colonne == "Description")
