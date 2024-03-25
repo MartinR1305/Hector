@@ -436,7 +436,7 @@ namespace Hector
                         Commande_Ajout_Article.Parameters.AddWithValue("@RefSousFamille", Ref_Sous_Famille);
                         Commande_Ajout_Article.Parameters.AddWithValue("@RefMarque", Ref_Marque);
                         Commande_Ajout_Article.Parameters.AddWithValue("@PrixHT", Article.Lire_PrixHT());
-                        Commande_Ajout_Article.Parameters.AddWithValue("@Quantite", 0);
+                        Commande_Ajout_Article.Parameters.AddWithValue("@Quantite", Article.Lire_Quantite());
 
                         // Exécuter la commande.
                         int Rows_Affected = Commande_Ajout_Article.ExecuteNonQuery();
@@ -835,7 +835,6 @@ namespace Hector
         {
             foreach (Article Article in Lire_Liste_Article())
             {
-                Console.WriteLine(Article.Lire_Ref_Article() + " | " + "F" + Convert.ToString(Ref));
                 if (Article.Lire_Ref_Article() == "F" + Convert.ToString(Ref))
                 {
                     return true;

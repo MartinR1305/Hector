@@ -36,7 +36,7 @@ namespace Hector
             // On remplit les comboBox.
             Base_De_Donnees.Ajouter_Marques_Dans_ComboBox(Marque_ComboBox);
             Base_De_Donnees.Ajouter_Familles_Dans_ComboBox(Famille_ComboBox);
-            Console.WriteLine(Type_Noeud.Length);
+
             // On vérifie que l'on est pas dans la liste de tous les articles.
             if(Type_Noeud != "Tous les articles")
             {

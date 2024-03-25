@@ -253,7 +253,15 @@ namespace Hector
         private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             string Selected_Node_Text = e.Node.Text;
+            Remplir_Listview(Selected_Node_Text);
+        }
 
+        /// <summary>
+        /// Permets de remplir la list View en fonction du noeud.
+        /// </summary>
+        /// <param name="Selected_Node_Text"></param>
+        public void Remplir_Listview(string Selected_Node_Text)
+        {
             // L'utilisateur a cliqué sur le Nœud "Tous les articles".
             if (Selected_Node_Text == "Tous les articles")
             {
@@ -793,6 +801,7 @@ namespace Hector
             // On affiche un message de succès à part lors de l'actualisation au lancement de l'application.
             if (!Is_Actualisation_Lancement)
             {
+                Remplir_Listview(TreeView1.SelectedNode.Text);
                 MessageBox.Show("Actualisation avec la base de données effectuée.", "Actualisation réussie", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -846,7 +855,7 @@ namespace Hector
             string Nom_1er_Item = ListView1.Items[0].SubItems[1].Text;
             string Valeur_Noeud = TreeView1.SelectedNode.Text;
             string Type_Noeud = Obtenir_Type_Noeud(TreeView1.SelectedNode.Text);
-            Console.WriteLine(Type_Noeud);
+
             FormAjouterArticle Fenetre_Ajouter_Article = new FormAjouterArticle(Base_de_Donnees, Valeur_Noeud, Type_Noeud);
 
             // On regarde si la listView est remplie d'articles.
@@ -951,11 +960,19 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permets de modifier l'élément sélectionné.
+        /// Permets d'ouvrir la fenetre pour modifier l'élément sélectionné.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Menu_Contextuel_Modifier_Click(object sender, EventArgs e)
+        {
+            Ouvrir_Fenetre_Modifier();
+        }
+
+        /// <summary>
+        /// Permets d'ouvrir la fenêtre modifié adéquate à l'élément sélectionné.
+        /// </summary>
+        public void Ouvrir_Fenetre_Modifier()
         {
             string Nom_2eme_Colonne = ListView1.Columns[1].Text;
             string Nom_1er_Item = ListView1.Items[0].SubItems[1].Text;
@@ -998,6 +1015,32 @@ namespace Hector
                 {
 
                 }
+            }
+        }
+
+        /// <summary>
+        /// Permets de gérer les doubles clics sur la liste view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Ouvrir_Fenetre_Modifier();
+            }
+        }
+
+        /// <summary>
+        /// Permets de gérer la pression de touches sur la liste view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter)
+            {
+                Ouvrir_Fenetre_Modifier();
             }
         }
     }
