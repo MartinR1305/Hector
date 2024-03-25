@@ -58,8 +58,8 @@ namespace Hector
             this.FichierToolStripMenuItem});
             this.MenuStrip1.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip1.Name = "MenuStrip1";
-            this.MenuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.MenuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.MenuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.MenuStrip1.Size = new System.Drawing.Size(1067, 28);
             this.MenuStrip1.TabIndex = 0;
             this.MenuStrip1.Text = "menuStrip1";
             // 
@@ -70,45 +70,45 @@ namespace Hector
             this.Importer_Bouton,
             this.Exporter_Bouton});
             this.FichierToolStripMenuItem.Name = "FichierToolStripMenuItem";
-            this.FichierToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.FichierToolStripMenuItem.Size = new System.Drawing.Size(66, 24);
             this.FichierToolStripMenuItem.Text = "Fichier";
             // 
             // Actualiser_Bouton
             // 
             this.Actualiser_Bouton.Name = "Actualiser_Bouton";
-            this.Actualiser_Bouton.Size = new System.Drawing.Size(180, 22);
+            this.Actualiser_Bouton.Size = new System.Drawing.Size(157, 26);
             this.Actualiser_Bouton.Text = "Actualiser";
             this.Actualiser_Bouton.Click += new System.EventHandler(this.Actualiser_Bouton_Click);
             // 
             // Importer_Bouton
             // 
             this.Importer_Bouton.Name = "Importer_Bouton";
-            this.Importer_Bouton.Size = new System.Drawing.Size(180, 22);
+            this.Importer_Bouton.Size = new System.Drawing.Size(157, 26);
             this.Importer_Bouton.Text = "Importer";
             this.Importer_Bouton.Click += new System.EventHandler(this.Importer_Bouton_Click);
             // 
             // Exporter_Bouton
             // 
             this.Exporter_Bouton.Name = "Exporter_Bouton";
-            this.Exporter_Bouton.Size = new System.Drawing.Size(180, 22);
+            this.Exporter_Bouton.Size = new System.Drawing.Size(157, 26);
             this.Exporter_Bouton.Text = "Exporter";
             this.Exporter_Bouton.Click += new System.EventHandler(this.Exporter_Bouton_Click);
             // 
             // StatusStrip1
             // 
             this.StatusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.StatusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.StatusStrip1.Location = new System.Drawing.Point(0, 532);
             this.StatusStrip1.Name = "StatusStrip1";
-            this.StatusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
-            this.StatusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.StatusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 13, 0);
+            this.StatusStrip1.Size = new System.Drawing.Size(1067, 22);
             this.StatusStrip1.TabIndex = 1;
             this.StatusStrip1.Text = "statusStrip1";
             // 
             // SplitContainer1
             // 
             this.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SplitContainer1.Location = new System.Drawing.Point(0, 24);
-            this.SplitContainer1.Margin = new System.Windows.Forms.Padding(2);
+            this.SplitContainer1.Location = new System.Drawing.Point(0, 28);
+            this.SplitContainer1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SplitContainer1.Name = "SplitContainer1";
             // 
             // SplitContainer1.Panel1
@@ -118,18 +118,17 @@ namespace Hector
             // SplitContainer1.Panel2
             // 
             this.SplitContainer1.Panel2.Controls.Add(this.ListView1);
-            this.SplitContainer1.Size = new System.Drawing.Size(800, 404);
-            this.SplitContainer1.SplitterDistance = 264;
-            this.SplitContainer1.SplitterWidth = 3;
+            this.SplitContainer1.Size = new System.Drawing.Size(1067, 504);
+            this.SplitContainer1.SplitterDistance = 352;
             this.SplitContainer1.TabIndex = 2;
             // 
             // TreeView1
             // 
             this.TreeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TreeView1.Location = new System.Drawing.Point(0, 0);
-            this.TreeView1.Margin = new System.Windows.Forms.Padding(2);
+            this.TreeView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TreeView1.Name = "TreeView1";
-            this.TreeView1.Size = new System.Drawing.Size(264, 404);
+            this.TreeView1.Size = new System.Drawing.Size(352, 504);
             this.TreeView1.TabIndex = 0;
             this.TreeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterSelect);
             // 
@@ -138,9 +137,9 @@ namespace Hector
             this.ListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListView1.HideSelection = false;
             this.ListView1.Location = new System.Drawing.Point(0, 0);
-            this.ListView1.Margin = new System.Windows.Forms.Padding(2);
+            this.ListView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ListView1.Name = "ListView1";
-            this.ListView1.Size = new System.Drawing.Size(533, 404);
+            this.ListView1.Size = new System.Drawing.Size(711, 504);
             this.ListView1.TabIndex = 0;
             this.ListView1.UseCompatibleStateImageBehavior = false;
             this.ListView1.View = System.Windows.Forms.View.Details;
@@ -154,38 +153,40 @@ namespace Hector
             this.Menu_Contextuel_Modifier,
             this.Menu_Contextuel_Supprimer});
             this.Menu_Contextuel.Name = "Menu_Contextuel";
-            this.Menu_Contextuel.Size = new System.Drawing.Size(130, 70);
+            this.Menu_Contextuel.Size = new System.Drawing.Size(211, 104);
             // 
             // Menu_Contextuel_Ajouter
             // 
             this.Menu_Contextuel_Ajouter.Name = "Menu_Contextuel_Ajouter";
-            this.Menu_Contextuel_Ajouter.Size = new System.Drawing.Size(129, 22);
+            this.Menu_Contextuel_Ajouter.Size = new System.Drawing.Size(210, 24);
             this.Menu_Contextuel_Ajouter.Text = "Ajouter";
             this.Menu_Contextuel_Ajouter.Click += new System.EventHandler(this.Menu_Contextuel_Ajouter_Click);
             // 
             // Menu_Contextuel_Modifier
             // 
             this.Menu_Contextuel_Modifier.Name = "Menu_Contextuel_Modifier";
-            this.Menu_Contextuel_Modifier.Size = new System.Drawing.Size(129, 22);
+            this.Menu_Contextuel_Modifier.Size = new System.Drawing.Size(210, 24);
             this.Menu_Contextuel_Modifier.Text = "Modifier";
+            this.Menu_Contextuel_Modifier.Click += new System.EventHandler(this.Menu_Contextuel_Modifier_Click);
             // 
             // Menu_Contextuel_Supprimer
             // 
             this.Menu_Contextuel_Supprimer.Name = "Menu_Contextuel_Supprimer";
-            this.Menu_Contextuel_Supprimer.Size = new System.Drawing.Size(129, 22);
+            this.Menu_Contextuel_Supprimer.Size = new System.Drawing.Size(210, 24);
             this.Menu_Contextuel_Supprimer.Text = "Supprimer";
             this.Menu_Contextuel_Supprimer.Click += new System.EventHandler(this.Menu_Contextuel_Supprimer_Click);
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1067, 554);
             this.Controls.Add(this.SplitContainer1);
             this.Controls.Add(this.StatusStrip1);
             this.Controls.Add(this.MenuStrip1);
             this.KeyPreview = true;
             this.MainMenuStrip = this.MenuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FormMain";
             this.Text = "Hector";
             this.MenuStrip1.ResumeLayout(false);

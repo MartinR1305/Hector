@@ -199,32 +199,46 @@ namespace Hector
         /// </summary>
         /// <param name="Nom"> Le nom que l'on cherche dans les tables. </param>
         /// <returns>string, table dan laquelle se trouve le nom. </returns>
-        public string Is_Marque_or_Famille_or_Sous_Famille(string Nom)
+        public string Obtenir_Type_Noeud(string Nom)
         {
-            // On regarde s'il s'agit d'un nom de marque.
-            foreach (Marque Marque in Base_de_Donnees.Lire_Liste_Marque())
+            if (Nom == "Marques")
             {
-                if (Marque.Lire_Nom_Marque() == Nom)
-                {
-                    return "Marque";
-                }
+                return "Marque";
+            }
+            
+            else if(Nom == "Familles")
+            {
+                return "Famille";
             }
 
-            // On regarde s'il s'agit d'un nom de famille.
+            else if(Nom == "Tous les articles")
+            {
+                return "Tous les articles";
+            }
+
+            // On regarde s'il s'agit d'un nom de sous-famille.
             foreach (Famille Famille in Base_de_Donnees.Lire_Liste_Famille())
             {
                 if (Famille.Lire_Nom_Famille() == Nom)
                 {
-                    return "Famille";
+                    return "Sous_Famille";
                 }
             }
 
-            // On regarde s'il s'agit d'un nom de sous-famille.
-            foreach (SousFamille Sous_Famille in Base_de_Donnees.Lire_Liste_Sous_Famille())
+            foreach(SousFamille Sous_Famille in Base_de_Donnees.Lire_Liste_Sous_Famille())
             {
-                if (Sous_Famille.Lire_Nom_Sous_Famille() == Nom)
+                if(Sous_Famille.Lire_Nom_Sous_Famille() == Nom)
                 {
-                    return "Sous_Famille";
+                    return "Article Sous_Famille";
+                }
+            }
+
+
+            foreach (Marque Marque in Base_de_Donnees.Lire_Liste_Marque())
+            {
+                if (Marque.Lire_Nom_Marque() == Nom)
+                {
+                    return "Article Marque";
                 }
             }
 
@@ -265,7 +279,7 @@ namespace Hector
             }
 
             // L'utilisateur a cliqué sur un Nœud "Famille".
-            else if (Is_Marque_or_Famille_or_Sous_Famille(Selected_Node_Text) == "Famille")
+            else if (Obtenir_Type_Noeud(Selected_Node_Text) == "Sous_Famille")
             {
                 ListView1.Clear();
 
@@ -276,8 +290,8 @@ namespace Hector
                 ListView1.Groups.Clear();
             }
 
-            // L'utilisateur a cliqué sur un Nœud "Sous-Famille".
-            else if (Is_Marque_or_Famille_or_Sous_Famille(Selected_Node_Text) == "Sous_Famille")
+            // L'utilisateur a cliqué sur un Nœud "Sous-Famille" pour lire des articles.
+            else if (Obtenir_Type_Noeud(Selected_Node_Text) == "Article Sous_Famille")
             {
                 ListView1.Clear();
 
@@ -300,8 +314,8 @@ namespace Hector
                 ListView1.Groups.Clear();
             }
 
-            // L'utilisateur a cliqué sur un Nœud "Marque".
-            else if (Is_Marque_or_Famille_or_Sous_Famille(Selected_Node_Text) == "Marque")
+            // L'utilisateur a cliqué sur un Nœud "Marque" pour lire des articles.
+            else if (Obtenir_Type_Noeud(Selected_Node_Text) == "Article Marque")
             {
                 ListView1.Clear();
                 Ajouter_Colonnes_Articles_ListView();
@@ -831,8 +845,8 @@ namespace Hector
             string Nom_2eme_Colonne = ListView1.Columns[1].Text;
             string Nom_1er_Item = ListView1.Items[0].SubItems[1].Text;
             string Valeur_Noeud = TreeView1.SelectedNode.Text;
-            string Type_Noeud = Is_Marque_or_Famille_or_Sous_Famille(TreeView1.SelectedNode.Text);
-
+            string Type_Noeud = Obtenir_Type_Noeud(TreeView1.SelectedNode.Text);
+            Console.WriteLine(Type_Noeud);
             FormAjouterArticle Fenetre_Ajouter_Article = new FormAjouterArticle(Base_de_Donnees, Valeur_Noeud, Type_Noeud);
 
             // On regarde si la listView est remplie d'articles.
@@ -852,19 +866,19 @@ namespace Hector
             else
             {
                 // On regarde si la listView est remplie de familles.
-                if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Famille")
+                if (Obtenir_Type_Noeud(Nom_1er_Item) == "Famille")
                 {
 
                 }
 
                 // On regarde si la listView est remplie de sous-familles.
-                else if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Sous_Famille")
+                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Sous_Famille")
                 {
 
                 }
 
                 // On regarde si la listView est remplie de sous-familles.
-                else if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Marque")
+                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Marque")
                 {
 
                 }
@@ -907,19 +921,19 @@ namespace Hector
             else
             {
                 // On regarde si la listView est remplie de familles.
-                if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Famille")
+                if (Obtenir_Type_Noeud(Nom_1er_Item) == "Famille")
                 {
 
                 }
 
                 // On regarde si la listView est remplie de sous-familles.
-                else if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Sous_Famille")
+                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Sous_Famille")
                 {
 
                 }
 
                 // On regarde si la listView est remplie de sous-familles.
-                else if (Is_Marque_or_Famille_or_Sous_Famille(Nom_1er_Item) == "Marque")
+                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Marque")
                 {
 
                 }
@@ -934,6 +948,57 @@ namespace Hector
         private void Menu_Contextuel_Supprimer_Click(object sender, EventArgs e)
         {
             Supprimer_Element();
+        }
+
+        /// <summary>
+        /// Permets de modifier l'élément sélectionné.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Menu_Contextuel_Modifier_Click(object sender, EventArgs e)
+        {
+            string Nom_2eme_Colonne = ListView1.Columns[1].Text;
+            string Nom_1er_Item = ListView1.Items[0].SubItems[1].Text;
+            string Valeur_Noeud = TreeView1.SelectedNode.Text;
+            string Type_Noeud = Obtenir_Type_Noeud(TreeView1.SelectedNode.Text);
+
+            Article Article_Selected = Base_de_Donnees.Obtenir_Article_Par_Ref(ListView1.SelectedItems[0].Text);
+            FormModifierArticle Fenetre_Modifier_Article = new FormModifierArticle(Base_de_Donnees, Article_Selected);
+
+            // On regarde si la listView est remplie d'articles.
+            if (Nom_2eme_Colonne == "Description")
+            {
+                // On centre la fenêtre d'importation par rapport au centre de la fenêtre de l'application.
+                Fenetre_Modifier_Article.StartPosition = FormStartPosition.Manual;
+                Fenetre_Modifier_Article.Location = new Point(
+                    Location.X + (Width - Fenetre_Modifier_Article.Width) / 2,
+                    Location.Y + ((Height - Fenetre_Modifier_Article.Height) / 2)
+                );
+
+                // Afficher la FormImporter en tant que fenêtre modale.
+                Fenetre_Modifier_Article.ShowDialog();
+            }
+
+            else
+            {
+                // On regarde si la listView est remplie de familles.
+                if (Obtenir_Type_Noeud(Nom_1er_Item) == "Famille")
+                {
+
+                }
+
+                // On regarde si la listView est remplie de sous-familles.
+                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Sous_Famille")
+                {
+
+                }
+
+                // On regarde si la listView est remplie de sous-familles.
+                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Marque")
+                {
+
+                }
+            }
         }
     }
 }

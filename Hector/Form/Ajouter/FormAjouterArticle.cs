@@ -34,20 +34,20 @@ namespace Hector
             MaximizeBox = false;
 
             // On remplit les comboBox.
-            Ajouter_Marques_Dans_ComboBox();
-            Ajouter_Familles_Dans_ComboBox();
-
+            Base_De_Donnees.Ajouter_Marques_Dans_ComboBox(Marque_ComboBox);
+            Base_De_Donnees.Ajouter_Familles_Dans_ComboBox(Famille_ComboBox);
+            Console.WriteLine(Type_Noeud.Length);
             // On vérifie que l'on est pas dans la liste de tous les articles.
             if(Type_Noeud != "Tous les articles")
             {
                 // On pré-remplie la combobBox de la marque.
-                if(Type_Noeud == "Marque")
+                if(Type_Noeud == "Article Marque")
                 {
                     Marque_ComboBox.Text = Valeur_Noeud;
                 }
 
                 // On pré-remplie la comboBox de la sous-famille et de la famille.
-                else if(Type_Noeud == "Sous_Famille")
+                else if(Type_Noeud == "Article Sous_Famille")
                 {
                     Sous_Famille_ComboBox.Enabled = true;
                     foreach (SousFamille Sous_Famille in Base_De_Donnees.Lire_Liste_Sous_Famille())
@@ -88,14 +88,14 @@ namespace Hector
                             if(Reference_TextBox.Text.Count() == 7)
                             {
                                 // On vérifie que la référence est unique.
-                                if (!Is_Reference_Presente(Reference_TextBox.Text))
+                                if (!Base_De_Donnees.Is_Reference_Presente(Reference_TextBox.Text))
                                 {
                                     // Récupération des attributs.
                                     string Reference_Article = "F" + Reference_TextBox.Text;
                                     string Description_Article = Description_TextBox.Text;
-                                    Marque Marque_Article = Obtenir_Marque_Par_Nom(Marque_ComboBox.Text);
-                                    Famille Famille_Article = Obtenir_Famille_Par_Nom(Famille_ComboBox.Text);
-                                    SousFamille Sous_Famille_Article = Obtenir_Sous_Famille_Par_Nom(Sous_Famille_ComboBox.Text);
+                                    Marque Marque_Article = Base_De_Donnees.Obtenir_Marque_Par_Nom(Marque_ComboBox.Text);
+                                    Famille Famille_Article = Base_De_Donnees.Obtenir_Famille_Par_Nom(Famille_ComboBox.Text);
+                                    SousFamille Sous_Famille_Article = Base_De_Donnees.Obtenir_Sous_Famille_Par_Nom(Sous_Famille_ComboBox.Text);
                                     double PrixHT = Convert.ToDouble(PrixHT_TextBox.Text);
                                     int Quantite = Convert.ToInt32(Quantite_TextBox.Text);
 
@@ -154,42 +154,6 @@ namespace Hector
                 MessageBox.Show("Vous devez remplir tous les champs pour pouvoir ajouter un article.", "Erreur : Champ vide", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        /// <summary>
-        /// Permets de remplir la comboBox avec le nom des marques.
-        /// </summary>
-        public void Ajouter_Marques_Dans_ComboBox()
-        {
-            foreach(Marque Marque in Base_De_Donnees.Lire_Liste_Marque())
-            {
-                Marque_ComboBox.Items.Add(Marque.Lire_Nom_Marque());
-            }
-        }
-
-        /// <summary>
-        /// Permets de remplir la comboBox avec le nom des familles.
-        /// </summary>
-        public void Ajouter_Familles_Dans_ComboBox()
-        {
-            foreach (Famille Famille in Base_De_Donnees.Lire_Liste_Famille())
-            {
-                Famille_ComboBox.Items.Add(Famille.Lire_Nom_Famille());
-            }
-        }
-
-        /// <summary>
-        /// Permets de remplir la comboBox avec le nom des sous-familles.
-        /// </summary>
-        public void Ajouter_Sous_Familles_Dans_ComboBox()
-        {
-            foreach (SousFamille Sous_Famille in Base_De_Donnees.Lire_Liste_Sous_Famille())
-            {
-                if(Sous_Famille.Lire_Famille().Lire_Nom_Famille() == Famille_ComboBox.Text)
-                {
-                    Sous_Famille_ComboBox.Items.Add(Sous_Famille.Lire_Nom_Sous_Famille());
-                }
-            }
-        }
         
         /// <summary>
         /// Permets de charger et activer la comboBox des sous-familles lorsque que l'on a choisi une famille.
@@ -200,84 +164,7 @@ namespace Hector
         {
             Sous_Famille_ComboBox.Enabled = true;
             Sous_Famille_ComboBox.Items.Clear();
-            Ajouter_Sous_Familles_Dans_ComboBox();
-        }
-
-        /// <summary>
-        /// Permets de savoir si la référence est déjà présente dans la BDD ou non.
-        /// </summary>
-        /// <param name="Ref"> Référence que l'on veut vérifier. </param>
-        /// <returns> bool, indique la référence est déjà présente ou non. </returns>
-        private bool Is_Reference_Presente(string Ref)
-        {
-            foreach(Article Article in Base_De_Donnees.Lire_Liste_Article())
-            {
-                Console.WriteLine(Article.Lire_Ref_Article() + " | " + "F" + Convert.ToString(Ref));
-                if(Article.Lire_Ref_Article() == "F" + Convert.ToString(Ref)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Permets d'obtenir la marque à partir de son nom.
-        /// </summary>
-        /// <param name="Liste_Marque"> Liste de marque où l'on va chercher la marque. </param>
-        /// <param name="Nom"> Nom de la marque que l'on recherche. </param>
-        /// <returns> Marque, la marque que l'on cherche. </returns>
-        public Marque Obtenir_Marque_Par_Nom(string Nom)
-        {
-            // On regarde chaque marque de la liste.
-            foreach (Marque Marque in Base_De_Donnees.Lire_Liste_Marque())
-            {
-                // Si l'on trouve la marque voulue.
-                if (Marque.Lire_Nom_Marque().ToUpper() == Nom.ToUpper())
-                {
-                    return Marque;
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Permets d'obtenir la sous-famille à partir de son nom.
-        /// </summary>
-        /// <param name="Liste_Sous_Famille"> Liste de sous-famille où l'on va chercher la sous-famille. </param>
-        /// <param name="Nom"> Nom de la sous-famille que l'on recherche. </param>
-        /// <returns> SousFamille, la sous-famille que l'on cherche. </returns>
-        public SousFamille Obtenir_Sous_Famille_Par_Nom(string Nom)
-        {
-            // On regarde chaque sous-famille de la liste.
-            foreach (SousFamille Sous_Famille in Base_De_Donnees.Lire_Liste_Sous_Famille())
-            {
-                // Si l'on trouve la sous-famille voulue.
-                if (Sous_Famille.Lire_Nom_Sous_Famille().ToUpper() == Nom.ToUpper())
-                {
-                    return Sous_Famille;
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Permets d'obtenir la famille à partir de son nom.
-        /// </summary>
-        /// <param name="Liste_Famille"> Liste de famille où l'on chercher la famille. </param>
-        /// <param name="Nom"> Nom de la famille que l'on recherche. </param>
-        /// <returns> Famille, la famille que l'on cherche. </returns>
-        public Famille Obtenir_Famille_Par_Nom(string Nom)
-        {
-            // On regarde chaque famille de la liste.
-            foreach (Famille Famille in Base_De_Donnees.Lire_Liste_Famille())
-            {
-                // Si l'on trouve la famille voulue.
-                if (Famille.Lire_Nom_Famille().ToUpper() == Nom.ToUpper())
-                {
-                    return Famille;
-                }
-            }
-            return null;
+            Base_De_Donnees.Ajouter_Sous_Familles_Dans_ComboBox(Sous_Famille_ComboBox, Famille_ComboBox);
         }
     }
 }
