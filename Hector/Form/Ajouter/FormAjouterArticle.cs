@@ -94,7 +94,6 @@ namespace Hector
                                     string Reference_Article = "F" + Reference_TextBox.Text;
                                     string Description_Article = Description_TextBox.Text;
                                     Marque Marque_Article = Base_De_Donnees.Obtenir_Marque_Par_Nom(Marque_ComboBox.Text);
-                                    Famille Famille_Article = Base_De_Donnees.Obtenir_Famille_Par_Nom(Famille_ComboBox.Text);
                                     SousFamille Sous_Famille_Article = Base_De_Donnees.Obtenir_Sous_Famille_Par_Nom(Sous_Famille_ComboBox.Text);
                                     double PrixHT = Convert.ToDouble(PrixHT_TextBox.Text);
                                     int Quantite = Convert.ToInt32(Quantite_TextBox.Text);

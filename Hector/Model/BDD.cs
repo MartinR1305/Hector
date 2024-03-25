@@ -459,6 +459,38 @@ namespace Hector
         }
 
         /// <summary>
+        /// Permets de modifier un article dans la BDD.
+        /// </summary>
+        /// <param name="Ref_Article"> Référence de l'article que l'on veut modifier. </param>
+        /// <param name="Description_Article"> Description que l'on veut donner à l'article. </param>
+        /// <param name="Marque_Article"> Marque que l'on veut donner à l'article. </param>
+        /// <param name="Sous_Famille_Article"> Sous-Famille que l'on veut donner à l'article. </param>
+        /// <param name="PrixHT_Article"> Prix HT que l'on veut donner à l'article. </param>
+        /// <param name="Quantite_Article"> Quantite que l'on veut donner à l'article. </param>
+        public void Modifier_Article_BDD(string Ref_Article, string Description_Article, Marque Marque_Article, SousFamille Sous_Famille_Article, double PrixHT_Article, int Quantite_Article)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string SQL_Query_Modifier_Article = "UPDATE Articles SET Description = @Description, RefMarque = @RefMarque, RefSousFamille = @RefSousFamille, PrixHT = @PrixHT, Quantite = @Quantite WHERE RefArticle = @RefArticle";
+
+                using (SQLiteCommand Commande_Query_Modifier_Article = new SQLiteCommand(SQL_Query_Modifier_Article, Connection))
+                {
+                    Commande_Query_Modifier_Article.Parameters.AddWithValue("@RefArticle", Ref_Article);
+                    Commande_Query_Modifier_Article.Parameters.AddWithValue("@Description", Description_Article);
+                    Commande_Query_Modifier_Article.Parameters.AddWithValue("@RefMarque", Marque_Article.Lire_Ref_Marque());
+                    Commande_Query_Modifier_Article.Parameters.AddWithValue("@RefSousFamille", Sous_Famille_Article.Lire_Ref_Sous_Famille());
+                    Commande_Query_Modifier_Article.Parameters.AddWithValue("@PrixHT", PrixHT_Article);
+                    Commande_Query_Modifier_Article.Parameters.AddWithValue("@Quantite", Quantite_Article);
+
+                    int Rows_Affected = Commande_Query_Modifier_Article.ExecuteNonQuery();
+                }
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
         /// Permets de savoir si la sous-famille est déjà présente dans la BDD ou non.
         /// </summary>
         /// <param name="Nom_Sous_Famille"> Nom de la sous-famille que l'on va chercher. </param>
