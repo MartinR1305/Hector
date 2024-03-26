@@ -19,8 +19,6 @@ namespace Hector
         TreeNode Familles = new TreeNode("Familles");
         TreeNode Marques = new TreeNode("Marques");
 
-        bool Is_Actualisation_Lancement = true;
-
         /// <summary>
         /// Constructeur par défaut.
         /// </summary>
@@ -50,8 +48,7 @@ namespace Hector
             this.WindowState = FormWindowState.Maximized;
 
             // On actualise l'application avec le contenu de la BDD.
-            Actualiser();
-            Is_Actualisation_Lancement = false;
+            Actualiser(false);
         }
 
         /// <summary>
@@ -764,7 +761,7 @@ namespace Hector
         /// <param name="e"></param>
         private void Actualiser_Bouton_Click(object sender, EventArgs e)
         {
-            Actualiser();
+            Actualiser(true);
         }
 
         /// <summary>
@@ -777,7 +774,7 @@ namespace Hector
             // On regarde si la touche appuyée est "F5".
             if (e.KeyCode == Keys.F5)
             {
-                Actualiser();
+                Actualiser(true);
             }
 
             // On regarde si la touche appuyée est "Suppr".
@@ -790,7 +787,7 @@ namespace Hector
         /// <summary>
         /// Permets d'actualiser l'application à partir de la BDD.
         /// </summary>
-        public void Actualiser()
+        public void Actualiser(bool Afficher_MessageBox)
         {
             Base_de_Donnees.Remplir_Liste_Marque();
             Base_de_Donnees.Remplir_Liste_Famille();
@@ -798,10 +795,15 @@ namespace Hector
             Base_de_Donnees.Remplir_Liste_Article();
             Remplir_TreeView();
 
-            // On affiche un message de succès à part lors de l'actualisation au lancement de l'application.
-            if (!Is_Actualisation_Lancement)
+            // Si ce n'est pas l'actualisation de lancement de l'application.
+            if (TreeView1.SelectedNode != null)
             {
                 Remplir_Listview(TreeView1.SelectedNode.Text);
+            }         
+
+            // On affiche un message de succès à part lors de l'actualisation au lancement de l'application.
+            if (Afficher_MessageBox)
+            {
                 MessageBox.Show("Actualisation avec la base de données effectuée.", "Actualisation réussie", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -979,12 +981,12 @@ namespace Hector
             string Valeur_Noeud = TreeView1.SelectedNode.Text;
             string Type_Noeud = Obtenir_Type_Noeud(TreeView1.SelectedNode.Text);
 
-            Article Article_Selected = Base_de_Donnees.Obtenir_Article_Par_Ref(ListView1.SelectedItems[0].Text);
-            FormModifierArticle Fenetre_Modifier_Article = new FormModifierArticle(Base_de_Donnees, Article_Selected);
-
             // On regarde si la listView est remplie d'articles.
             if (Nom_2eme_Colonne == "Description")
             {
+                Article Article_Selected = Base_de_Donnees.Obtenir_Article_Par_Ref(ListView1.SelectedItems[0].Text);
+                FormModifierArticle Fenetre_Modifier_Article = new FormModifierArticle(Base_de_Donnees, Article_Selected);
+
                 // On centre la fenêtre d'importation par rapport au centre de la fenêtre de l'application.
                 Fenetre_Modifier_Article.StartPosition = FormStartPosition.Manual;
                 Fenetre_Modifier_Article.Location = new Point(
@@ -996,25 +998,20 @@ namespace Hector
                 Fenetre_Modifier_Article.ShowDialog();
             }
 
+            // Si la listeView est remplie d'autres éléments.
             else
             {
-                // On regarde si la listView est remplie de familles.
-                if (Obtenir_Type_Noeud(Nom_1er_Item) == "Famille")
-                {
+                FormModifierElement Fenetre_Modifier_Element = new FormModifierElement(Convert.ToInt32(ListView1.SelectedItems[0].Text), Type_Noeud, Base_de_Donnees);
 
-                }
+                // On centre la fenêtre d'importation par rapport au centre de la fenêtre de l'application.
+                Fenetre_Modifier_Element.StartPosition = FormStartPosition.Manual;
+                Fenetre_Modifier_Element.Location = new Point(
+                    Location.X + (Width - Fenetre_Modifier_Element.Width) / 2,
+                    Location.Y + ((Height - Fenetre_Modifier_Element.Height) / 2)
+                );
 
-                // On regarde si la listView est remplie de sous-familles.
-                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Sous_Famille")
-                {
-
-                }
-
-                // On regarde si la listView est remplie de sous-familles.
-                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Marque")
-                {
-
-                }
+                // Afficher la FormImporter en tant que fenêtre modale.
+                Fenetre_Modifier_Element.ShowDialog();
             }
         }
 

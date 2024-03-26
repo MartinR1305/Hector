@@ -27,12 +27,6 @@ namespace Hector
             Valeur_Noeud = Valeur_Noeud_Main;
             Type_Noeud = Type_Noeud_Main;
 
-            // On modifie la fenêtre pour qu'elle soit de taille fixe afin que l'utilisateur ne puisse pas modifier sa taille.
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-
-            // On désactive le bouton d'agrandissement.
-            MaximizeBox = false;
-
             // On remplit les comboBox.
             Base_De_Donnees.Ajouter_Marques_Dans_ComboBox(Marque_ComboBox);
             Base_De_Donnees.Ajouter_Familles_Dans_ComboBox(Famille_ComboBox);

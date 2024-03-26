@@ -491,6 +491,78 @@ namespace Hector
         }
 
         /// <summary>
+        /// Permets de modifier une famille dans la BDD.
+        /// </summary>
+        /// <param name="Ref_Famille"> Référence de la famille que l'on veut modifier. </param>
+        /// <param name="Nouveau_Nom_Famille"> Nom que l'on veut donner à la famille. </param>
+        public void Modifier_Famille_BDD(int Ref_Famille, string Nouveau_Nom_Famille)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string SQL_Query_Modifier_Famille = "UPDATE Familles SET Nom = @Nom WHERE RefFamille = @RefFamille";
+
+                using (SQLiteCommand Commande_Query_Modifier_Famille = new SQLiteCommand(SQL_Query_Modifier_Famille, Connection))
+                {
+                    Commande_Query_Modifier_Famille.Parameters.AddWithValue("@Nom", Nouveau_Nom_Famille);
+                    Commande_Query_Modifier_Famille.Parameters.AddWithValue("@RefFamille", Ref_Famille);
+
+                    int Rows_Affected = Commande_Query_Modifier_Famille.ExecuteNonQuery();
+                }
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Permets de modifier une sous-famille dans la BDD.
+        /// </summary>
+        /// <param name="Ref_Sous_Famille"> Référence de la sous-famille que l'on veut modifier. </param>
+        /// <param name="Nouveau_Nom_Sous_Famille"> Nom que l'on veut donner à la sous-famille. </param>
+        public void Modifier_Sous_Famille_BDD(int Ref_Sous_Famille, string Nouveau_Nom_Sous_Famille)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string SQL_Query_Modifier_Sous_Famille = "UPDATE SousFamilles SET Nom = @Nom WHERE RefSousFamille = @RefSousFamille";
+
+                using (SQLiteCommand Commande_Query_Modifier_Sous_Famille = new SQLiteCommand(SQL_Query_Modifier_Sous_Famille, Connection))
+                {
+                    Commande_Query_Modifier_Sous_Famille.Parameters.AddWithValue("@Nom", Nouveau_Nom_Sous_Famille);
+                    Commande_Query_Modifier_Sous_Famille.Parameters.AddWithValue("@RefSousFamille", Ref_Sous_Famille);
+
+                    int Rows_Affected = Commande_Query_Modifier_Sous_Famille.ExecuteNonQuery();
+                }
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Permets de modifier une marque dans la BDD.
+        /// </summary>
+        /// <param name="Ref_Marque"> Référence de la marque que l'on veut modifier. </param>
+        /// <param name="Nouveau_Nom_Marque"> Nom que l'on veut donner à la marque. </param>
+        public void Modifier_Marque_BDD(int Ref_Marque, string Nouveau_Nom_Marque)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string SQL_Query_Modifier_Marque = "UPDATE Marques SET Nom = @Nom WHERE RefMarque = @RefMarque";
+
+                using (SQLiteCommand Commande_Query_Modifier_Marque = new SQLiteCommand(SQL_Query_Modifier_Marque, Connection))
+                {
+                    Commande_Query_Modifier_Marque.Parameters.AddWithValue("@Nom", Nouveau_Nom_Marque);
+                    Commande_Query_Modifier_Marque.Parameters.AddWithValue("@RefMarque", Ref_Marque);
+
+                    int Rows_Affected = Commande_Query_Modifier_Marque.ExecuteNonQuery();
+                }
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
         /// Permets de savoir si la sous-famille est déjà présente dans la BDD ou non.
         /// </summary>
         /// <param name="Nom_Sous_Famille"> Nom de la sous-famille que l'on va chercher. </param>

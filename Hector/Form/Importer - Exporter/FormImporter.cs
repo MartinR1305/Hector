@@ -35,12 +35,6 @@ namespace Hector
             ProgressBar.Visible = false;
             Integration_En_Cours_Label.Visible = false;
             Besoin_De_Vider = false;
-
-            // On modifie la fenêtre pour qu'elle soit de taille fixe afin que l'utilisateur ne puisse pas modifier sa taille.
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-
-            // On désactive le bouton d'agrandissement.
-            MaximizeBox = false;
         }
 
         /// <summary>

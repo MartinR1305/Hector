@@ -13,10 +13,13 @@ namespace Hector
     public partial class FormModifierArticle : Form
     {
         private BDD Base_De_Donnees;
-        private string Valeur_Noeud;
-        private string Type_Noeud;
         private Article Article_A_Modifier;
-
+        
+        /// <summary>
+        /// Constructeur de confort.
+        /// </summary>
+        /// <param name="Base_De_Donnes_Main"> Listes des données de la fenêtre principale. </param>
+        /// <param name="Article"> Article que l'on veut modifier. </param>
         public FormModifierArticle(BDD Base_De_Donnes_Main, Article Article)
         {
             InitializeComponent();
@@ -26,12 +29,6 @@ namespace Hector
 
             // On prends l'article à modifier.
             Article_A_Modifier = Article;
-
-            // On modifie la fenêtre pour qu'elle soit de taille fixe afin que l'utilisateur ne puisse pas modifier sa taille.
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-
-            // On désactive le bouton d'agrandissement.
-            MaximizeBox = false;
 
             // On remplit les comboBox.
             Base_De_Donnees.Ajouter_Marques_Dans_ComboBox(Marque_ComboBox);

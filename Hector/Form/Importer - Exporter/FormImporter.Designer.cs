@@ -40,10 +40,10 @@ namespace Hector
             // 
             // Selectionner_Fichier_Bouton
             // 
-            this.Selectionner_Fichier_Bouton.Location = new System.Drawing.Point(93, 10);
-            this.Selectionner_Fichier_Bouton.Margin = new System.Windows.Forms.Padding(2);
+            this.Selectionner_Fichier_Bouton.Location = new System.Drawing.Point(124, 12);
+            this.Selectionner_Fichier_Bouton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Selectionner_Fichier_Bouton.Name = "Selectionner_Fichier_Bouton";
-            this.Selectionner_Fichier_Bouton.Size = new System.Drawing.Size(158, 29);
+            this.Selectionner_Fichier_Bouton.Size = new System.Drawing.Size(211, 36);
             this.Selectionner_Fichier_Bouton.TabIndex = 0;
             this.Selectionner_Fichier_Bouton.Text = "Sélectionner un fichier .CSV";
             this.Selectionner_Fichier_Bouton.UseVisualStyleBackColor = true;
@@ -51,10 +51,10 @@ namespace Hector
             // 
             // Integration_Mode_Ajout_Bouton
             // 
-            this.Integration_Mode_Ajout_Bouton.Location = new System.Drawing.Point(9, 88);
-            this.Integration_Mode_Ajout_Bouton.Margin = new System.Windows.Forms.Padding(2);
+            this.Integration_Mode_Ajout_Bouton.Location = new System.Drawing.Point(12, 108);
+            this.Integration_Mode_Ajout_Bouton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Integration_Mode_Ajout_Bouton.Name = "Integration_Mode_Ajout_Bouton";
-            this.Integration_Mode_Ajout_Bouton.Size = new System.Drawing.Size(173, 29);
+            this.Integration_Mode_Ajout_Bouton.Size = new System.Drawing.Size(231, 36);
             this.Integration_Mode_Ajout_Bouton.TabIndex = 1;
             this.Integration_Mode_Ajout_Bouton.Text = "Intégration - Mode Ajout";
             this.Integration_Mode_Ajout_Bouton.UseVisualStyleBackColor = true;
@@ -62,10 +62,10 @@ namespace Hector
             // 
             // Importation_Mode_Ecrasement_Boutton
             // 
-            this.Importation_Mode_Ecrasement_Boutton.Location = new System.Drawing.Point(182, 88);
-            this.Importation_Mode_Ecrasement_Boutton.Margin = new System.Windows.Forms.Padding(2);
+            this.Importation_Mode_Ecrasement_Boutton.Location = new System.Drawing.Point(243, 108);
+            this.Importation_Mode_Ecrasement_Boutton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Importation_Mode_Ecrasement_Boutton.Name = "Importation_Mode_Ecrasement_Boutton";
-            this.Importation_Mode_Ecrasement_Boutton.Size = new System.Drawing.Size(173, 29);
+            this.Importation_Mode_Ecrasement_Boutton.Size = new System.Drawing.Size(231, 36);
             this.Importation_Mode_Ecrasement_Boutton.TabIndex = 2;
             this.Importation_Mode_Ecrasement_Boutton.Text = "Intégration - Mode Écrasement";
             this.Importation_Mode_Ecrasement_Boutton.UseVisualStyleBackColor = true;
@@ -73,28 +73,26 @@ namespace Hector
             // 
             // ProgressBar
             // 
-            this.ProgressBar.Location = new System.Drawing.Point(9, 140);
-            this.ProgressBar.Margin = new System.Windows.Forms.Padding(2);
+            this.ProgressBar.Location = new System.Drawing.Point(12, 172);
+            this.ProgressBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(346, 19);
+            this.ProgressBar.Size = new System.Drawing.Size(461, 23);
             this.ProgressBar.TabIndex = 3;
             // 
             // Nom_Fichier_CSV_Label
             // 
-            this.Nom_Fichier_CSV_Label.Location = new System.Drawing.Point(9, 41);
-            this.Nom_Fichier_CSV_Label.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.Nom_Fichier_CSV_Label.Location = new System.Drawing.Point(12, 50);
             this.Nom_Fichier_CSV_Label.Name = "Nom_Fichier_CSV_Label";
-            this.Nom_Fichier_CSV_Label.Size = new System.Drawing.Size(346, 24);
+            this.Nom_Fichier_CSV_Label.Size = new System.Drawing.Size(461, 30);
             this.Nom_Fichier_CSV_Label.TabIndex = 4;
             this.Nom_Fichier_CSV_Label.Text = "Nom_Fichier_CSV_Label";
             this.Nom_Fichier_CSV_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Integration_En_Cours_Label
             // 
-            this.Integration_En_Cours_Label.Location = new System.Drawing.Point(9, 161);
-            this.Integration_En_Cours_Label.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.Integration_En_Cours_Label.Location = new System.Drawing.Point(12, 198);
             this.Integration_En_Cours_Label.Name = "Integration_En_Cours_Label";
-            this.Integration_En_Cours_Label.Size = new System.Drawing.Size(346, 27);
+            this.Integration_En_Cours_Label.Size = new System.Drawing.Size(461, 33);
             this.Integration_En_Cours_Label.TabIndex = 5;
             this.Integration_En_Cours_Label.Text = "Integration_En_Cours_Label";
             this.Integration_En_Cours_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -109,16 +107,18 @@ namespace Hector
             // 
             // FormImporter
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(362, 206);
+            this.ClientSize = new System.Drawing.Size(483, 254);
             this.Controls.Add(this.Integration_En_Cours_Label);
             this.Controls.Add(this.Nom_Fichier_CSV_Label);
             this.Controls.Add(this.ProgressBar);
             this.Controls.Add(this.Importation_Mode_Ecrasement_Boutton);
             this.Controls.Add(this.Integration_Mode_Ajout_Bouton);
             this.Controls.Add(this.Selectionner_Fichier_Bouton);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MaximizeBox = false;
             this.Name = "FormImporter";
             this.Text = "Importer un fichier CSV";
             this.ResumeLayout(false);
