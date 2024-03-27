@@ -69,7 +69,7 @@ namespace Hector
             );
 
             // Ajout du gestionnaire d'événements pour lorsque l'on ferme la fenetre d'importation.
-            Fenetre_Importer.FormClosed += Fenetre_Importer_FormClosed;
+            Fenetre_Importer.FormClosed += Fenetre_FormClosed;
 
             // Afficher la FormImporter en tant que fenêtre modale.
             Fenetre_Importer.ShowDialog();
@@ -100,9 +100,9 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Fenetre_Importer_FormClosed(object sender, FormClosedEventArgs e)
+        private void Fenetre_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Remplir_TreeView();
+            Actualiser(false);
         }
 
         /// <summary>
@@ -120,6 +120,8 @@ namespace Hector
         /// </summary>
         public void Remplir_TreeView()
         {
+            Familles.Nodes.Clear();
+
             // Ajout des sous noeuds pour le nom des familles.
             foreach (Famille Famille in Base_de_Donnees.Lire_Liste_Famille())
             {
@@ -134,6 +136,7 @@ namespace Hector
                     // On ajoute ensuite tous les noeuds sous familles associé à cette famille.
                     foreach (SousFamille Sous_Famille in Base_de_Donnees.Lire_Liste_Sous_Famille())
                     {
+
                         if (Sous_Famille.Lire_Famille().Lire_Nom_Famille() == Nom_Famille)
                         {
                             TreeNode Noeud_Nom_Sous_Famille = new TreeNode(Sous_Famille.Lire_Nom_Sous_Famille());
@@ -142,6 +145,8 @@ namespace Hector
                     }
                 }
             }
+
+            Marques.Nodes.Clear();
 
             // Ajout des sous noeuds pour le nom des marques.
             foreach (Marque Marque in Base_de_Donnees.Lire_Liste_Marque())
@@ -202,13 +207,15 @@ namespace Hector
             {
                 return "Marque";
             }
-            
-            else if(Nom == "Familles")
+
+            // On regarde s'il s'agit d'un nom de familles.
+            else if (Nom == "Familles")
             {
                 return "Famille";
             }
 
-            else if(Nom == "Tous les articles")
+            // On regarde s'il s'agit d'un nom d'article.
+            else if (Nom == "Tous les articles")
             {
                 return "Tous les articles";
             }
@@ -222,15 +229,16 @@ namespace Hector
                 }
             }
 
-            foreach(SousFamille Sous_Famille in Base_de_Donnees.Lire_Liste_Sous_Famille())
+            // On regarde s'il s'agit d'un nom d'article dans une sous-famille.
+            foreach (SousFamille Sous_Famille in Base_de_Donnees.Lire_Liste_Sous_Famille())
             {
-                if(Sous_Famille.Lire_Nom_Sous_Famille() == Nom)
+                if (Sous_Famille.Lire_Nom_Sous_Famille() == Nom)
                 {
                     return "Article Sous_Famille";
                 }
             }
 
-
+            // On regarde s'il s'agit d'un nom d'article dans une marque.
             foreach (Marque Marque in Base_de_Donnees.Lire_Liste_Marque())
             {
                 if (Marque.Lire_Nom_Marque() == Nom)
@@ -799,7 +807,7 @@ namespace Hector
             if (TreeView1.SelectedNode != null)
             {
                 Remplir_Listview(TreeView1.SelectedNode.Text);
-            }         
+            }
 
             // On affiche un message de succès à part lors de l'actualisation au lancement de l'application.
             if (Afficher_MessageBox)
@@ -902,52 +910,187 @@ namespace Hector
         public void Supprimer_Element()
         {
             string Nom_2eme_Colonne = ListView1.Columns[1].Text;
-            string Nom_1er_Item = ListView1.Items[0].SubItems[1].Text;
+            string Nom_Noeud = TreeView1.SelectedNode.Text;
 
             // On regarde si la listView est remplie d'articles.
             if (Nom_2eme_Colonne == "Description")
             {
-                DialogResult Choix = MessageBox.Show("Voulez-vous vraiment supprimer cette article ?", "Confirmation suppression article.", MessageBoxButtons.YesNo);
-
-                // Vérifier la réponse de l'utilisateur
-                if (Choix == DialogResult.Yes)
-                {
-                    // On supprime l'article dans la liste.
-                    foreach(Article Article in Base_de_Donnees.Lire_Liste_Article())
-                    {
-                        if(Article.Lire_Ref_Article() == ListView1.SelectedItems[0].Text)
-                        {
-                            Base_de_Donnees.Lire_Liste_Article().Remove(Article);
-                            break;
-                        }
-                    }
-
-                    // On supprime l'article de la BDD.
-                    Base_de_Donnees.Supprimer_Article_BDD(ListView1.SelectedItems[0].Text);
-
-                    MessageBox.Show("L'article a été supprimé.", "Supression article effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                Supprimer_Article();
             }
 
             else
             {
                 // On regarde si la listView est remplie de familles.
-                if (Obtenir_Type_Noeud(Nom_1er_Item) == "Famille")
+                if (Obtenir_Type_Noeud(Nom_Noeud) == "Famille")
                 {
-
+                    Supprimer_Famille();
                 }
 
                 // On regarde si la listView est remplie de sous-familles.
-                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Sous_Famille")
+                else if (Obtenir_Type_Noeud(Nom_Noeud) == "Sous_Famille")
                 {
-
+                    Supprimer_Sous_Famille();
                 }
 
-                // On regarde si la listView est remplie de sous-familles.
-                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Marque")
+                // On regarde si la listView est remplie de marque.
+                else if (Obtenir_Type_Noeud(Nom_Noeud) == "Marque")
                 {
-
+                    Supprimer_Marque();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Permet de savoir si un article possède la marque sélectionné comme marque.
+        /// </summary>
+        /// <returns> bool, indique si la marque est utilisé par un article ou non. </returns>
+        public bool Is_Article_Avec_Marque()
+        {
+            foreach (Article Article in Base_de_Donnees.Lire_Liste_Article())
+            {
+                if (Article.Lire_Marque().Lire_Ref_Marque() == Convert.ToInt32(ListView1.SelectedItems[0].Text))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Permet de savoir si un article possède la sous-famille sélectionné comme sous-famille.
+        /// </summary>
+        /// <returns> bool, indique si la sous-famille est utilisé par un article ou non. </returns>
+        public bool Is_Article_Avec_Sous_Famille()
+        {
+            foreach (Article Article in Base_de_Donnees.Lire_Liste_Article())
+            {
+                if (Article.Lire_Sous_Famille().Lire_Ref_Sous_Famille() == Convert.ToInt32(ListView1.SelectedItems[0].Text))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Permet de savoir si un article possède la famille sélectionné comme famille.
+        /// </summary>
+        /// <returns> bool, indique si la famille est utilisé par un article ou non. </returns>
+        public bool Is_Article_Avec_Famille()
+        {
+            foreach (Article Article in Base_de_Donnees.Lire_Liste_Article())
+            {
+                if (Article.Lire_Sous_Famille().Lire_Famille().Lire_Ref_Famille() == Convert.ToInt32(ListView1.SelectedItems[0].Text))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Permets de supprimer un article.
+        /// </summary>
+        public void Supprimer_Article()
+        {
+            DialogResult Choix = MessageBox.Show("Voulez-vous vraiment supprimer cette article ?", "Confirmation suppression article.", MessageBoxButtons.YesNo);
+
+            // On vérifie la réponse de l'utilisateur.
+            if (Choix == DialogResult.Yes)
+            {
+                // On supprime l'article de la BDD.
+                Base_de_Donnees.Supprimer_Article_BDD(ListView1.SelectedItems[0].Text);
+
+                MessageBox.Show("L'article a été supprimé avec succès.", "Supression article effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Actualiser(false);
+            }
+        }
+
+        /// <summary>
+        /// Permets de supprimer une famille.
+        /// </summary>
+        public void Supprimer_Famille()
+        {
+            // On vérifie qu'aucun article n'a la famille sélectionnée comme famille.
+            if (!Is_Article_Avec_Famille())
+            {
+                DialogResult Choix = MessageBox.Show("Voulez-vous vraiment supprimer cette famille ?", "Confirmation suppression famille.", MessageBoxButtons.YesNo);
+
+                // On vérifie la réponse de l'utilisateur.
+                if (Choix == DialogResult.Yes)
+                {
+                    // On supprime la marque de la BDD.
+                    Base_de_Donnees.Supprimer_Famille_BDD(Convert.ToInt32(ListView1.SelectedItems[0].Text));
+
+                    MessageBox.Show("La famille a été supprimé avec succès.", "Supression famille effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    Actualiser(false);
+                }
+            }
+
+            // Si la marque est utilisé par un article.
+            else
+            {
+                MessageBox.Show("Vous ne pouvez pas supprimer cette famille car des articles appartiennent à cette famille.", "Erreur : famille utilisé par un / des article(s).", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Permets de supprimer une sous-famille.
+        /// </summary>
+        public void Supprimer_Sous_Famille()
+        {
+            // On vérifie qu'aucun article n'a la sous-famille sélectionnée comme sous-famille.
+            if (!Is_Article_Avec_Sous_Famille())
+            {
+                DialogResult Choix = MessageBox.Show("Voulez-vous vraiment supprimer cette sous-famille ?", "Confirmation suppression sous-famille.", MessageBoxButtons.YesNo);
+
+                // On vérifie la réponse de l'utilisateur.
+                if (Choix == DialogResult.Yes)
+                {
+                    // On supprime la marque de la BDD.
+                    Base_de_Donnees.Supprimer_Sous_Famille_BDD(Convert.ToInt32(ListView1.SelectedItems[0].Text));
+
+                    MessageBox.Show("La sous-famille a été supprimé avec succès.", "Supression sous-famille effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    Actualiser(false);
+                }
+            }
+
+            // Si la marque est utilisé par un article.
+            else
+            {
+                MessageBox.Show("Vous ne pouvez pas supprimer cette sous-famille car des articles appartiennent à cette sous-famille.", "Erreur : Sous-famille utilisé par un / des article(s).", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Permets de supprimer une marque.
+        /// </summary>
+        public void Supprimer_Marque()
+        {
+            // On vérifie qu'aucun article n'a la marque sélectionnée comme marque.
+            if (!Is_Article_Avec_Marque())
+            {
+                DialogResult Choix = MessageBox.Show("Voulez-vous vraiment supprimer cette marque ?", "Confirmation suppression marque.", MessageBoxButtons.YesNo);
+
+                // On vérifie la réponse de l'utilisateur.
+                if (Choix == DialogResult.Yes)
+                {
+                    // On supprime la marque de la BDD.
+                    Base_de_Donnees.Supprimer_Marque_BDD(Convert.ToInt32(ListView1.SelectedItems[0].Text));
+
+                    MessageBox.Show("La marque a été supprimé avec succès.", "Supression marque effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    Actualiser(false);
+                }
+            }
+
+            // Si la marque est utilisé par un article.
+            else
+            {
+                MessageBox.Show("Vous ne pouvez pas supprimer cette marque car des articles appartiennent à cette marque.", "Erreur : Marque utilisé par un / des article(s).", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -994,6 +1137,9 @@ namespace Hector
                     Location.Y + ((Height - Fenetre_Modifier_Article.Height) / 2)
                 );
 
+                // Ajout du gestionnaire d'événements pour lorsque l'on ferme la fenetre de modification.
+                Fenetre_Modifier_Article.FormClosed += Fenetre_FormClosed;
+
                 // Afficher la FormImporter en tant que fenêtre modale.
                 Fenetre_Modifier_Article.ShowDialog();
             }
@@ -1009,6 +1155,9 @@ namespace Hector
                     Location.X + (Width - Fenetre_Modifier_Element.Width) / 2,
                     Location.Y + ((Height - Fenetre_Modifier_Element.Height) / 2)
                 );
+
+                // Ajout du gestionnaire d'événements pour lorsque l'on ferme la fenetre de modification.
+                Fenetre_Modifier_Element.FormClosed += Fenetre_FormClosed;
 
                 // Afficher la FormImporter en tant que fenêtre modale.
                 Fenetre_Modifier_Element.ShowDialog();

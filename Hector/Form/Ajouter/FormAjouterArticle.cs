@@ -92,9 +92,8 @@ namespace Hector
                                     double PrixHT = Convert.ToDouble(PrixHT_TextBox.Text);
                                     int Quantite = Convert.ToInt32(Quantite_TextBox.Text);
 
-                                    // Création de l'objet BDD et ajout dans la liste.
+                                    // Création de l'objet BDD.
                                     Article Article = new Article(Reference_Article, Description_Article, Sous_Famille_Article, Marque_Article, PrixHT, Quantite);
-                                    Base_De_Donnees.Lire_Liste_Article().Add(Article);
 
                                     // Ajout de l'article dans la BDD.
                                     Base_De_Donnees.Ajouter_Un_Article_BDD(Article);

@@ -85,19 +85,6 @@ namespace Hector
                             double PrixHT_Article = Convert.ToDouble(PrixHT_TextBox.Text);
                             int Quantite_Article = Convert.ToInt32(Quantite_TextBox.Text);
 
-                            // Modification de l'objet BDD dans la liste.
-                            foreach(Article Article_Boucle in Base_De_Donnees.Lire_Liste_Article())
-                            {
-                                if(Article_Boucle.Lire_Ref_Article() == Article_A_Modifier.Lire_Ref_Article())
-                                {
-                                    Article_Boucle.Modifier_Description(Description_Article);
-                                    Article_Boucle.Modifier_Marque(Marque_Article);
-                                    Article_Boucle.Modifier_Sous_Famille(Sous_Famille_Article);
-                                    Article_Boucle.Modifier_PrixHT(PrixHT_Article);
-                                    Article_Boucle.Modifier_Quantite(Quantite_Article);
-                                }
-                            }
-
                             // Modification de l'article dans la BDD.
                             Base_De_Donnees.Modifier_Article_BDD(Article_A_Modifier.Lire_Ref_Article(), Description_Article, Marque_Article, Sous_Famille_Article, PrixHT_Article, Quantite_Article);
 

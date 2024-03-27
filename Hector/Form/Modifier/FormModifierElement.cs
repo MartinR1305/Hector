@@ -189,15 +189,6 @@ namespace Hector
             // On vérifie que le nom n'est pas déjà utilisé par une autre famille.
             if (!Is_Nom_Famille_Deja_Present(Nom_Element_TextBox.Text))
             {
-                // On modifie le nom de la famille dans la liste.
-                foreach (Famille Famille in Base_De_Donnes.Lire_Liste_Famille())
-                {
-                    if (Famille.Lire_Ref_Famille() == ID_Element)
-                    {
-                        Famille.Modifier_Nom_Famille(Nom_Element_TextBox.Text);
-                    }
-                }
-
                 // On modifie le nom de la famille dans la BDD.
                 Base_De_Donnes.Modifier_Famille_BDD(ID_Element, Nom_Element_TextBox.Text);
 
@@ -221,15 +212,6 @@ namespace Hector
             // On vérifie que le nom n'est pas déjà utilisé par une autre sous-famille.
             if (!Is_Nom_Sous_Famille_Deja_Present(Nom_Element_TextBox.Text))
             {
-                // On modifie le nom de la sous-famille dans la liste.
-                foreach (SousFamille Sous_Famille in Base_De_Donnes.Lire_Liste_Sous_Famille())
-                {
-                    if (Sous_Famille.Lire_Ref_Sous_Famille() == ID_Element)
-                    {
-                        Sous_Famille.Modifier_Nom_Sous_Famille(Nom_Element_TextBox.Text);
-                    }
-                }
-
                 // On modifie le nom de la famille dans la BDD.
                 Base_De_Donnes.Modifier_Sous_Famille_BDD(ID_Element, Nom_Element_TextBox.Text);
 
@@ -253,15 +235,6 @@ namespace Hector
             // On vérifie que le nom n'est pas déjà utilisé par une autre marque.
             if (!Is_Nom_Marque_Deja_Present(Nom_Element_TextBox.Text))
             {
-                // On modifie le nom de la famille dans la liste.
-                foreach (Marque Marque in Base_De_Donnes.Lire_Liste_Marque())
-                {
-                    if (Marque.Lire_Ref_Marque() == ID_Element)
-                    {
-                        Marque.Modifier_Nom_Marque(Nom_Element_TextBox.Text);
-                    }
-                }
-
                 // On modifie le nom de la marque dans la BDD.
                 Base_De_Donnes.Modifier_Marque_BDD(ID_Element, Nom_Element_TextBox.Text);
 

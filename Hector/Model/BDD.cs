@@ -844,7 +844,7 @@ namespace Hector
         /// <summary>
         /// Permets de supprimer un article de la BDD à partir de sa référence.
         /// </summary>
-        /// <param name="Ref"></param>
+        /// <param name="Ref"> Référence de l'article que l'on veut supprimer. </param>
         public void Supprimer_Article_BDD(string Ref)
         {
             using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
@@ -858,6 +858,81 @@ namespace Hector
                     Commande_Query_Suppr_Article.Parameters.AddWithValue("@Ref", Ref);
                     int rowsAffected = Commande_Query_Suppr_Article.ExecuteNonQuery();
                 }
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Permets de supprimer une marque de la BDD à partir de sa référence.
+        /// </summary>
+        /// <param name="Ref"> Référence de la marque que l'on veut supprimer. </param>
+        public void Supprimer_Marque_BDD(int Ref)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string SQL_Query_Suppr_Marque = "DELETE FROM Marques WHERE RefMarque = @Ref";
+
+                using (SQLiteCommand Commande_Query_Suppr_Marque = new SQLiteCommand(SQL_Query_Suppr_Marque, Connection))
+                {
+                    Commande_Query_Suppr_Marque.Parameters.AddWithValue("@Ref", Ref);
+                    int rowsAffected = Commande_Query_Suppr_Marque.ExecuteNonQuery();
+                }
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Permets de supprimer une sous-famille de la BDD à partir de sa référence.
+        /// </summary>
+        /// <param name="Ref"> Référence de la sous-famille que l'on veut supprimer. </param>
+        public void Supprimer_Sous_Famille_BDD(int Ref)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string SQL_Query_Suppr_Sous_Famille = "DELETE FROM SousFamilles WHERE RefSousFamille = @Ref";
+
+                using (SQLiteCommand Commande_Query_Suppr_Sous_Famille = new SQLiteCommand(SQL_Query_Suppr_Sous_Famille, Connection))
+                {
+                    Commande_Query_Suppr_Sous_Famille.Parameters.AddWithValue("@Ref", Ref);
+                    int rowsAffected = Commande_Query_Suppr_Sous_Famille.ExecuteNonQuery();
+                }
+
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Permets de supprimer une famille de la BDD à partir de sa référence.
+        /// </summary>
+        /// <param name="Ref"> Référence de la famille que l'on veut supprimer. </param>
+        public void Supprimer_Famille_BDD(int Ref)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                // On supprimer tout d'abord les sous-familles liées à cette famille.
+                string SQL_Query_Suppr_Sous_Famille = "DELETE FROM SousFamilles WHERE RefFamille = @Ref";
+
+                using (SQLiteCommand Commande_Query_Suppr_Sous_Famille = new SQLiteCommand(SQL_Query_Suppr_Sous_Famille, Connection))
+                {
+                    Commande_Query_Suppr_Sous_Famille.Parameters.AddWithValue("@Ref", Ref);
+                    int rowsAffected = Commande_Query_Suppr_Sous_Famille.ExecuteNonQuery();
+                }
+
+                // On supprime ensuite la famille en question.
+                string SQL_Query_Suppr_Famille = "DELETE FROM Familles WHERE RefFamille = @Ref";
+
+                using (SQLiteCommand Commande_Query_Suppr_Famille = new SQLiteCommand(SQL_Query_Suppr_Famille, Connection))
+                {
+                    Commande_Query_Suppr_Famille.Parameters.AddWithValue("@Ref", Ref);
+                    int rowsAffected = Commande_Query_Suppr_Famille.ExecuteNonQuery();
+                }
+
                 Connection.Close();
             }
         }
