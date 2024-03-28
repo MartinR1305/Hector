@@ -867,6 +867,8 @@ namespace Hector
             string Type_Noeud = Obtenir_Type_Noeud(TreeView1.SelectedNode.Text);
 
             FormAjouterArticle Fenetre_Ajouter_Article = new FormAjouterArticle(Base_de_Donnees, Valeur_Noeud, Type_Noeud);
+            FormAjouterElement Fenetre_Ajouter_Element = new FormAjouterElement(Base_de_Donnees, TreeView1.SelectedNode.Text, Type_Noeud);
+
 
             // On regarde si la listView est remplie d'articles.
             if (Nom_2eme_Colonne == "Description")
@@ -881,26 +883,15 @@ namespace Hector
                 // Afficher la FormImporter en tant que fenêtre modale.
                 Fenetre_Ajouter_Article.ShowDialog();
             }
-
             else
             {
-                // On regarde si la listView est remplie de familles.
-                if (Obtenir_Type_Noeud(Nom_1er_Item) == "Famille")
-                {
+                Fenetre_Ajouter_Element.StartPosition = FormStartPosition.Manual;
+                Fenetre_Ajouter_Element.Location = new Point(
+                    Location.X + (Width - Fenetre_Ajouter_Element.Width) / 2,
+                    Location.Y + ((Height - Fenetre_Ajouter_Element.Height) / 2)
+                );
 
-                }
-
-                // On regarde si la listView est remplie de sous-familles.
-                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Sous_Famille")
-                {
-
-                }
-
-                // On regarde si la listView est remplie de sous-familles.
-                else if (Obtenir_Type_Noeud(Nom_1er_Item) == "Marque")
-                {
-
-                }
+                Fenetre_Ajouter_Element.ShowDialog();
             }
         }
 

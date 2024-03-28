@@ -447,6 +447,109 @@ namespace Hector
         }
 
         /// <summary>
+        /// Permet d'ajouter une famille dans la BDD
+        /// </summary>
+        /// <param name="Famille_Param"></param>
+        public void Ajouter_Une_Famille_BDD(Famille Famille_Param)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string Nom_Famille = Famille_Param.Lire_Nom_Famille();
+
+                // On vérifie que la famille n'est pas déjà présente dans la BDD.
+                if (!Is_Nom_Famille_Present_BDD(Nom_Famille, Connection))
+                {
+                    // Commande SQL permets d'ajoute une marque dans la BDD.
+                    string SQL_Query_Ajout_Famille = "INSERT INTO Familles (Nom) VALUES (@Nom)";
+
+                    using (SQLiteCommand Commande_Ajout_Famille = new SQLiteCommand(SQL_Query_Ajout_Famille, Connection))
+                    {
+                        // Ajouter les paramètres à la commande.
+                        Commande_Ajout_Famille.Parameters.AddWithValue("@Nom", Famille_Param.Lire_Nom_Famille());
+
+
+                        // Exécuter la commande.
+                        int Rows_Affected = Commande_Ajout_Famille.ExecuteNonQuery();
+                    }
+
+                }
+                Connection.Close();
+            }
+
+        }
+
+        /// <summary>
+        /// Permet d'ajouter une marque dans la BDD
+        /// </summary>
+        /// <param name="Marque_Param"></param>
+        public void Ajouter_Une_Marque_BDD(Marque Marque_Param)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                string Nom_Marque = Marque_Param.Lire_Nom_Marque();
+
+                // On vérifie que la famille n'est pas déjà présente dans la BDD.
+                if (!Is_Nom_Marque_Present_BDD(Nom_Marque, Connection))
+                {
+                    // Commande SQL permets d'ajoute une marque dans la BDD.
+                    string SQL_Query_Ajout_Marque = "INSERT INTO Marques (Nom) VALUES (@Nom)";
+
+                    using (SQLiteCommand Commande_Ajout_Marque = new SQLiteCommand(SQL_Query_Ajout_Marque, Connection))
+                    {
+                        // Ajouter les paramètres à la commande.
+                        Commande_Ajout_Marque.Parameters.AddWithValue("@Nom", Marque_Param.Lire_Nom_Marque());
+
+
+                        // Exécuter la commande.
+                        int Rows_Affected = Commande_Ajout_Marque.ExecuteNonQuery();
+                    }
+
+                }
+                Connection.Close();
+            }
+
+        }
+
+        /// <summary>
+        /// Permet d'ajouter une sous famille dans la BDD
+        /// </summary>
+        /// <param name="Nom_Sous_Famille"></param>
+        /// <param name="Nom_Famille"></param>
+        public void Ajouter_Une_Sous_Famille_BDD(string Nom_Sous_Famille, string Nom_Famille)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
+            {
+                Connection.Open();
+
+                // On vérifie que la description n'est pas déjà présente dans la BDD.
+                if (!Is_Description_Article_Present_BDD(Nom_Sous_Famille, Connection))
+                {
+                    // Commande SQL permets d'ajoute une marque dans la BDD.
+                    string SQL_Query_Ajout_Sous_Famille = "INSERT INTO SousFamilles (RefFamille, Nom) VALUES (@RefFamille, @Nom)";
+
+                    using (SQLiteCommand Commande_Ajout_Sous_Famille = new SQLiteCommand(SQL_Query_Ajout_Sous_Famille, Connection))
+                    {
+                        int Ref_Famille = Obtenir_Ref_Famille_BDD(Nom_Famille, Connection);
+
+                        // Ajouter les paramètres à la commande.
+                        Commande_Ajout_Sous_Famille.Parameters.AddWithValue("@RefFamille", Ref_Famille);
+                        Commande_Ajout_Sous_Famille.Parameters.AddWithValue("@Nom", Nom_Sous_Famille);
+
+
+                        // Exécuter la commande.
+                        int Rows_Affected = Commande_Ajout_Sous_Famille.ExecuteNonQuery();
+                    }
+                }
+                Connection.Close();
+            }
+
+        }
+
+        /// <summary>
         /// Permets d'ajouter tout les articles dans la BDD.
         /// </summary>
         public void Ajouter_Tout_Les_Articles_BDD()
