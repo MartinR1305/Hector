@@ -698,23 +698,33 @@ namespace Hector
         /// <summary>
         /// Permets d'ajouter toutes les tables dans la BDD.
         /// </summary>
-        public void Ajouter_Toutes_Les_Tables()
+        /// <param name="Background_Worker"> Barre de rechargement que l'on va actualiser. </param>
+        public void Ajouter_Toutes_Les_Tables(System.ComponentModel.BackgroundWorker Background_Worker)
         {
             Ajouter_Toutes_Les_Marques_BDD();
+            Background_Worker.ReportProgress(74);
+
             Ajouter_Toutes_Les_Familles_BDD();
+            Background_Worker.ReportProgress(82);
+
             Ajouter_Toutes_Les_Sous_Familles_BDD();
+            Background_Worker.ReportProgress(90);
+
             Ajouter_Tout_Les_Articles_BDD();
+            Background_Worker.ReportProgress(99);
         }
 
         /// <summary>
-        /// Permets de vider toutes les tables de la BDD. ( Article, Famille, SousFamille et Marque )
+        ///Permets de vider toutes les tables de la BDD. ( Article, Famille, SousFamille et Marque )
         /// </summary>
-        public void Vider_Toutes_Les_Tables()
+        /// <param name="BackgroundWorker"> Barre de chargement que l'on va actualiser. </param>
+        public void Vider_Toutes_Les_Tables(System.ComponentModel.BackgroundWorker Background_Worker)
         {
             using (SQLiteConnection Connection = new SQLiteConnection(Connection_String))
             {
                 Connection.Open();
 
+                int Nb_Table_Supprimer = 0;
                 string[] Nom_Tables = { "Articles", "SousFamilles", "Familles", "Marques" };
 
                 foreach (string Table in Nom_Tables)
@@ -725,6 +735,10 @@ namespace Hector
                     {
                         Commande_Vider_Tables.ExecuteNonQuery();
                     }
+
+                    // On actualise la barre de chargement.
+                    Nb_Table_Supprimer++;
+                    Background_Worker.ReportProgress(8*Nb_Table_Supprimer);
                 }
                 Connection.Close();
             }

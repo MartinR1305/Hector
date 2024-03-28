@@ -31,7 +31,6 @@ namespace Hector
             Base_de_Donnees = Base_de_Donnees_Main;
 
             Chemin_Fichier_CSV_String = "";
-            Nom_Fichier_CSV_Label.Text = "Aucun fichier sélectionné pour le moment.";
             ProgressBar.Visible = false;
             Integration_En_Cours_Label.Visible = false;
             Besoin_De_Vider = false;
@@ -58,7 +57,7 @@ namespace Hector
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     Chemin_Fichier_CSV_String = openFileDialog1.FileName;
-                    Nom_Fichier_CSV_Label.Text = "Nom du fichier sélectionné : " + Path.GetFileName(Chemin_Fichier_CSV_String);
+                    Nom_Fichier_CSV_TextBox.Text = Path.GetFileName(Chemin_Fichier_CSV_String);
                 }
             }
         }
@@ -95,8 +94,6 @@ namespace Hector
         /// <param name="e"></param>
         private void Importation_Mode_Ecrasement_Boutton_Click(object sender, EventArgs e)
         {
-
-
             // On vérifie que le background_Worker n'est pas déjà en train d'exécuter un import.
             if (!Background_Worker.IsBusy)
             {
@@ -147,13 +144,14 @@ namespace Hector
             if (Besoin_De_Vider)
             {
                 // On vide la BDD.
-                Base_de_Donnees.Vider_Toutes_Les_Tables();
+                Base_de_Donnees.Vider_Toutes_Les_Tables(Background_Worker);
 
                 // On vide les listes.
                 Base_de_Donnees.Lire_Liste_Article().Clear();
                 Base_de_Donnees.Lire_Liste_Marque().Clear();
                 Base_de_Donnees.Lire_Liste_Famille().Clear();
                 Base_de_Donnees.Lire_Liste_Sous_Famille().Clear();
+
             }
             Background_Worker.ReportProgress(33);
 
@@ -162,8 +160,7 @@ namespace Hector
             Background_Worker.ReportProgress(66);
 
             // On ajoute les informations dans la BDD.
-            Base_de_Donnees.Ajouter_Toutes_Les_Tables();
-            Background_Worker.ReportProgress(99);
+            Base_de_Donnees.Ajouter_Toutes_Les_Tables(Background_Worker);
 
             Nombre_Article_Apres_Ajout = Base_de_Donnees.Lire_Nombre_Article_BDD();
             Nombre_Article_Ajouter = Nombre_Article_Apres_Ajout - Nombre_Article_Avant_Manip;

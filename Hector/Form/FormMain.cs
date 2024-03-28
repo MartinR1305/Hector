@@ -879,6 +879,9 @@ namespace Hector
                     Location.Y + ((Height - Fenetre_Ajouter_Article.Height) / 2)
                 );
 
+                // Ajout du gestionnaire d'événements pour lorsque l'on ferme la fenetre de modification.
+                Fenetre_Ajouter_Article.FormClosed += Fenetre_FormClosed;
+
                 // Afficher la FormImporter en tant que fenêtre modale.
                 Fenetre_Ajouter_Article.ShowDialog();
             }
@@ -889,6 +892,9 @@ namespace Hector
                     Location.X + (Width - Fenetre_Ajouter_Element.Width) / 2,
                     Location.Y + ((Height - Fenetre_Ajouter_Element.Height) / 2)
                 );
+
+                // Ajout du gestionnaire d'événements pour lorsque l'on ferme la fenetre de modification.
+                Fenetre_Ajouter_Element.FormClosed += Fenetre_FormClosed;
 
                 Fenetre_Ajouter_Element.ShowDialog();
             }

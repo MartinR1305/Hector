@@ -36,10 +36,10 @@ namespace Hector
             // 
             // Ajouter_Element
             // 
-            this.Ajouter_Element.Location = new System.Drawing.Point(138, 70);
+            this.Ajouter_Element.Location = new System.Drawing.Point(150, 70);
             this.Ajouter_Element.Margin = new System.Windows.Forms.Padding(2);
             this.Ajouter_Element.Name = "Ajouter_Element";
-            this.Ajouter_Element.Size = new System.Drawing.Size(94, 27);
+            this.Ajouter_Element.Size = new System.Drawing.Size(100, 30);
             this.Ajouter_Element.TabIndex = 15;
             this.Ajouter_Element.Text = "Ajouter";
             this.Ajouter_Element.UseVisualStyleBackColor = true;
