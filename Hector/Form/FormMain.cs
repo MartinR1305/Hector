@@ -862,7 +862,6 @@ namespace Hector
         private void Menu_Contextuel_Ajouter_Click(object sender, EventArgs e)
         {
             string Nom_2eme_Colonne = ListView1.Columns[1].Text;
-            string Nom_1er_Item = ListView1.Items[0].SubItems[1].Text;
             string Valeur_Noeud = TreeView1.SelectedNode.Text;
             string Type_Noeud = Obtenir_Type_Noeud(TreeView1.SelectedNode.Text);
 
