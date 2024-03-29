@@ -27,9 +27,6 @@ namespace Hector
             InitializeComponent();
             Base_de_Donnees = new BDD();
 
-            // On centre la fenêtre à son lancement par rapport au centre de l'écran.
-            StartPosition = FormStartPosition.CenterScreen;
-
             // On définit que le treeView de la partie gauche ne pourra pas faire moins de 200 pixels lors de l'utilisateur de l'application.
             SplitContainer1.Panel1MinSize = 200;
 
@@ -45,10 +42,31 @@ namespace Hector
             Ajouter_Noeuds_Racine();
 
             // On mets la fenêtre en pleine écran au démarrage afin de faciliter la visibilité de la list view.
-            this.WindowState = FormWindowState.Maximized;
+            //this.WindowState = FormWindowState.Maximized;
 
             // On actualise l'application avec le contenu de la BDD.
             Actualiser(false);
+
+            // On regarde si la fenêtre a été fermé en plein ou écran.
+            if(!Properties.Settings.Default.PleinEcran)
+            {
+                // On désactive le plein écran de la fenetre.
+                this.WindowState = FormWindowState.Normal;
+
+                // Changement de taille
+                this.Width = Properties.Settings.Default.TailleX;
+                this.Height = Properties.Settings.Default.TailleY;
+
+                // Changement de position
+                this.StartPosition = FormStartPosition.Manual;
+                this.Location = new Point(Properties.Settings.Default.PositionX, Properties.Settings.Default.PositionY);
+            }
+
+            else
+            {
+                // On active le plein écran de la fenetre.
+                this.WindowState = FormWindowState.Maximized;
+            }
         }
 
         /// <summary>
@@ -1183,6 +1201,98 @@ namespace Hector
             {
                 Ouvrir_Fenetre_Modifier();
             }
+        }
+
+        /// <summary>
+        /// Permets de sauvegarder les informations de la fenêtre lors de la fermeture de celle-ci.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // On modifie et sauvegarde les paramètres
+            Properties.Settings.Default.TailleX = this.Width;
+            Properties.Settings.Default.TailleY = this.Height;
+
+            // La fenetre n'est pas en plein écran.
+            if(this.WindowState == FormWindowState.Normal)
+            {
+                Properties.Settings.Default.PleinEcran = false;
+
+                // Si la fenetre est correctement placé.
+                if (this.Location.X > 0 && this.Location.X < Screen.PrimaryScreen.Bounds.Width && this.Location.Y > 0 && this.Location.Y < Screen.PrimaryScreen.Bounds.Height)
+                {
+                    Properties.Settings.Default.PositionX = this.Location.X;
+                    Properties.Settings.Default.PositionY = this.Location.Y;
+                }
+
+                // Si la fenêtre dépasse à gauche de l'écran.
+                else if (this.Location.X < 0)
+                {
+                    Properties.Settings.Default.PositionX = 0;
+                    
+                    // Si la fenêtre dépasse en bas de l'écran.
+                    if (this.Location.Y < 0)
+                    {
+                        Properties.Settings.Default.PositionY = 0;
+                    }
+
+                    // Si la fenêtre ne dépasse pasa en bas de l'écran.
+                    else
+                    {
+                        Properties.Settings.Default.PositionY = this.Location.Y;
+                    }
+
+                    // Si la fenêtre dépasse en haut de l'écran.
+                    if (this.Location.Y > Screen.PrimaryScreen.Bounds.Height)
+                    {
+                        Properties.Settings.Default.PositionY = Screen.PrimaryScreen.Bounds.Height;
+                    }
+
+                    // Si la fenêtre ne dépasse pas en haut de l'écran.
+                    else
+                    {
+                        Properties.Settings.Default.PositionY = this.Location.Y;
+                    }
+                }
+
+                // Si la fenêtre dépasse à droite de l'écran.
+                else if (this.Location.X > Screen.PrimaryScreen.Bounds.Width)
+                {
+                    Properties.Settings.Default.PositionX = Screen.PrimaryScreen.Bounds.Width - this.Width;
+
+                    // Si la fenêtre dépasse en bas de l'écran.
+                    if (this.Location.Y < 0)
+                    {
+                        Properties.Settings.Default.PositionY = 0;
+                    }
+
+                    // Si la fenêtre ne dépasse pasa en bas de l'écran.
+                    else
+                    {
+                        Properties.Settings.Default.PositionY = this.Location.Y;
+                    }
+
+                    // Si la fenêtre dépasse en haut de l'écran.
+                    if (this.Location.Y > Screen.PrimaryScreen.Bounds.Height)
+                    {
+                        Properties.Settings.Default.PositionY = Screen.PrimaryScreen.Bounds.Height;
+                    }
+
+                    // Si la fenêtre ne dépasse pas en haut de l'écran.
+                    else
+                    {
+                        Properties.Settings.Default.PositionY = this.Location.Y;
+                    }
+                }
+            }
+
+            // La fenetre est en plein écran.
+            else
+            {
+                Properties.Settings.Default.PleinEcran = true;
+            }
+            Properties.Settings.Default.Save();
         }
     }
 }

@@ -22,5 +22,65 @@ namespace Hector.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int TailleX {
+            get {
+                return ((int)(this["TailleX"]));
+            }
+            set {
+                this["TailleX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        public int TailleY {
+            get {
+                return ((int)(this["TailleY"]));
+            }
+            set {
+                this["TailleY"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PositionX {
+            get {
+                return ((int)(this["PositionX"]));
+            }
+            set {
+                this["PositionX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PositionY {
+            get {
+                return ((int)(this["PositionY"]));
+            }
+            set {
+                this["PositionY"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PleinEcran {
+            get {
+                return ((bool)(this["PleinEcran"]));
+            }
+            set {
+                this["PleinEcran"] = value;
+            }
+        }
     }
 }
