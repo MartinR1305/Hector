@@ -1220,70 +1220,35 @@ namespace Hector
                 Properties.Settings.Default.PleinEcran = false;
 
                 // Si la fenetre est correctement placé.
-                if (this.Location.X > 0 && this.Location.X < Screen.PrimaryScreen.Bounds.Width && this.Location.Y > 0 && this.Location.Y < Screen.PrimaryScreen.Bounds.Height)
+                if (this.Location.X > 0 && this.Location.X + this.Width < Screen.PrimaryScreen.Bounds.Width && this.Location.Y > 0 && this.Location.Y + this.Height < Screen.PrimaryScreen.Bounds.Height)
                 {
+                    MessageBox.Show("Pas d'erreur");
                     Properties.Settings.Default.PositionX = this.Location.X;
                     Properties.Settings.Default.PositionY = this.Location.Y;
                 }
-
-                // Si la fenêtre dépasse à gauche de l'écran.
-                else if (this.Location.X < 0)
+                
+                // Si la fenêtre dépasse sur la gauche de l'écran.
+                else if(this.Location.X < 0 && this.Location.Y > 0 && this.Location.Y + this.Height < Screen.PrimaryScreen.Bounds.Height)
                 {
+                    MessageBox.Show("Erreur gauche");
                     Properties.Settings.Default.PositionX = 0;
-                    
-                    // Si la fenêtre dépasse en bas de l'écran.
-                    if (this.Location.Y < 0)
-                    {
-                        Properties.Settings.Default.PositionY = 0;
-                    }
-
-                    // Si la fenêtre ne dépasse pasa en bas de l'écran.
-                    else
-                    {
-                        Properties.Settings.Default.PositionY = this.Location.Y;
-                    }
-
-                    // Si la fenêtre dépasse en haut de l'écran.
-                    if (this.Location.Y > Screen.PrimaryScreen.Bounds.Height)
-                    {
-                        Properties.Settings.Default.PositionY = Screen.PrimaryScreen.Bounds.Height;
-                    }
-
-                    // Si la fenêtre ne dépasse pas en haut de l'écran.
-                    else
-                    {
-                        Properties.Settings.Default.PositionY = this.Location.Y;
-                    }
+                    Properties.Settings.Default.PositionY = this.Location.Y;
                 }
 
-                // Si la fenêtre dépasse à droite de l'écran.
-                else if (this.Location.X > Screen.PrimaryScreen.Bounds.Width)
+                // Si la fenêtre dépasse sur le bas de l'écran.
+                else if (this.Location.X > 0 && this.Location.X + this.Width < Screen.PrimaryScreen.Bounds.Width && this.Location.Y + this.Height > Screen.PrimaryScreen.Bounds.Height)
                 {
-                    Properties.Settings.Default.PositionX = Screen.PrimaryScreen.Bounds.Width - this.Width;
+                    MessageBox.Show("Erreur bas");
+                    Properties.Settings.Default.PositionX = this.Location.X;
+                    Properties.Settings.Default.PositionY = Screen.PrimaryScreen.Bounds.Height - this.Height;
+                }
 
-                    // Si la fenêtre dépasse en bas de l'écran.
-                    if (this.Location.Y < 0)
-                    {
-                        Properties.Settings.Default.PositionY = 0;
-                    }
-
-                    // Si la fenêtre ne dépasse pasa en bas de l'écran.
-                    else
-                    {
-                        Properties.Settings.Default.PositionY = this.Location.Y;
-                    }
-
-                    // Si la fenêtre dépasse en haut de l'écran.
-                    if (this.Location.Y > Screen.PrimaryScreen.Bounds.Height)
-                    {
-                        Properties.Settings.Default.PositionY = Screen.PrimaryScreen.Bounds.Height;
-                    }
-
-                    // Si la fenêtre ne dépasse pas en haut de l'écran.
-                    else
-                    {
-                        Properties.Settings.Default.PositionY = this.Location.Y;
-                    }
+                // Si la fenêtre dépasse sur le bas gauche de l'écran.
+                else if (this.Location.X < 0 && this.Location.Y + this.Height > Screen.PrimaryScreen.Bounds.Height)
+                {
+                    MessageBox.Show("Erreur ba gauche");
+                    Properties.Settings.Default.PositionX = 0;
+                    Properties.Settings.Default.PositionY = Screen.PrimaryScreen.Bounds.Height - this.Height;
                 }
             }
 
